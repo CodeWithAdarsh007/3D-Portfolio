@@ -1,9 +1,9 @@
 import {
-  RxDiscordLogo,
-  RxGithubLogo,
-  RxInstagramLogo,
-  RxLinkedinLogo,
-} from "react-icons/rx";
+  FaEnvelope,
+  FaInstagram,
+  FaLinkedin,
+  FaWhatsapp,
+} from "react-icons/fa";
 
 // AI/ML skills without icons - will render as text pills
 export const AI_ML_SKILLS = [
@@ -94,22 +94,22 @@ export const WEB_SKILLS = [
 export const SOCIALS = [
   {
     name: "Email",
-    icon: RxLinkedinLogo,
+    icon: FaEnvelope,
     link: "mailto:engineer.adarshpandey@gmail.com",
   },
   {
     name: "LinkedIn",
-    icon: RxLinkedinLogo,
+    icon: FaLinkedin,
     link: "https://in.linkedin.com/in/adarshpandey9653",
   },
   {
     name: "Instagram",
-    icon: RxInstagramLogo,
+    icon: FaInstagram,
     link: "https://instagram.com/adarsh_.07",
   },
   {
     name: "WhatsApp",
-    icon: RxLinkedinLogo,
+    icon: FaWhatsapp,
     link: "https://wa.me/919653191940",
   },
 ] as const;
@@ -243,13 +243,23 @@ export const FOOTER_DATA = [
     data: [
       {
         name: "Email",
-        icon: RxLinkedinLogo,
+        icon: FaEnvelope,
         link: "mailto:engineer.adarshpandey@gmail.com",
       },
       {
         name: "LinkedIn",
-        icon: RxLinkedinLogo,
+        icon: FaLinkedin,
         link: "https://in.linkedin.com/in/adarshpandey9653",
+      },
+      {
+        name: "Instagram",
+        icon: FaInstagram,
+        link: "https://instagram.com/adarsh_.07",
+      },
+      {
+        name: "WhatsApp",
+        icon: FaWhatsapp,
+        link: "https://wa.me/919653191940",
       },
     ],
   },

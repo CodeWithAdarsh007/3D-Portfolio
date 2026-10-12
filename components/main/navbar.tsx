@@ -69,12 +69,14 @@ export const Navbar = () => {
         <div className="hidden md:flex flex-row gap-5">
           {SOCIALS.map(({ link, name, icon: Icon }) => (
             <Link
-              href={link}
-              target="_blank"
-              rel="noreferrer noopener"
               key={name}
+              href={link}
+              target={link.startsWith("mailto") ? undefined : "_blank"}
+              rel={link.startsWith("mailto") ? undefined : "noreferrer noopener"}
+              aria-label={name}
+              className="text-text-secondary hover:text-accent-primary transition hover:scale-110"
             >
-              <Icon className="h-6 w-6 text-text-secondary hover:text-accent-primary transition" />
+              <Icon className="h-6 w-6" />
             </Link>
           ))}
         </div>
@@ -118,12 +120,14 @@ export const Navbar = () => {
           <div className="flex justify-center gap-6 mt-6">
             {SOCIALS.map(({ link, name, icon: Icon }) => (
               <Link
-                href={link}
-                target="_blank"
-                rel="noreferrer noopener"
                 key={name}
+                href={link}
+                target={link.startsWith("mailto") ? undefined : "_blank"}
+                rel={link.startsWith("mailto") ? undefined : "noreferrer noopener"}
+                aria-label={name}
+                className="text-text-secondary hover:text-accent-primary transition hover:scale-110"
               >
-                <Icon className="h-8 w-8 text-text-secondary hover:text-accent-primary transition" />
+                <Icon className="h-6 w-6" />
               </Link>
             ))}
           </div>
