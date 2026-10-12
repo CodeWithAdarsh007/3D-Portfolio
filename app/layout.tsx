@@ -4,7 +4,7 @@ import type { PropsWithChildren } from "react";
 
 import { Footer } from "@/components/main/footer";
 import { Navbar } from "@/components/main/navbar";
-import { NeuralBackground } from "@/components/main/neural-background";
+import { StarsCanvas } from "@/components/main/star-background";
 import { siteConfig } from "@/config";
 import { cn } from "@/lib/utils";
 
@@ -13,7 +13,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const viewport: Viewport = {
-  themeColor: "#05060A",
+  themeColor: "#030014",
 };
 
 export const metadata: Metadata = siteConfig;
@@ -27,7 +27,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
           inter.className
         )}
       >
-        <NeuralBackground />
+        <StarsCanvas />
         <Navbar />
         {children}
         <Footer />

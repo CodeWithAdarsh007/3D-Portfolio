@@ -34,7 +34,7 @@ export const HeroContent = () => {
         >
           <span>
             Providing{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7042f8] to-[#a855f7]">
               Websites that do the work
             </span>{" "}
             your business needs.

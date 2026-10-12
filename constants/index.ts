@@ -229,7 +229,7 @@ export const FOOTER_DATA = [
       {
         name: "AI/ML Engineer · Full-Stack Developer",
         icon: null,
-        link: "https://adarshpandey.dev",
+        link: "https://3-d-portfolio-xi-tan.vercel.app",
       },
       {
         name: "Co-Founder & CTO @ NoteKart",
@@ -258,23 +258,19 @@ export const FOOTER_DATA = [
 export const NAV_LINKS = [
   {
     title: "Home",
-    link: "/",
+    link: "#home",
   },
   {
-    title: "Work",
-    link: "/work",
+    title: "Skills",
+    link: "#skills",
   },
   {
-    title: "Services",
-    link: "/services",
-  },
-  {
-    title: "About",
-    link: "/about",
+    title: "Projects",
+    link: "#projects",
   },
   {
     title: "Contact",
-    link: "/contact",
+    link: "#contact",
   },
 ] as const;
 

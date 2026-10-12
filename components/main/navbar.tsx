@@ -2,14 +2,12 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 import { LINKS, NAV_LINKS, SOCIALS } from "@/constants";
 
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,7 +21,7 @@ export const Navbar = () => {
     <div
       className={`w-full h-[65px] fixed top-0 z-50 px-10 transition-all duration-300 ${
         scrolled
-          ? "shadow-lg shadow-[#00D9FF]/10 bg-bg-base/90 backdrop-blur-md border-b border-border"
+          ? "shadow-lg shadow-[#7042f8]/10 bg-bg-base/90 backdrop-blur-md border-b border-border"
           : "bg-transparent"
       }`}
     >
@@ -39,7 +37,7 @@ export const Navbar = () => {
             draggable={false}
             className="cursor-pointer"
           />
-          <div className="hidden md:flex md:selffont-bold ml-[10px] text-text-secondary">Adarsh Pandey</div>
+          <div className="hidden md:flex md:self-center font-bold ml-[10px] text-text-secondary">Adarsh Pandey</div>
         </Link>
 
         {/* Web Navbar */}
@@ -49,11 +47,7 @@ export const Navbar = () => {
               <Link
                 key={link.title}
                 href={link.link}
-                className={`cursor-pointer transition text-sm py-1 border-b-2 ${
-                  pathname === link.link
-                    ? "text-accent-primary border-accent-primary"
-                    : "border-transparent hover:text-text-primary"
-                }`}
+                className="cursor-pointer transition text-sm py-1 border-b-2 border-transparent hover:text-text-primary hover:border-accent-primary"
               >
                 {link.title}
               </Link>
@@ -103,9 +97,7 @@ export const Navbar = () => {
               <Link
                 key={link.title}
                 href={link.link}
-                className={`cursor-pointer transition text-center text-sm ${
-                  pathname === link.link ? "text-accent-primary" : "hover:text-text-primary"
-                }`}
+                className="cursor-pointer transition text-center text-sm hover:text-accent-primary"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.title}
