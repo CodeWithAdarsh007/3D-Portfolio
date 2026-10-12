@@ -23,7 +23,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
     <html lang="en">
       <body
         className={cn(
-          "bg-bg-base overflow-y-scroll overflow-x-hidden text-text-primary",
+          "bg-bg-base overflow-x-hidden text-text-primary",
           inter.className
         )}
       >

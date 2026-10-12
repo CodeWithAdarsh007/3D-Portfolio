@@ -5,7 +5,7 @@ import { Encryption } from "@/components/main/encryption";
 
 export default function Home() {
   return (
-    <main className="h-full w-full overflow-x-hidden">
+    <main className="h-full w-full">
       <Hero />
       <section id="skills" className="scroll-mt-24">
         <Skills />
