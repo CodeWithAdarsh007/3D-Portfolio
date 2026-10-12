@@ -16,10 +16,10 @@ export const Skills = () => {
         </span>
       </div>
 
-      {/* AI / ML Skills */}
-      <div>
-        <h3 className="text-lg font-semibold text-text-secondary mb-6">AI / ML</h3>
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-6 md:gap-8">
+      {/* AI / ML Skills - Top Arc */}
+      <div className="relative w-full max-w-5xl mx-auto">
+        <h3 className="text-lg font-semibold text-text-secondary mb-6 text-center">AI / ML</h3>
+        <div className="flex flex-wrap justify-center gap-8 px-4">
           {aiSkills.map((skill) => (
             <div
               key={skill.name}
@@ -30,10 +30,10 @@ export const Skills = () => {
                 alt={skill.name}
                 width={60}
                 height={60}
-                className="w-12 h-12 md:w-14 md:h-14 object-contain transition-transform hover:scale-110"
+                className="w-12 h-12 md:w-16 md:h-16 object-contain"
                 loading="lazy"
               />
-              <span className="text-xs text-text-secondary whitespace-nowrap text-center">
+              <span className="text-xs md:text-sm text-text-secondary whitespace-nowrap">
                 {skill.name}
               </span>
             </div>
@@ -41,10 +41,10 @@ export const Skills = () => {
         </div>
       </div>
 
-      {/* Web / Full-Stack Skills */}
-      <div>
-        <h3 className="text-lg font-semibold text-text-secondary mb-6">Web / Full-Stack</h3>
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-6 md:gap-8">
+      {/* Web / Full-Stack Skills - Bottom Arc */}
+      <div className="relative w-full max-w-5xl mx-auto">
+        <h3 className="text-lg font-semibold text-text-secondary mb-6 text-center">Web / Full-Stack</h3>
+        <div className="flex flex-wrap justify-center gap-8 px-4">
           {webSkills.map((skill) => (
             <div
               key={skill.name}
@@ -55,10 +55,10 @@ export const Skills = () => {
                 alt={skill.name}
                 width={60}
                 height={60}
-                className="w-12 h-12 md:w-14 md:h-14 object-contain transition-transform hover:scale-110"
+                className="w-12 h-12 md:w-16 md:h-16 object-contain"
                 loading="lazy"
               />
-              <span className="text-xs text-text-secondary whitespace-nowrap text-center">
+              <span className="text-xs md:text-sm text-text-secondary whitespace-nowrap">
                 {skill.name}
               </span>
             </div>
