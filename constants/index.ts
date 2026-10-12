@@ -285,5 +285,5 @@ export const NAV_LINKS = [
 ] as const;
 
 export const LINKS = {
-  sourceCode: "https://github.com/adarshpandey/portfolio",
+  sourceCode: "https://github.com/CodeWithAdarsh007/3D-Portfolio",
 };
