@@ -1,106 +1,137 @@
-# Adarsh Pandey - Portfolio
+# Adarsh Pandey — Portfolio
 
-A modern portfolio website built with Next.js 16, TypeScript, Tailwind CSS, and Framer Motion. Features a dark space-themed design with interactive project previews.
+A personal portfolio for **Adarsh Pandey** — AI/ML engineer and full-stack
+developer, Co-Founder & CTO of [NoteKart](https://www.notekart.co.in/).
 
-## 🚀 Quick Start
+Live: [https://3-d-portfolio-xi-tan.vercel.app](https://3-d-portfolio-xi-tan.vercel.app)
 
-### Prerequisites
-- Node.js 18+ 
-- npm or pnpm
+---
 
-### Installation
+## What's inside
+
+- **Home** — Hero, skills preview, selected work, closing CTA
+- **/work** — All projects index
+- **/work/[slug]** — Individual case studies (NoteKart, E4A Solution, ANAV Lifespaces)
+- **/services** — Six services with deliverables and timelines
+- **/about** — Bio, skills, and how I work
+- **/contact** — Contact form + direct channels
+
+Each project card includes a **live embedded preview** of the actual site,
+plus a full-screen preview modal.
+
+---
+
+## Tech stack
+
+- **Next.js 16** (App Router) + **TypeScript**
+- **React 19**
+- **Tailwind CSS** for styling
+- **Framer Motion** for animations
+- **Three.js** + **@react-three/fiber** + **@react-three/drei** for the 3D background
+- **react-intersection-observer** for scroll-triggered reveals
+
+---
+
+## Local development
+
+Prerequisites: **Node 20+** and **npm**.
 
 ```bash
-# Clone the repository
-git clone https://github.com/adarshpandey/portfolio.git
-cd portfolio
-
 # Install dependencies
-npm install
+npm install --legacy-peer-deps
 
-# Start development server
+# Start dev server
 npm run dev
-```
+# → http://localhost:3000
 
-Visit `http://localhost:3000` to view the site locally.
-
-## 📖 Project Structure
-
-```
-portfolio/
-├── app/                    # Next.js App Router
-│   ├── page.tsx           # Main page (home)
-│   ├── layout.tsx         # Root layout
-│   └── globals.css        # Global styles
-├── components/
-│   ├── main/              # Page-level components (Hero, Projects, Skills)
-│   └── sub/               # Reusable components (Cards, Modal, etc.)
-├── config/
-│   └── index.ts           # Site metadata
-├── constants/
-│   └── index.ts           # Data (projects, skills, nav links)
-├── lib/
-│   ├── motion.ts          # Framer Motion animations
-│   └── utils.ts           # Utility functions
-└── public/                # Static assets (images, videos)
-```
-
-## 🛠️ Tech Stack
-
-- **Framework:** Next.js 16 (App Router)
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS
-- **Animations:** Framer Motion
-- **Icons:** React Icons
-- **Deployment:** Vercel
-
-## 📱 Features
-
-- **Hero Section** - Personal introduction with call-to-action buttons
-- **Skills Grid** - Visual display of technical skills with icons
-- **Project Cards** - Interactive cards showing live site previews
-- **Project Modal** - Full-screen modal for viewing complete projects
-- **Dark Theme** - Space-themed dark UI with purple accents
-- **Responsive Design** - Works on desktop, tablet, and mobile
-
-## 🚀 Deployment
-
-### Vercel
-
-1. Push your code to GitHub
-2. Import your repository on [Vercel](https://vercel.com/import)
-3. Deploy automatically on every push
-
-### Netlify
-
-1. Connect your GitHub repository
-2. Set build command: `npm run build`
-3. Set publish directory: `.next`
-
-### Manual
-
-```bash
+# Production build
 npm run build
 npm start
 ```
 
-## 🔧 Configuration
+### Project structure
 
-Edit `config/index.ts` and `constants/index.ts` to customize:
-- Site metadata (title, description)
-- Hero content (headline, subheadline, CTAs)
-- Projects (name, description, URL, tags)
-- Skills (name, icons)
-- Social links (email, LinkedIn, Instagram, WhatsApp)
+```
+.
+├── app/                    # App Router routes
+│   ├── layout.tsx          # Root layout (Navbar + Background + Footer)
+│   ├── page.tsx            # Home
+│   ├── work/               # Work index + [slug] case studies
+│   ├── services/           # Services page
+│   ├── about/              # About page
+│   ├── contact/            # Contact page
+│   ├── not-found.tsx       # Custom 404
+│   └── globals.css         # Theme tokens + type scale
+├── components/
+│   ├── main/               # Hero, Skills, Projects, Navbar, Footer, 3D background
+│   └── sub/                # LiveSiteViewer, ProjectPreviewModal, ProjectCard, etc.
+├── config/
+│   └── index.ts            # Site metadata, hero copy, socials
+├── constants/
+│   └── index.ts            # Projects, skills, services, nav links
+├── lib/                    # Utilities, motion helpers
+└── public/                 # Static assets (images, icons, videos)
+```
 
-## 📄 License
+### Editing content
 
-MIT License - see [LICENSE](LICENSE) for details.
+Everything user-facing lives in two files:
 
-## 🤝 Contact
+| What to change | Where |
+|----------------|-------|
+| Name, email, socials, hero copy | `config/index.ts` |
+| Projects, skills, services, nav links | `constants/index.ts` |
 
-**Adarsh Pandey**
-- Website: https://adarshpandey.dev
-- Email: hello@adarshpandey.dev
-- LinkedIn: https://linkedin.com/in/adarshpandey
-- Instagram: https://instagram.com/adarshpandey
+No JSX knowledge needed. Just edit the values.
+
+### Adding real project screenshots
+
+The portfolio uses live iframes for project previews, but screenshots are
+still used as fallbacks when a site blocks framing. Drop them at:
+
+- `public/projects/project-1.png` — NoteKart
+- `public/projects/project-2.png` — E4A Solution
+- `public/projects/project-3.png` — ANAV Lifespaces
+
+Recommended size: 1440×900.
+
+### Personal photo
+
+Place at `public/portrait.jpg` (800×1000 recommended).
+
+### Deployment
+
+The site deploys to Vercel with zero configuration:
+
+1. Push to GitHub
+2. Import the repo at [vercel.com/new](https://vercel.com/new)
+3. Vercel auto-detects Next.js
+4. Click Deploy
+
+### Embedded-site headers
+
+Three sites are embedded as live iframes inside the project cards:
+
+- https://www.notekart.co.in/
+- https://www.e4asolution.com/
+- https://www.anavlifespaces.com/
+
+Each of those sites sets a Content-Security-Policy: frame-ancestors
+header that allows the portfolio's domains. If the portfolio URL changes,
+update the frame-ancestors value on each of those sites to include the
+new domain, otherwise live previews will be blocked.
+
+### Acknowledgements
+
+The 3D background and initial project scaffold were inspired by
+[space-portfolio](https://github.com/sanidhyy/space-portfolio) by
+Sanidhya. The portfolio has been
+substantially redesigned — new palette, neural-grid 3D scene, multi-page
+routing, live site previews, and full content replacement — but the
+original repo was a valuable starting point. Thank you.
+
+### License
+
+The underlying template is MIT licensed (see upstream repo). This
+portfolio's content, project data, and customizations are © 2025
+Adarsh Pandey.
