@@ -1,5 +1,4 @@
-import { SkillDataProvider } from "@/components/sub/skill-data-provider";
-import { WEB_SKILLS, AI_ML_SKILLS } from "@/constants";
+import { WEB_SKILLS } from "@/constants";
 
 export const Skills = () => {
   return (
@@ -14,31 +13,37 @@ export const Skills = () => {
         </span>
       </div>
 
-      {/* AI/ML Skills */}
-      <div className="flex flex-row justify-around flex-wrap mt-4 gap-5 items-center">
-        {AI_ML_SKILLS.map((skill, i) => (
-          <SkillDataProvider
-            key={skill.skill_name}
-            src={skill.image || ""}
-            name={skill.skill_name}
-            width={80}
-            height={80}
-            index={i}
-          />
+      {/* AI/ML Skills - Text Pills */}
+      <div className="flex flex-row justify-center flex-wrap mt-4 gap-3 items-center max-w-full overflow-hidden">
+        <span className="text-sm text-text-secondary font-medium whitespace-nowrap">
+          AI/ML:
+        </span>
+        {["Python", "PyTorch", "TensorFlow", "Scikit-learn", "NumPy", "Pandas", "OpenCV", "Hugging Face", "LangChain"].map((skill, i) => (
+          <span
+            key={i}
+            className="px-3 py-1 rounded-full border border-[#2A0E61] bg-[#1a0b3a]/60 text-purple-200 text-sm font-medium whitespace-nowrap"
+          >
+            {skill}
+          </span>
         ))}
       </div>
 
-      {/* Web Skills */}
-      <div className="flex flex-row justify-around flex-wrap mt-4 gap-5 items-center">
+      {/* Web/Full-Stack Skills - Icon Grid */}
+      <div className="flex flex-row justify-around flex-wrap mt-6 gap-5 items-center">
         {WEB_SKILLS.map((skill, i) => (
-          <SkillDataProvider
+          <div
             key={skill.skill_name}
-            src={skill.image}
-            name={skill.skill_name}
-            width={skill.width}
-            height={skill.height}
-            index={i}
-          />
+            className="flex flex-col items-center gap-2"
+          >
+            <img
+              src={skill.image}
+              alt={skill.skill_name}
+              width={skill.width}
+              height={skill.height}
+              className="object-contain"
+            />
+            <span className="text-xs text-text-secondary whitespace-nowrap">{skill.skill_name}</span>
+          </div>
         ))}
       </div>
     </section>

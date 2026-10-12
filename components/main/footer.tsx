@@ -17,8 +17,8 @@ export const Footer = () => {
                 <Link
                   key={`${column.title}-${name}`}
                   href={link}
-                  target="_blank"
-                  rel="noreferrer noopener"
+                  target={link.startsWith("mailto") ? undefined : "_blank"}
+                  rel={link.startsWith("mailto") ? undefined : "noreferrer noopener"}
                   className="flex flex-row items-center my-[10px] hover:text-accent-primary transition"
                 >
                   {Icon && <Icon className="w-4 h-4 mr-2 text-text-secondary" />}
