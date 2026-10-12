@@ -27,25 +27,14 @@ export const HeroContent = () => {
     >
       <div className="h-full w-full flex flex-col justify-center m-auto text-start">
         <motion.div
-          variants={slideInFromTop}
-          className="Welcome-box py-[8px] px-[7px] border border-[#7042f88b] opacity-[0.9]]"
-        >
-          <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
-          <h1 className="Welcome-text text-[13px]">
-            ● Available for Q1 2026
-          </h1>
-        </motion.div>
-
-        <motion.div
           variants={slideInFromLeft(0.5)}
-          className="flex flex-col gap-4 mt-4 md:mt-6 text-4xl md:text-6xl font-bold text-white max-w-[600px]"
+          className="flex flex-col gap-4 md:gap-6 mt-4 md:mt-8 text-4xl md:text-5xl font-bold text-white max-w-[600px]"
         >
           <span>
             I&apos;m{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7042f8] to-[#a855f7]">
               Adarsh Pandey
-            </span>{" "}
-            — an AI/ML engineer and full-stack developer.
+            </span>
           </span>
         </motion.div>
 
@@ -53,7 +42,7 @@ export const HeroContent = () => {
           variants={slideInFromLeft(0.8)}
           className="text-sm md:text-lg text-gray-400 my-4 md:my-5 max-w-[600px]"
         >
-          I build machine learning-powered applications, fast business websites, and admin dashboards. Co-Founder & CTO of NoteKart.
+          AI/ML engineer and full-stack developer. I build machine learning-powered applications, fast business websites, and admin dashboards. Co-Founder & CTO of NoteKart.
         </motion.p>
 
         <motion.a
