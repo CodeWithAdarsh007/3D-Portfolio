@@ -47,7 +47,7 @@ export const SKILLS = [
   },
   {
     name: "LangChain",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/langchain/langchain-original.svg",
+    icon: "https://cdn.simpleicons.org/langchain/FFFFFF",
     group: "ai",
   },
 
@@ -79,7 +79,7 @@ export const SKILLS = [
   },
   {
     name: "Express",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",
+    icon: "https://cdn.simpleicons.org/express/FFFFFF",
     group: "web",
   },
   {
