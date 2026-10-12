@@ -72,6 +72,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Scroll offset for navbar */
+section[id] {
+  scroll-margin-top: 96px;
+}
+
 /* Utility classes for theme */
 .text-gradient-primary {
   background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));

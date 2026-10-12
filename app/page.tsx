@@ -5,21 +5,17 @@ import { Encryption } from "@/components/main/encryption";
 
 export default function Home() {
   return (
-    <main className="h-full w-full">
-      <div className="flex flex-col gap-20">
-        <section id="home">
-          <Hero />
-        </section>
-        <section>
-          <Skills />
-        </section>
-        <section id="projects">
-          <Projects />
-        </section>
-        <section>
-          <Encryption />
-        </section>
-      </div>
+    <main className="h-full w-full overflow-x-hidden">
+      <Hero />
+      <section id="skills" className="scroll-mt-24">
+        <Skills />
+      </section>
+      <section id="projects" className="scroll-mt-24">
+        <Projects />
+      </section>
+      <section id="contact" className="scroll-mt-24">
+        <Encryption />
+      </section>
     </main>
   );
 }
