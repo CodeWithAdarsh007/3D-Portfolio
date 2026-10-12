@@ -1,5 +1,5 @@
 export const SKILLS = [
-  // AI / ML
+  // AI / ML (Top Arc)
   {
     name: "Python",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
@@ -37,7 +37,7 @@ export const SKILLS = [
   },
   {
     name: "Hugging Face",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/huggingface/huggingface-original.svg",
+    icon: "https://cdn.simpleicons.org/huggingface/FFD21E",
     group: "ai",
   },
   {
@@ -45,8 +45,13 @@ export const SKILLS = [
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg",
     group: "ai",
   },
+  {
+    name: "LangChain",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/langchain/langchain-original.svg",
+    group: "ai",
+  },
 
-  // Web / Full-Stack
+  // Web / Full-Stack (Bottom Arc)
   {
     name: "React",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
@@ -98,16 +103,6 @@ export const SKILLS = [
     group: "web",
   },
   {
-    name: "HTML5",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
-    group: "web",
-  },
-  {
-    name: "CSS3",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
-    group: "web",
-  },
-  {
     name: "Git",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
     group: "web",
@@ -115,11 +110,6 @@ export const SKILLS = [
   {
     name: "Docker",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
-    group: "web",
-  },
-  {
-    name: "Figma",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
     group: "web",
   },
 ] as const;
