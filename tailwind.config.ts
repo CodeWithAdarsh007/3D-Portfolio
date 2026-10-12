@@ -9,25 +9,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Dark mode base
-        'bg-base': '#05060A',
-        'bg-surface': '#0B0F1A',
-        'bg-elevated': '#141A2B',
-        // Text
-        'text-primary': '#E8EDF7',
-        'text-secondary': '#8A94AD',
-        'text-tertiary': '#4A5470',
-        // Border
-        'border': 'rgba(232, 237, 247, 0.08)',
-        'border-strong': 'rgba(232, 237, 247, 0.16)',
-        // Accents
-        'accent-primary': '#00D9FF',
-        'accent-secondary': '#7C5CFF',
-        'accent-tertiary': '#22FF88',
-        'accent-warm': '#FFB84D',
-        // Accent soft
-        'accent-primary-soft': 'rgba(0, 217, 255, 0.12)',
-        'accent-secondary-soft': 'rgba(124, 92, 255, 0.12)',
+        // Original space-portfolio colors
+        'bg-base': '#030014',
+        'bg-surface': '#0d0620',
+        'bg-elevated': '#1a0b3a',
+        'text-primary': '#ffffff',
+        'text-secondary': '#c7c3d3',
+        'border': '#2A0E61',
+        'accent-primary': '#7042f8',
+        'accent-secondary': '#a855f7',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

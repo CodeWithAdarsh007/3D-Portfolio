@@ -4,7 +4,7 @@ import { FOOTER_DATA } from "@/constants";
 
 export const Footer = () => {
   return (
-    <div className="w-full bg-bg-surface border-t border-border p-[20px] mt-auto">
+    <div id="contact" className="w-full bg-bg-surface border-t border-border p-[20px] mt-auto">
       <div className="w-full flex flex-col items-center justify-center m-auto">
         <div className="w-full h-full flex flex-row items-center justify-around flex-wrap">
           {FOOTER_DATA.map((column) => (
