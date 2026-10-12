@@ -1,6 +1,6 @@
 {
-  "name": "space-portfolio",
-  "version": "1.0.1",
+  "name": "adarsh-pandey-portfolio",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -8,18 +8,13 @@
     "start": "next start",
     "lint": "eslint ."
   },
-  "author": {
-    "name": "Adarsh Pandey",
-    "email": "hello@adarshpandey.dev",
-    "url": "https://adarshpandey.dev"
-  },
-  "description": "Welcome to my full stack Next.js 14 space portfolio.",
+  "author": "Adarsh Pandey <adarshpandey@gmail.com>",
+  "description": "Personal portfolio for Adarsh Pandey — AI/ML engineer and full-stack developer",
   "keywords": [
     "reactjs",
     "nextjs",
     "vercel",
     "react",
-    "space-portfolio",
     "portfolio",
     "react-icons",
     "cn",
@@ -48,11 +43,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/adarshpandey/space-portfolio"
+    "url": "https://github.com/adarshpandey/adarsh-pandey-portfolio"
   },
-  "homepage": "https://github.com/adarshpandey/space-portfolio#readme",
+  "homepage": "https://3-d-portfolio-xi-tan.vercel.app",
   "bugs": {
-    "url": "https://github.com/adarshpandey/space-portfolio/issues",
+    "url": "https://github.com/adarshpandey/adarsh-pandey-portfolio/issues",
     "email": "hello@adarshpandey.dev"
   },
   "funding": [
