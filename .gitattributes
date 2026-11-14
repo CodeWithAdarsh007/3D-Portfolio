@@ -1,0 +1,9 @@
+# Keep binary assets byte-exact across platforms
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webm binary
+*.ico binary
+*.woff binary
+*.woff2 binary
