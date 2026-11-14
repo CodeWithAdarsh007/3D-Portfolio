@@ -57,83 +57,85 @@ export default function Home() {
           )}
         </div>
 
-        <div className="overflow-hidden rounded-3xl border border-line bg-surface shadow-desk">
-          {isMobile ? (
-            <MobileDesk screenState={screenState} introDone={introDone} />
-          ) : (
-            <DesktopDesk screenState={screenState} introDone={introDone} />
-          )}
-        </div>
-
-        {/* greeting console */}
-        <div className="relative z-10 mx-auto mt-4 max-w-3xl px-2 sm:-mt-10">
-          <motion.div
-            initial={reduce ? false : { opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: reduce ? 0 : 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="card rounded-2xl p-6 text-center shadow-desk sm:p-8"
-          >
-            <p className="inline-flex items-center gap-2 rounded-full bg-desk px-3 py-1 font-mono text-[10.5px] font-semibold tracking-wide text-muted">
-              <span className={`h-1.5 w-1.5 rounded-full ${introDone ? "bg-sage" : "bg-amber"}`} />
-              {introDone ? "workspace ready · 8 objects online" : "assembling workspace…"}
-            </p>
-
-            <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-ink sm:text-5xl">
-              <Typewriter text={identity.greeting} start={step >= 3} />
-            </h1>
-
-            <motion.p
-              initial={false}
-              animate={{ opacity: introDone ? 1 : 0, y: introDone ? 0 : 8 }}
-              transition={{ duration: 0.5 }}
-              className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted sm:text-base"
-            >
-              {identity.tagline}
-            </motion.p>
-
+        <div className="grid items-center gap-6 lg:grid-cols-[minmax(320px,380px)_1fr]">
+          {/* greeting console */}
+          <div className="order-2 lg:order-1">
             <motion.div
-              initial={false}
-              animate={{ opacity: introDone ? 1 : 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="mt-5 flex flex-wrap justify-center gap-2"
+              initial={reduce ? false : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: reduce ? 0 : 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="card rounded-2xl p-6 text-center shadow-desk sm:p-8 lg:text-left"
             >
-              {HERO_CHIPS.map((chip) => (
-                <span key={chip} className="chip">
-                  {chip}
+              <p className="inline-flex items-center gap-2 rounded-full bg-desk px-3 py-1 font-mono text-[10.5px] font-semibold tracking-wide text-muted">
+                <span className={`h-1.5 w-1.5 rounded-full ${introDone ? "bg-sage" : "bg-amber"}`} />
+                {introDone ? "workspace ready · 8 objects online" : "assembling workspace…"}
+              </p>
+
+              <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl xl:text-5xl">
+                <Typewriter text={identity.greeting} start={step >= 3} />
+              </h1>
+
+              <motion.p
+                initial={false}
+                animate={{ opacity: introDone ? 1 : 0, y: introDone ? 0 : 8 }}
+                transition={{ duration: 0.5 }}
+                className="mt-3 text-sm leading-relaxed text-muted sm:text-base"
+              >
+                {identity.tagline}
+              </motion.p>
+
+              <motion.div
+                initial={false}
+                animate={{ opacity: introDone ? 1 : 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="mt-5 flex flex-wrap justify-center gap-2 lg:justify-start"
+              >
+                {HERO_CHIPS.map((chip) => (
+                  <span key={chip} className="chip">
+                    {chip}
+                  </span>
+                ))}
+              </motion.div>
+
+              <motion.div
+                initial={false}
+                animate={{ opacity: introDone ? 1 : 0, y: introDone ? 0 : 10 }}
+                transition={{ duration: 0.5, delay: 0.18 }}
+                className="mt-7 flex flex-wrap items-center justify-center gap-3 lg:justify-start"
+              >
+                <ButtonLink to="/projects" icon="Rocket">
+                  Explore Projects
+                </ButtonLink>
+                <ButtonAnchor href={links.resume} download variant="ghost" icon="Download">
+                  Download Resume
+                </ButtonAnchor>
+              </motion.div>
+
+              <motion.p
+                initial={false}
+                animate={{ opacity: introDone ? 1 : 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="mt-5 inline-flex items-center gap-2 text-left font-mono text-[11.5px] font-semibold tracking-wide text-blue-ink"
+              >
+                <span className="relative flex h-2 w-2 shrink-0">
+                  <span className="pulse-ring absolute inline-flex h-full w-full rounded-full bg-blue" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-blue" />
                 </span>
-              ))}
+                Explore my workspace — click any object on the desk.
+              </motion.p>
+              <p className="mt-2 font-mono text-[10px] text-muted">
+                resume file is a labelled placeholder
+              </p>
             </motion.div>
+          </div>
 
-            <motion.div
-              initial={false}
-              animate={{ opacity: introDone ? 1 : 0, y: introDone ? 0 : 10 }}
-              transition={{ duration: 0.5, delay: 0.18 }}
-              className="mt-7 flex flex-wrap items-center justify-center gap-3"
-            >
-              <ButtonLink to="/projects" icon="Rocket">
-                Explore Projects
-              </ButtonLink>
-              <ButtonAnchor href={links.resume} download variant="ghost" icon="Download">
-                Download Resume
-              </ButtonAnchor>
-            </motion.div>
-
-            <motion.p
-              initial={false}
-              animate={{ opacity: introDone ? 1 : 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="mt-5 inline-flex items-center gap-2 font-mono text-[11.5px] font-semibold tracking-wide text-blue-ink"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="pulse-ring absolute inline-flex h-full w-full rounded-full bg-blue" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-blue" />
-              </span>
-              Explore my workspace — click any object on the desk.
-            </motion.p>
-            <p className="mt-2 font-mono text-[10px] text-muted">
-              resume file is a labelled placeholder
-            </p>
-          </motion.div>
+          <div className="order-1 overflow-hidden rounded-3xl border border-line bg-surface shadow-desk lg:order-2">
+            {isMobile ? (
+              <MobileDesk screenState={screenState} introDone={introDone} />
+            ) : (
+              <DesktopDesk screenState={screenState} introDone={introDone} />
+            )}
+          </div>
         </div>
       </section>
 

@@ -74,7 +74,7 @@ function RoomBackdrop({ introDone }) {
     >
       <rect x="0" y="0" width="1200" height="472" fill="var(--bg)" />
       <rect x="0" y="466" width="1200" height="8" fill="var(--line)" opacity="0.6" />
-      <polygon points="70,290 235,290 420,585 130,585" fill="var(--amber)" opacity="0.07" />
+      <polygon className="window-light" points="70,290 235,290 420,585 130,585" fill="var(--amber)" opacity="0.07" />
       <g transform="translate(150 170)">
         <WindowProp />
       </g>
