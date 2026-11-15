@@ -23,7 +23,7 @@ export default function Journey() {
       title="The path so far"
       body="Education, product building, and community work — presented as they are. No internships or employment are invented."
     >
-      <ol className="relative ml-4 space-y-12 border-l-4 border-dashed border-tangerine pl-10 sm:ml-8 sm:pl-14">
+      <ol className="relative mx-auto max-w-5xl space-y-12 border-l-4 border-dashed border-tangerine pl-10 sm:pl-14">
         {journey.map((entry, i) => {
           const a = getAccent(entry.accent);
           return (

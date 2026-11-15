@@ -13,9 +13,11 @@ const EASE = [0.22, 1, 0.36, 1];
 
 export function DeskObject({
   id, label, desc, to, delay = 0, introDone, onHover, onActivate,
-  haloRx = 62, haloRy = 13, haloY = 2, children,
+  haloRx = 62, haloRy = 13, haloY = 2, hitW, hitTop = -70, hitBottom, children,
 }) {
-  const activate = () => onActivate(id, to);
+  const hw = hitW ?? haloRx;
+  const hb = hitBottom ?? haloRy + 2;
+  const activate = (e) => onActivate(id, to, e.currentTarget.getBoundingClientRect());
 
   return (
     <motion.g
@@ -42,6 +44,9 @@ export function DeskObject({
     >
       <ellipse className="halo" cx="0" cy={haloY} rx={haloRx} ry={haloRy} fill="var(--sunshine)" fillOpacity="0.4" />
       <ellipse className="focus-ring" cx="0" cy={haloY} rx={haloRx + 6} ry={haloRy + 4} fill="none" stroke="var(--blue)" strokeWidth="2.5" strokeDasharray="6 4" />
+      {/* stable transparent hit area so hover/tap transforms never move the
+          click target out from under the pointer (hollow centres included) */}
+      <rect x={-hw} y={hitTop} width={hw * 2} height={hb - hitTop} fill="transparent" stroke="none" />
       {children}
     </motion.g>
   );

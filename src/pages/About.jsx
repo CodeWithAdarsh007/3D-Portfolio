@@ -97,7 +97,7 @@ export default function About() {
           <div className="grid gap-4 sm:grid-cols-2">
             <Reveal delay={0.05}>
               <div className="h-full rounded-2xl border-2 border-ink bg-sunshine/40 p-6 shadow-sticker-sm">
-                <p className="flex items-center gap-2 font-mono text-[10px] font-extrabold uppercase tracking-[0.16em] text-plum/70">
+                <p className="flex items-center gap-2 font-mono text-[10px] font-extrabold uppercase tracking-[0.16em] text-ink/70">
                   <Icon name="GraduationCap" size={14} /> Education
                 </p>
                 <p className="mt-3 font-display text-base font-extrabold leading-snug text-ink">
@@ -111,7 +111,7 @@ export default function About() {
             </Reveal>
             <Reveal delay={0.1}>
               <div className="h-full rounded-2xl border-2 border-ink bg-turquoise/30 p-6 shadow-sticker-sm">
-                <p className="flex items-center gap-2 font-mono text-[10px] font-extrabold uppercase tracking-[0.16em] text-plum/70">
+                <p className="flex items-center gap-2 font-mono text-[10px] font-extrabold uppercase tracking-[0.16em] text-ink/70">
                   <Icon name="Target" size={14} /> Career interests
                 </p>
                 <ul className="mt-3 space-y-1.5">
@@ -141,7 +141,7 @@ export default function About() {
 
           <Reveal delay={0.1}>
             <div className="rounded-3xl border-2 border-ink bg-lavender/25 p-7 shadow-sticker-sm">
-              <p className="flex items-center gap-2 font-mono text-[10px] font-extrabold uppercase tracking-[0.16em] text-plum/70">
+              <p className="flex items-center gap-2 font-mono text-[10px] font-extrabold uppercase tracking-[0.16em] text-ink/70">
                 <Icon name="Compass" size={14} /> Currently exploring
               </p>
               <ul className="mt-4 grid gap-3 sm:grid-cols-2">
