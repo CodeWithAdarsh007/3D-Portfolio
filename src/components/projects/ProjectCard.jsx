@@ -1,65 +1,90 @@
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import Icon from "../common/Icon";
+import ProjectArt, { ConceptTag } from "../art/ProjectArt";
 import { getAccent } from "../../lib/accents";
 
-/** Project preview card with an original generated cover (not a fake screenshot). */
-export default function ProjectCard({ project, index = 0 }) {
+/**
+ * Individually composed project card: large original concept artwork,
+ * project-specific palette, sticker metadata. `featured` renders a wide
+ * gallery hero composition.
+ */
+export default function ProjectCard({ project, index = 0, featured = false }) {
   const a = getAccent(project.accent);
+
+  const art = (
+    <div className={`relative overflow-hidden ${featured ? "h-56 sm:h-full sm:min-h-[280px]" : "h-44"}`}>
+      <ProjectArt
+        slug={project.slug}
+        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06] group-hover:rotate-1"
+      />
+      <ConceptTag className="absolute left-3 top-3" />
+    </div>
+  );
+
+  const body = (
+    <div className={`flex flex-1 flex-col p-6 ${featured ? "sm:p-8" : ""}`}>
+      <div className="flex items-center gap-2">
+        <span className={`h-2.5 w-2.5 rounded-full border border-ink ${a.dot}`} />
+        <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.14em] text-muted">
+          {project.status}
+        </p>
+      </div>
+      <h2 className={`mt-2.5 font-display font-extrabold tracking-tight text-ink ${featured ? "text-3xl" : "text-xl"}`}>
+        {project.title}
+      </h2>
+      <p className="mt-2 text-sm leading-relaxed text-muted">{project.tagline}</p>
+      {featured && (
+        <p className="mt-3 line-clamp-3 text-sm font-medium leading-relaxed text-muted/90">
+          {project.description}
+        </p>
+      )}
+
+      <div className="mt-4 flex flex-wrap gap-1.5">
+        {project.categories.slice(0, featured ? 3 : 2).map((c) => (
+          <span key={c} className={`chip !border-ink/20 ${a.tile}`}>
+            {c}
+          </span>
+        ))}
+      </div>
+
+      <div className="mt-auto flex items-center justify-between gap-3 border-t-2 border-line pt-4">
+        <span className="min-w-0 truncate font-mono text-[11px] font-semibold text-muted">
+          {project.stack.slice(0, 3).join(" · ")}
+        </span>
+        <span className={`sticker shrink-0 ${a.solid} !px-3.5 !py-1.5 !text-[11px]`}>
+          Case study
+          <Icon name="ArrowRight" size={12} className="transition-transform group-hover:translate-x-1" />
+        </span>
+      </div>
+    </div>
+  );
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.5, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.55, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+      className={featured ? "md:col-span-2" : ""}
     >
       <Link
         to={`/projects/${project.slug}`}
-        className={`card group block overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:shadow-desk ${a.border}`}
+        className={`card group flex h-full overflow-hidden border-2 border-ink transition-all duration-300 hover:-translate-y-2 hover:shadow-desk ${
+          featured ? "flex-col sm:flex-row" : "flex-col"
+        }`}
       >
-        <div className={`relative flex h-32 items-center justify-center overflow-hidden ${a.tile}`}>
-          <svg className="absolute inset-0 h-full w-full opacity-[0.12]" aria-hidden="true">
-            <defs>
-              <pattern id={`grid-${project.slug}`} width="22" height="22" patternUnits="userSpaceOnUse">
-                <path d="M22 0H0v22" fill="none" stroke="currentColor" strokeWidth="1" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill={`url(#grid-${project.slug})`} />
-          </svg>
-          <Icon name={project.icon} size={44} strokeWidth={1.6} className="relative transition-transform duration-300 group-hover:scale-110" />
-          <span className="absolute right-3 top-3 rounded-full bg-raised/80 px-2.5 py-1 font-mono text-[9.5px] font-semibold tracking-wide text-muted">
-            {project.slug}
-          </span>
-        </div>
-
-        <div className="p-6">
-          <div className="flex items-center gap-2">
-            <span className={`h-1.5 w-1.5 rounded-full ${a.dot}`} />
-            <p className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-muted">
-              {project.status}
-            </p>
-          </div>
-          <h3 className="mt-2.5 text-xl font-extrabold tracking-tight text-ink transition-colors group-hover:text-blue-ink">
-            {project.title}
-          </h3>
-          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted">{project.tagline}</p>
-
-          <div className="mt-4 flex flex-wrap gap-1.5">
-            {project.categories.slice(0, 2).map((c) => (
-              <span key={c} className="chip !px-2.5 !py-1 !text-[10.5px]">
-                {c}
-              </span>
-            ))}
-          </div>
-
-          <div className="mt-5 flex items-center justify-between gap-3 border-t border-line pt-4">
-            <span className="min-w-0 truncate font-mono text-[11px] text-muted">{project.stack.slice(0, 3).join(" · ")}</span>
-            <span className={`inline-flex shrink-0 items-center gap-1 whitespace-nowrap text-xs font-bold ${a.text}`}>
-              Case study
-              <Icon name="ArrowRight" size={13} className="transition-transform duration-300 group-hover:translate-x-1" />
-            </span>
-          </div>
-        </div>
+        {featured ? (
+          <>
+            <div className="sm:w-[55%]">{art}</div>
+            {body}
+          </>
+        ) : (
+          <>
+            {art}
+            {body}
+          </>
+        )}
       </Link>
     </motion.div>
   );

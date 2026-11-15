@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useReducedMotion } from "motion/react";
 
 /** Types text out once `start` is true; reserves layout to avoid shifts. */
-export default function Typewriter({ text, start, speed = 42, className = "", cursorClass = "bg-sage" }) {
+export default function Typewriter({ text, start, speed = 42, className = "", cursorClass = "bg-leaf" }) {
   const reduce = useReducedMotion();
   const [count, setCount] = useState(0);
 

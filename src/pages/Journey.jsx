@@ -16,49 +16,45 @@ export default function Journey() {
 
   return (
     <PageShell
+      accent="tangerine"
+      second="coral"
       eyebrow="Timeline · my journey"
+      eyebrowColor="var(--tangerine-ink)"
       title="The path so far"
-      body="Education, product building, and community work — presented as they are. No internships or employment are invented; missing dates are marked for editing."
+      body="Education, product building, and community work — presented as they are. No internships or employment are invented."
     >
-      <ol className="relative ml-3 space-y-10 border-l-2 border-line pl-8 sm:ml-6 sm:pl-12">
+      <ol className="relative ml-4 space-y-12 border-l-4 border-dashed border-tangerine pl-10 sm:ml-8 sm:pl-14">
         {journey.map((entry, i) => {
           const a = getAccent(entry.accent);
           return (
             <Reveal key={entry.id} delay={i * 0.1}>
               <li className="relative">
                 <span
-                  className={`absolute -left-[41px] top-1 flex h-6 w-6 items-center justify-center rounded-full border-2 border-bg sm:-left-[57px] ${a.dot}`}
+                  className={`absolute -left-[54px] top-2 flex h-9 w-9 items-center justify-center rounded-full border-2 border-ink ${a.solid} text-plum shadow-sticker-sm sm:-left-[70px]`}
                   aria-hidden="true"
                 >
-                  <span className="h-2 w-2 rounded-full bg-raised" />
+                  <Icon name={entry.icon} size={16} />
                 </span>
 
-                <article className={`card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-desk sm:p-7 ${a.border}`}>
+                <article
+                  className={`card border-2 border-ink p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-desk sm:p-8`}
+                  style={{ transform: `rotate(${i % 2 ? 0.5 : -0.5}deg)` }}
+                >
                   <div className="flex flex-wrap items-center gap-2.5">
-                    <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-mono text-[9.5px] font-bold uppercase tracking-wide ${a.tile}`}>
-                      <Icon name={entry.icon} size={12} />
-                      {entry.kind}
+                    <span className={`sticker ${a.solid} !px-3 !py-1 !text-[9.5px]`}>{entry.kind}</span>
+                    <span className="font-mono text-[11px] font-bold text-muted">
+                      {entry.period || "date pending"}
                     </span>
-                    {entry.period ? (
-                      <span className="font-mono text-[11px] font-semibold text-muted">{entry.period}</span>
-                    ) : (
-                      <span className="placeholder-label !text-[8.5px]">date: add in portfolioContent.js</span>
-                    )}
                   </div>
 
-                  <h2 className="mt-3.5 text-xl font-extrabold tracking-tight text-ink">{entry.title}</h2>
-                  <p className="mt-1 text-sm font-bold text-muted">
-                    {entry.org || (
-                      <span className="placeholder-label !text-[8.5px]">institution: add in portfolioContent.js</span>
-                    )}
+                  <h2 className="mt-4 font-display text-2xl font-extrabold tracking-tight text-ink">{entry.title}</h2>
+                  <p className="mt-1 text-sm font-extrabold text-muted">
+                    {entry.org || "institution name pending"}
                   </p>
-                  <p className="mt-3 text-sm leading-relaxed text-muted">{entry.body}</p>
+                  <p className="mt-3 text-sm font-medium leading-relaxed text-muted">{entry.body}</p>
 
                   {entry.to && (
-                    <Link
-                      to={entry.to}
-                      className={`mt-4 inline-flex items-center gap-1.5 text-xs font-bold ${a.text} hover:underline`}
-                    >
+                    <Link to={entry.to} className={`mt-4 inline-flex items-center gap-1.5 text-xs font-extrabold ${a.text} hover:underline`}>
                       See the project
                       <Icon name="ArrowRight" size={13} />
                     </Link>
@@ -71,10 +67,10 @@ export default function Journey() {
       </ol>
 
       <Reveal className="mt-12">
-        <p className="rounded-xl border border-line bg-desk/50 p-5 font-mono text-[11px] leading-relaxed text-muted">
+        <p className="rounded-2xl border-2 border-dashed border-leaf bg-leaf/15 p-5 font-mono text-[11px] font-semibold leading-relaxed text-leaf-ink">
           note: the NSS voter-registration camp is community engagement with the 152 Borivali
           Electoral Registration Office (120 student registrations reported) — not corporate
-          employment. All entries are editable in src/data/portfolioContent.js → journey.
+          employment.
         </p>
       </Reveal>
     </PageShell>

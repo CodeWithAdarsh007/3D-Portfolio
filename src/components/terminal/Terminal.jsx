@@ -295,11 +295,11 @@ export default function Terminal() {
   };
 
   const kindClass = {
-    in: "text-[#93bef2]",
-    out: "text-[#e8e4da]",
-    ok: "text-[#8fc4a8]",
-    err: "text-[#e08a84]",
-    dim: "text-[#8a93a8]",
+    in: "text-[#7d97ff]",
+    out: "text-[#fff3e2]",
+    ok: "text-[#63d3a2]",
+    err: "text-[#ff8fa8]",
+    dim: "text-[#bfb3d6]",
   };
 
   return (
@@ -310,27 +310,27 @@ export default function Terminal() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.98 }}
           transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed inset-x-3 bottom-3 z-[80] flex h-[340px] flex-col overflow-hidden rounded-2xl border border-[#35415c] bg-[#141926] shadow-desk sm:inset-x-auto sm:right-6 sm:bottom-6 sm:h-[400px] sm:w-[620px]"
+          className="fixed inset-x-3 bottom-3 z-[80] flex h-[340px] flex-col overflow-hidden rounded-2xl border border-[#463a63] bg-[#241d33] shadow-desk sm:inset-x-auto sm:right-6 sm:bottom-6 sm:h-[400px] sm:w-[620px]"
           role="dialog"
           aria-label="Workspace terminal"
         >
-          <header className="flex items-center justify-between border-b border-[#2a3450] bg-[#1b2233] px-4 py-2.5">
+          <header className="flex items-center justify-between border-b border-[#463a63] bg-[#2e2542] px-4 py-2.5">
             <div className="flex items-center gap-2">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#e08a84]" />
-              <span className="h-2.5 w-2.5 rounded-full bg-[#e0b36a]" />
-              <span className="h-2.5 w-2.5 rounded-full bg-[#8fc4a8]" />
-              <span className="ml-2 font-mono text-[11px] text-[#8a93a8]">
+              <span className="h-2.5 w-2.5 rounded-full bg-[#ff8fa8]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#ffd34e]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#63d3a2]" />
+              <span className="ml-2 font-mono text-[11px] text-[#bfb3d6]">
                 adarsh@dev-workspace: ~
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="hidden font-mono text-[10px] text-[#5d6880] sm:block">
+              <span className="hidden font-mono text-[10px] text-[#8d81ab] sm:block">
                 ctrl + ` to toggle
               </span>
               <button
                 type="button"
                 onClick={close}
-                className="rounded-md p-1 text-[#8a93a8] transition-colors hover:bg-[#2a3450] hover:text-white"
+                className="rounded-md p-1 text-[#bfb3d6] transition-colors hover:bg-[#463a63] hover:text-white"
                 aria-label="Close terminal"
               >
                 <Icon name="X" size={14} />
@@ -346,18 +346,18 @@ export default function Terminal() {
           >
             {lines.map((line, i) => (
               <p key={i} className={`whitespace-pre-wrap ${kindClass[line.kind] || kindClass.out}`}>
-                {line.kind === "in" && <span className="text-[#8fc4a8]">➜ ~ </span>}
+                {line.kind === "in" && <span className="text-[#63d3a2]">➜ ~ </span>}
                 {line.text}
               </p>
             ))}
             <div className="flex items-center">
-              <span className="shrink-0 text-[#8fc4a8]">➜ ~ </span>
+              <span className="shrink-0 text-[#63d3a2]">➜ ~ </span>
               <input
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={onKeyDown}
-                className="ml-1 w-full bg-transparent text-[#e8e4da] caret-[#8fc4a8] outline-none"
+                className="ml-1 w-full bg-transparent text-[#fff3e2] caret-[#63d3a2] outline-none"
                 aria-label="Terminal command input"
                 autoComplete="off"
                 spellCheck="false"

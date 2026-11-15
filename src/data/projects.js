@@ -28,18 +28,22 @@ export const projects = [
     title: "NoteKart",
     tagline: "A student-to-student marketplace for study materials.",
     categories: ["Entrepreneurship", "Web Applications", "Software Development"],
-    accent: "amber",
+    accent: "tangerine",
     icon: "ShoppingBag",
     status: "Product in development",
     role: "Product building & development",
     year: null,
     description:
       "NoteKart is a student-to-student marketplace focused on buying, selling, and exchanging study materials. The idea is simple: the notes and resources one student no longer need can become exactly what another student is looking for.",
+    why:
+      "Students already own what other students need. A trusted exchange turns idle notes into access — and builds a community around sharing instead of rebuying.",
     problem:
       "Study materials are scattered across seniors, groups, and chats, while students repeatedly pay for resources that already exist on campus. There is no trusted, student-first place to exchange them.",
     contribution:
       "Product-building work across the marketplace concept and its surrounding community: registration and authentication flows, chat, the student community, an ideas-and-collaboration campaign, and email marketing with campaign tracking.",
     stack: ["PHP", "Django", "MySQL", "HTML/CSS", "JavaScript"],
+    palette: ["tangerine", "sunshine", "blue", "leaf"],
+    workflow: ["Student joins", "Lists study material", "Chat & agree", "Exchange on campus", "Community grows"],
     features: [
       { name: "Marketplace concept & product direction", status: "Worked on" },
       { name: "User registration & authentication", status: "Worked on" },
@@ -69,18 +73,22 @@ export const projects = [
     title: "Paper Format Translator",
     tagline: "Translating research papers between publication formats — and checking what survives.",
     categories: ["Research / Experiments", "Software Development"],
-    accent: "sage",
+    accent: "leaf",
     icon: "FileSearch",
     status: "Research-oriented engineering",
     role: "Engineering & evaluation",
     year: null,
     description:
       "A project focused on transforming academic research papers between different publication formats and, crucially, evaluating the quality of that conversion rather than assuming it worked.",
+    why:
+      "Researchers reformat the same work for every venue. If conversion silently breaks structure or references, downstream reading and review inherit those defects.",
     problem:
       "Converting a paper between formats can silently break it: sections disappear, citations drift, figures and tables lose integrity. A conversion is only useful if you can measure what was preserved and what was lost.",
     contribution:
       "Exploration of the conversion pipeline and its evaluation: structural preservation, missing-content detection, citation and reference defect analysis, figure/table integrity checks, and side-by-side comparison of original versus converted papers.",
     stack: ["Python", "Document processing", "Evaluation scripts"],
+    palette: ["leaf", "turquoise", "sunshine"],
+    workflow: ["Source paper", "Format conversion", "Structure check", "Defect report", "Side-by-side review"],
     features: [
       { name: "Document conversion between formats", status: "Exploring" },
       { name: "Structural preservation checks", status: "Exploring" },
@@ -110,18 +118,22 @@ export const projects = [
     title: "AI Diet Recommendation App",
     tagline: "A Streamlit app that turns your numbers into a meal plan starting point.",
     categories: ["AI / ML", "Web Applications"],
-    accent: "blue",
+    accent: "coral",
     icon: "Salad",
     status: "Working prototype",
     role: "Design & development",
     year: null,
     description:
       "A Streamlit-based diet recommendation application that combines classic energy calculations with nutrition data and a machine-learning model integration to suggest meals.",
+    why:
+      "Energy needs are personal. Making the calculations transparent gives users a honest starting point instead of one-size-fits-all advice.",
     problem:
       "Generic diet advice ignores the individual. Energy needs depend on body metrics and activity — the app makes those calculations transparent and uses them to ground meal suggestions.",
     contribution:
       "Built the application flow: BMI, BMR, and TDEE calculations, nutrition data handling, meal recommendation logic, and integration of a machine-learning model.",
     stack: ["Python", "Streamlit", "Machine learning", "Nutrition data"],
+    palette: ["coral", "leaf", "turquoise", "sunshine"],
+    workflow: ["Body metrics", "BMI / BMR / TDEE", "Nutrition data", "Model suggestion", "Meal plan"],
     features: [
       { name: "BMI calculation", status: "Built" },
       { name: "BMR calculation", status: "Built" },
@@ -159,11 +171,15 @@ export const projects = [
     year: null,
     description:
       "An online college election management system built with Java and MySQL, designed to organize candidates, elections, and voting in one place.",
+    why:
+      "Student elections deserve the same correctness guarantees as any voting system: eligibility, one person one vote, and an auditable count.",
     problem:
       "Manual college elections are slow and error-prone: candidate lists, voter eligibility, and vote counting all need structure and a reliable record.",
     contribution:
       "Development of the system's core management modules and database integration. Feature statuses below distinguish intended functionality from confirmed implementation.",
     stack: ["Java", "MySQL"],
+    palette: ["lavender", "blue", "coral"],
+    workflow: ["Candidates", "Election setup", "Eligible voters", "Secure vote", "Count & result"],
     features: [
       { name: "Candidate management", status: "Planned" },
       { name: "Election workflows", status: "Planned" },
@@ -190,18 +206,22 @@ export const projects = [
     title: "AI Agent Reliability Lab",
     tagline: "Testing whether AI agents actually finish what they start.",
     categories: ["AI Agents", "Research / Experiments"],
-    accent: "amber",
+    accent: "lavender",
     icon: "Bot",
     status: "Personal experimentation",
     role: "Experimentation & evaluation",
     year: null,
     description:
       "My experimentation and evaluation work around AI agent task execution and reliability: running tasks, tracking runs, reviewing logs, and validating agent-generated results.",
+    why:
+      "As agents take on real tasks, reliability becomes the product. Measured run history is what separates a demo from a dependable system.",
     problem:
       "An agent that produces output is not the same as an agent that produces correct output. Without run history and validation, reliability is just a guess.",
     contribution:
       "Building and using a terminal-based workflow for agent task execution, task tracking, run history, reviewer logs, and validation of results.",
     stack: ["Python", "Terminal workflows", "AI agents", "Evaluation logs"],
+    palette: ["lavender", "tangerine", "blue"],
+    workflow: ["Task", "Agent plan", "Tool calls", "Reviewer log", "Validation", "Archived run"],
     features: [
       { name: "Agent task execution", status: "Worked on" },
       { name: "Task tracking", status: "Worked on" },

@@ -47,6 +47,8 @@ const STEPS = [
   },
 ];
 
+const STEP_FIELDS = ["var(--sunshine)", "var(--lavender)", "var(--turquoise)", "var(--tangerine)", "var(--coral)", "var(--leaf)"];
+
 /**
  * Illustrative agent loop. Scripted on purpose — this visualizes the workflow
  * Adarsh studies in the Reliability Lab; it is NOT a live execution engine.
@@ -90,7 +92,7 @@ export default function AgentWorkflow() {
   return (
     <div className="rounded-2xl border border-line bg-raised p-5 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-amber-ink">
+        <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-tangerine-ink">
           Illustrative workflow — scripted demo, not live execution
         </p>
         <div className="flex gap-2">
@@ -118,6 +120,7 @@ export default function AgentWorkflow() {
         {STEPS.map((step, i) => {
           const isActive = active === i && running;
           const isDone = active > i || complete;
+          const field = STEP_FIELDS[i % STEP_FIELDS.length];
           return (
             <motion.li
               key={step.id}
@@ -127,48 +130,47 @@ export default function AgentWorkflow() {
                   : {
                       scale: isActive ? 1.03 : 1,
                       borderColor: isActive
-                        ? "var(--blue)"
+                        ? "var(--ink)"
                         : isDone
-                          ? "var(--sage)"
+                          ? "var(--leaf)"
                           : "var(--line)",
                     }
               }
               transition={{ duration: 0.3 }}
-              className={`rounded-xl border bg-surface p-4 ${
-                isActive ? "border-blue shadow-glow" : isDone ? "border-sage/60" : "border-line"
+              className={`rounded-xl border-2 bg-surface p-4 ${
+                isActive ? "border-ink shadow-sticker-sm" : isDone ? "border-leaf/60" : "border-line"
               }`}
             >
               <div className="flex items-center justify-between">
                 <span
-                  className={`flex h-9 w-9 items-center justify-center rounded-lg ${
-                    isDone ? "bg-sage/20 text-sage-ink" : isActive ? "bg-blue/15 text-blue-ink" : "bg-desk text-muted"
-                  }`}
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border-2 border-ink text-plum shadow-sticker-sm"
+                  style={{ background: isDone ? "var(--leaf)" : field }}
                 >
                   <Icon name={isDone ? "Check" : step.icon} size={16} />
                 </span>
                 <span className="font-mono text-[10px] font-bold text-muted">0{i + 1}</span>
               </div>
-              <p className="mt-3 text-sm font-extrabold text-ink">{step.title}</p>
-              <p className="mt-1 text-xs leading-relaxed text-muted">{step.desc}</p>
+              <p className="mt-3 font-display text-sm font-extrabold text-ink">{step.title}</p>
+              <p className="mt-1 text-xs font-medium leading-relaxed text-muted">{step.desc}</p>
             </motion.li>
           );
         })}
       </ol>
 
-      <div className="mt-5 rounded-xl bg-[#141926] p-4 font-mono text-[11px] leading-relaxed">
-        <p className="mb-2 text-[9.5px] uppercase tracking-[0.18em] text-[#5d6880]">
+      <div className="mt-5 rounded-xl bg-[#241d33] p-4 font-mono text-[11px] leading-relaxed">
+        <p className="mb-2 text-[9.5px] uppercase tracking-[0.18em] text-[#8d81ab]">
           scripted run log
         </p>
         {active < 0 ? (
-          <p className="text-[#8a93a8]">press “Run walkthrough” to step through the loop…</p>
+          <p className="text-[#bfb3d6]">press “Run walkthrough” to step through the loop…</p>
         ) : (
           visibleLogs.map((step) => (
-            <p key={step.id} className="text-[#8fc4a8]">
-              <span className="text-[#5d6880]">[{step.id}]</span> {step.log}
+            <p key={step.id} className="text-[#63d3a2]">
+              <span className="text-[#8d81ab]">[{step.id}]</span> {step.log}
             </p>
           ))
         )}
-        {complete && <p className="mt-1 text-[#e4b98a]">run complete — reliability is measured, not assumed.</p>}
+        {complete && <p className="mt-1 text-[#ffd34e]">run complete — reliability is measured, not assumed.</p>}
       </div>
     </div>
   );

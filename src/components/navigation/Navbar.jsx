@@ -9,15 +9,17 @@ import Icon from "../common/Icon";
 export function LogoMark({ size = 30 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 40 40" fill="none" aria-hidden="true">
-      <rect x="3" y="6" width="34" height="23" rx="4" fill="var(--ink)" />
-      <rect x="6" y="9" width="28" height="17" rx="2" fill="var(--blue)" />
-      <path d="M12 15l4 3-4 3" stroke="#F5F1E9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M19 21h7" stroke="#F5F1E9" strokeWidth="2" strokeLinecap="round" />
-      <rect x="15" y="29" width="10" height="3" rx="1.5" fill="var(--amber)" />
+      <rect x="3" y="6" width="34" height="23" rx="5" fill="var(--ink)" />
+      <rect x="6" y="9" width="28" height="17" rx="3" fill="var(--blue)" />
+      <path d="M12 15l4 3-4 3" stroke="#FFF5E6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M19 21h7" stroke="#FFD34E" strokeWidth="2" strokeLinecap="round" />
+      <rect x="15" y="29" width="10" height="3" rx="1.5" fill="var(--tangerine)" />
       <rect x="11" y="32" width="18" height="3" rx="1.5" fill="var(--ink)" />
     </svg>
   );
 }
+
+const ACTIVE_BG = ["bg-sunshine", "bg-turquoise", "bg-coral", "bg-lavender", "bg-leaf", "bg-tangerine", "bg-blue", "bg-sunshine", "bg-coral"];
 
 export default function Navbar() {
   const { theme, toggle } = useTheme();
@@ -37,35 +39,30 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
-  const linkClass = ({ isActive }) =>
-    `rounded-full px-2.5 py-1.5 text-[13px] font-semibold transition-colors duration-200 ${
-      isActive ? "bg-desk text-blue-ink" : "text-muted hover:bg-desk/60 hover:text-ink"
-    }`;
-
   return (
     <>
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-blue focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-white"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-blue focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-white dark:focus:text-plum"
       >
         Skip to content
       </a>
 
       <motion.div
-        className="fixed inset-x-0 top-0 z-[70] h-[3px] origin-left"
+        className="fixed inset-x-0 top-0 z-[70] h-[4px] origin-left"
         style={{
           scaleX: scrollYProgress,
-          background: "linear-gradient(90deg, var(--blue), var(--sage), var(--amber))",
+          background: "linear-gradient(90deg, var(--tangerine), var(--sunshine), var(--leaf), var(--turquoise), var(--blue), var(--lavender), var(--coral))",
         }}
         aria-hidden="true"
       />
 
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-line/70 bg-bg/85 backdrop-blur-md">
+      <header className="fixed inset-x-0 top-0 z-50 border-b-2 border-ink/10 bg-bg/90 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-5 sm:px-8">
           <Link to="/" className="flex shrink-0 items-center gap-2.5" aria-label="The Dev Workspace — home">
             <LogoMark />
             <span className="leading-none">
-              <span className="block text-[15px] font-extrabold tracking-tight text-ink">
+              <span className="block font-display text-[15px] font-extrabold tracking-tight text-ink">
                 The Dev Workspace
               </span>
               <span className="mt-0.5 block font-mono text-[10px] tracking-[0.22em] text-muted uppercase">
@@ -75,8 +72,19 @@ export default function Navbar() {
           </Link>
 
           <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Primary">
-            {nav.map((item) => (
-              <NavLink key={item.to} to={item.to} end={item.to === "/"} className={linkClass}>
+            {nav.map((item, i) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.to === "/"}
+                className={({ isActive }) =>
+                  `rounded-full border-2 px-2.5 py-1.5 text-[13px] font-extrabold transition-all duration-200 ${
+                    isActive
+                      ? `border-ink ${ACTIVE_BG[i % ACTIVE_BG.length]} text-plum shadow-sticker-sm`
+                      : "border-transparent text-muted hover:bg-desk hover:text-ink"
+                  }`
+                }
+              >
                 {item.label}
               </NavLink>
             ))}
@@ -87,7 +95,7 @@ export default function Navbar() {
               href={links.github}
               target="_blank"
               rel="noreferrer"
-              className="hidden rounded-full p-2 text-muted transition-colors hover:bg-desk hover:text-ink sm:block"
+              className="hidden rounded-full border-2 border-transparent p-2 text-muted transition-colors hover:border-ink hover:bg-sunshine hover:text-plum sm:block"
               aria-label="GitHub profile"
             >
               <Icon name="Github" size={17} />
@@ -95,7 +103,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={toggleTerminal}
-              className="rounded-full p-2 text-muted transition-colors hover:bg-desk hover:text-ink"
+              className="rounded-full border-2 border-transparent p-2 text-muted transition-colors hover:border-ink hover:bg-lavender hover:text-plum"
               aria-label="Toggle terminal (Ctrl + backtick)"
               title="Terminal (Ctrl + `)"
             >
@@ -104,7 +112,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={toggle}
-              className="rounded-full p-2 text-muted transition-colors hover:bg-desk hover:text-ink"
+              className="rounded-full border-2 border-transparent p-2 text-muted transition-colors hover:border-ink hover:bg-turquoise hover:text-plum"
               aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
             >
               <Icon name={theme === "dark" ? "Sun" : "Moon"} size={17} />
@@ -112,7 +120,7 @@ export default function Navbar() {
             <a
               href={links.resume}
               download
-              className="btn-primary ml-1 hidden items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-bold md:inline-flex"
+              className="btn-primary ml-1 hidden items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-extrabold md:inline-flex"
             >
               <Icon name="Download" size={14} />
               Resume
@@ -120,7 +128,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setMenuOpen((v) => !v)}
-              className="rounded-full p-2 text-ink transition-colors hover:bg-desk lg:hidden"
+              className="rounded-full border-2 border-ink bg-sunshine p-2 text-plum shadow-sticker-sm lg:hidden"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               aria-expanded={menuOpen}
             >
@@ -136,18 +144,20 @@ export default function Navbar() {
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-              className="overflow-hidden border-t border-line bg-bg lg:hidden"
+              className="overflow-hidden border-t-2 border-ink/10 bg-bg lg:hidden"
               aria-label="Mobile"
             >
-              <div className="grid grid-cols-2 gap-1.5 px-5 py-4">
-                {nav.map((item) => (
+              <div className="grid grid-cols-2 gap-2 px-5 py-4">
+                {nav.map((item, i) => (
                   <NavLink
                     key={item.to}
                     to={item.to}
                     end={item.to === "/"}
                     className={({ isActive }) =>
-                      `rounded-xl px-4 py-3 text-sm font-bold ${
-                        isActive ? "bg-desk text-blue-ink" : "bg-surface text-ink"
+                      `rounded-xl border-2 px-4 py-3 text-sm font-extrabold ${
+                        isActive
+                          ? `border-ink ${ACTIVE_BG[i % ACTIVE_BG.length]} text-plum shadow-sticker-sm`
+                          : "border-ink/15 bg-surface text-ink"
                       }`
                     }
                   >
@@ -157,7 +167,7 @@ export default function Navbar() {
                 <a
                   href={links.resume}
                   download
-                  className="btn-primary col-span-2 mt-1 inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold"
+                  className="btn-primary col-span-2 mt-1 inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-extrabold"
                 >
                   <Icon name="Download" size={15} />
                   Download Resume (placeholder)
