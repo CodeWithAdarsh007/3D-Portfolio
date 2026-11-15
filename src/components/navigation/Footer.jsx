@@ -29,7 +29,7 @@ export default function Footer() {
         </div>
 
         <nav aria-label="Footer">
-          <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-sunshine">Explore</h3>
+          <h2 className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-sunshine">Explore</h2>
           <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2.5">
             {nav.slice(1).map((item, i) => (
               <li key={item.to}>
@@ -45,7 +45,7 @@ export default function Footer() {
         </nav>
 
         <div>
-          <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-turquoise">Connect</h3>
+          <h2 className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-turquoise">Connect</h2>
           <ul className="mt-4 space-y-2.5 text-sm font-bold">
             <li>
               <a

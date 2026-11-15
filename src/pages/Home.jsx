@@ -61,11 +61,11 @@ export default function Home() {
   const featured = FEATURED.map((slug) => projects.find((p) => p.slug === slug));
 
   return (
-    <PageTransition className="pt-20 sm:pt-24">
+    <PageTransition className="page-top">
       {/* ---------------------------------------------------------- hero */}
       <section className="relative" style={wash("tangerine", "coral")} aria-label="Interactive workspace">
         <Doodles />
-        <div className="relative mx-auto max-w-7xl px-4 pb-16 sm:px-8">
+        <div className="shell relative pb-16">
           <div className="flex items-center justify-between gap-3 pb-4">
             <p className="eyebrow" style={{ "--eyebrow-color": "var(--tangerine-ink)" }}>
               The Dev Workspace · a colourful developer studio
@@ -175,7 +175,7 @@ export default function Home() {
       </section>
 
       {/* ------------------------------------------------------ object legend */}
-      <section className="mx-auto max-w-6xl px-5 pt-16 sm:px-8" aria-label="Desk object shortcuts">
+      <section className="shell pt-16" aria-label="Desk object shortcuts">
         <Reveal className="mb-6 flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="eyebrow mb-2" style={{ "--eyebrow-color": "var(--leaf-ink)" }}>Prefer buttons?</p>
@@ -185,7 +185,7 @@ export default function Home() {
             Fully keyboard-accessible too — tab to any object and press Enter.
           </p>
         </Reveal>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 xl:grid-cols-8">
           {deskObjects.map((obj, i) => (
             <Reveal key={obj.id} delay={i * 0.05}>
               <Link
@@ -206,7 +206,7 @@ export default function Home() {
       </section>
 
       {/* ------------------------------------------------------ current focus */}
-      <section className="mx-auto max-w-6xl px-5 pt-20 sm:px-8" aria-label="Current focus">
+      <section className="shell pt-20" aria-label="Current focus">
         <SectionHeading
           eyebrow="Right now"
           eyebrowColor="var(--coral-ink)"
@@ -240,7 +240,7 @@ export default function Home() {
       </section>
 
       {/* ------------------------------------------------------- selected work */}
-      <section className="mx-auto max-w-6xl px-5 pt-20 sm:px-8" aria-label="Selected projects">
+      <section className="shell pt-20" aria-label="Selected projects">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <SectionHeading
             eyebrow="Selected work"
@@ -262,7 +262,7 @@ export default function Home() {
       </section>
 
       {/* ------------------------------------------------------------ CTA band */}
-      <section className="mx-auto max-w-6xl px-5 py-20 sm:px-8">
+      <section className="shell py-20">
         <Reveal>
           <div
             className="relative overflow-hidden rounded-3xl border-2 border-ink p-8 shadow-desk sm:p-12"

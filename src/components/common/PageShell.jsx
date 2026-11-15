@@ -5,11 +5,11 @@ import Icon from "./Icon";
 import { wash } from "../../lib/accents";
 
 /** Sub-page layout with its own colour atmosphere and a back-to-desk link. */
-export default function PageShell({ eyebrow, eyebrowColor, title, body, children, wide = false, accent = "blue", second = "sunshine" }) {
+export default function PageShell({ eyebrow, eyebrowColor, title, body, children, accent = "blue", second = "sunshine" }) {
   return (
-    <PageTransition className="pt-28 pb-20 sm:pt-32" >
+    <PageTransition className="page-top pb-20">
       <div style={wash(accent, second)}>
-        <div className={`mx-auto px-5 sm:px-8 ${wide ? "max-w-7xl" : "max-w-6xl"}`}>
+        <div className="shell">
           <header className="mb-12">
             <Reveal>
               <Link

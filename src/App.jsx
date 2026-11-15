@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from "motion/react";
 import { ThemeProvider } from "./context/ThemeContext";
 import { TerminalProvider } from "./context/TerminalContext";
+import { TransitionProvider } from "./context/TransitionContext";
+import ObjectTransition from "./components/desk/ObjectTransition";
 import Navbar from "./components/navigation/Navbar";
 import Footer from "./components/navigation/Footer";
 import Terminal from "./components/terminal/Terminal";
@@ -72,13 +74,16 @@ export default function App() {
     <ThemeProvider>
       <TerminalProvider>
         <BrowserRouter>
-          <ScrollToTop />
-          <div className="grain flex min-h-screen flex-col">
-            <Navbar />
-            <AnimatedRoutes />
-            <Footer />
-            <Terminal />
-          </div>
+          <TransitionProvider>
+            <ScrollToTop />
+            <div className="grain flex min-h-screen flex-col">
+              <Navbar />
+              <AnimatedRoutes />
+              <Footer />
+              <Terminal />
+              <ObjectTransition />
+            </div>
+          </TransitionProvider>
         </BrowserRouter>
       </TerminalProvider>
     </ThemeProvider>

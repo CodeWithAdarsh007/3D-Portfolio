@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { deskObjects } from "../../data/portfolioContent";
+import { useDeskTransition } from "../../context/TransitionContext";
 import {
   BooksProp, ChipObject, ClockProp, CoffeeProp, DeskObject, DeskSurface,
   EnvelopeObject, FolderObject, GarlandProp, IdCardObject, KeyboardProp,
@@ -49,19 +50,20 @@ function Tooltip({ hovered }) {
   );
 }
 
-/** Shared activation behaviour: play the object's own animation, then navigate. */
+/**
+ * Activation hands off to the cinematic overlay: the object lifts off the
+ * desk, plays its own animation, and floods into the destination page.
+ * Reduced motion navigates immediately.
+ */
 function useActivation() {
   const navigate = useNavigate();
   const reduce = useReducedMotion();
-  const [activating, setActivating] = useState(null);
-  const timer = useRef(null);
-  useEffect(() => () => clearTimeout(timer.current), []);
-  const onActivate = (id, to) => {
-    if (activating) return;
-    setActivating(id);
-    timer.current = window.setTimeout(() => navigate(to), reduce ? 0 : 560);
+  const { begin, transition } = useDeskTransition();
+  const onActivate = (id, to, rect) => {
+    if (reduce) navigate(to);
+    else begin(id, to, rect);
   };
-  return { activating, onActivate };
+  return { activating: transition?.id ?? null, onActivate };
 }
 
 function Wall({ step, introDone }) {
@@ -167,42 +169,42 @@ export function DesktopDesk({ screenState, introDone, step }) {
         </motion.g>
 
         <g transform="translate(510 470)">
-          <DeskObject {...obj("monitor")} delay={0.15} haloRx={92} haloRy={14}>
+          <DeskObject {...obj("monitor")} delay={0.15} haloRx={92} haloRy={14} hitW={145} hitTop={-258}>
             <MonitorObject screenState={screenState} introDone={introDone} active={activating === "monitor"} />
           </DeskObject>
         </g>
         <g transform="translate(810 465)">
-          <DeskObject {...obj("laptop")} delay={0.3} haloRx={112} haloRy={12}>
+          <DeskObject {...obj("laptop")} delay={0.3} haloRx={112} haloRy={12} hitW={118} hitTop={-146}>
             <LaptopObject active={activating === "laptop"} />
           </DeskObject>
         </g>
         <g transform="translate(1068 468)">
-          <DeskObject {...obj("trophy")} delay={0.45} haloRx={40} haloRy={9}>
+          <DeskObject {...obj("trophy")} delay={0.45} haloRx={40} haloRy={9} hitW={44} hitTop={-108}>
             <TrophyObject active={activating === "trophy"} />
           </DeskObject>
         </g>
         <g transform="translate(200 516)">
-          <DeskObject {...obj("chip")} delay={0.55} haloRx={48} haloRy={10}>
+          <DeskObject {...obj("chip")} delay={0.55} haloRx={48} haloRy={10} hitW={52} hitTop={-100}>
             <ChipObject active={activating === "chip"} />
           </DeskObject>
         </g>
         <g transform="translate(505 578)">
-          <DeskObject {...obj("notebook")} delay={0.65} haloRx={90} haloRy={11}>
+          <DeskObject {...obj("notebook")} delay={0.65} haloRx={90} haloRy={11} hitW={90} hitTop={-66}>
             <NotebookObject active={activating === "notebook"} />
           </DeskObject>
         </g>
         <g transform="translate(692 572)">
-          <DeskObject {...obj("envelope")} delay={0.75} haloRx={60} haloRy={10}>
+          <DeskObject {...obj("envelope")} delay={0.75} haloRx={60} haloRy={10} hitW={62} hitTop={-60}>
             <EnvelopeObject active={activating === "envelope"} />
           </DeskObject>
         </g>
         <g transform="translate(985 568)">
-          <DeskObject {...obj("folder")} delay={0.85} haloRx={74} haloRy={11}>
+          <DeskObject {...obj("folder")} delay={0.85} haloRx={74} haloRy={11} hitW={76} hitTop={-86}>
             <FolderObject active={activating === "folder"} />
           </DeskObject>
         </g>
         <g transform="translate(85 592)">
-          <DeskObject {...obj("idcard")} delay={0.95} haloRx={40} haloRy={9} haloY={-2}>
+          <DeskObject {...obj("idcard")} delay={0.95} haloRx={40} haloRy={9} haloY={-2} hitW={36} hitTop={-6} hitBottom={146}>
             <IdCardObject active={activating === "idcard"} />
           </DeskObject>
         </g>
@@ -276,42 +278,42 @@ export function MobileDesk({ screenState, introDone, step }) {
         </motion.g>
 
         <g transform="translate(320 308) scale(0.72)">
-          <DeskObject {...obj("monitor")} delay={0.1} haloRx={92} haloRy={14}>
+          <DeskObject {...obj("monitor")} delay={0.1} haloRx={92} haloRy={14} hitW={145} hitTop={-258}>
             <MonitorObject screenState={screenState} introDone={introDone} active={activating === "monitor"} />
           </DeskObject>
         </g>
         <g transform="translate(505 315) scale(0.6)">
-          <DeskObject {...obj("laptop")} delay={0.2} haloRx={112} haloRy={12}>
+          <DeskObject {...obj("laptop")} delay={0.2} haloRx={112} haloRy={12} hitW={118} hitTop={-146}>
             <LaptopObject active={activating === "laptop"} />
           </DeskObject>
         </g>
         <g transform="translate(598 320) scale(0.55)">
-          <DeskObject {...obj("trophy")} delay={0.3} haloRx={42} haloRy={10}>
+          <DeskObject {...obj("trophy")} delay={0.3} haloRx={42} haloRy={10} hitW={44} hitTop={-108}>
             <TrophyObject active={activating === "trophy"} />
           </DeskObject>
         </g>
         <g transform="translate(140 360) scale(0.75)">
-          <DeskObject {...obj("chip")} delay={0.35} haloRx={50} haloRy={11}>
+          <DeskObject {...obj("chip")} delay={0.35} haloRx={50} haloRy={11} hitW={52} hitTop={-100}>
             <ChipObject active={activating === "chip"} />
           </DeskObject>
         </g>
         <g transform="translate(255 425) scale(0.72)">
-          <DeskObject {...obj("notebook")} delay={0.4} haloRx={92} haloRy={12}>
+          <DeskObject {...obj("notebook")} delay={0.4} haloRx={92} haloRy={12} hitW={90} hitTop={-66}>
             <NotebookObject active={activating === "notebook"} />
           </DeskObject>
         </g>
         <g transform="translate(400 428) scale(0.75)">
-          <DeskObject {...obj("envelope")} delay={0.45} haloRx={62} haloRy={11}>
+          <DeskObject {...obj("envelope")} delay={0.45} haloRx={62} haloRy={11} hitW={62} hitTop={-60}>
             <EnvelopeObject active={activating === "envelope"} />
           </DeskObject>
         </g>
         <g transform="translate(545 420) scale(0.68)">
-          <DeskObject {...obj("folder")} delay={0.5} haloRx={76} haloRy={12}>
+          <DeskObject {...obj("folder")} delay={0.5} haloRx={76} haloRy={12} hitW={76} hitTop={-86}>
             <FolderObject active={activating === "folder"} />
           </DeskObject>
         </g>
         <g transform="translate(55 452) scale(0.72)">
-          <DeskObject {...obj("idcard")} delay={0.55} haloRx={42} haloRy={10} haloY={-2}>
+          <DeskObject {...obj("idcard")} delay={0.55} haloRx={42} haloRy={10} haloY={-2} hitW={36} hitTop={-6} hitBottom={146}>
             <IdCardObject active={activating === "idcard"} />
           </DeskObject>
         </g>

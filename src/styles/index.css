@@ -9,6 +9,7 @@
 --------------------------------------------------------------------------- */
 
 :root {
+  --nav-h: 4rem;
   --bg: #fff5e6;
   --bg-desk: #f7e8d2;
   --surface: #fffbf4;
@@ -219,6 +220,28 @@ body {
 
 /* ------------------------------------------------------------- utilities */
 
+/* Shared responsive page shell: ~94vw on desktop (max 1440), 92vw tablet,
+   viewport minus 32px on mobile. Inner blocks keep their own text measure. */
+.shell {
+  width: min(94vw, 1440px);
+  margin-inline: auto;
+}
+@media (max-width: 1023px) {
+  .shell {
+    width: 92vw;
+  }
+}
+@media (max-width: 639px) {
+  .shell {
+    width: calc(100vw - 32px);
+  }
+}
+
+/* Deliberate 24px breathing room below the fixed 64px navbar. */
+.page-top {
+  padding-top: calc(var(--nav-h, 4rem) + 24px);
+}
+
 .eyebrow {
   font-family: var(--font-mono);
   font-size: 0.72rem;
@@ -272,6 +295,13 @@ body {
 [data-theme="dark"] .sticker.bg-raised,
 [data-theme="dark"] .sticker.bg-surface {
   color: var(--ink);
+}
+/* electric blue is the darkest solid accent: needs light text in daylight */
+.sticker.bg-blue {
+  color: #ffffff;
+}
+[data-theme="dark"] .sticker.bg-blue {
+  color: #241d33;
 }
 
 .btn-primary {

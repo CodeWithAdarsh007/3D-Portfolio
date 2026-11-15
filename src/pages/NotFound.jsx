@@ -9,7 +9,7 @@ export default function NotFound() {
   usePageMeta({ title: "Page not found", description: "This page isn't on the desk.", path: "/404" });
 
   return (
-    <PageTransition className="flex flex-1 items-center justify-center px-5 pt-28 pb-20">
+    <PageTransition className="page-top flex flex-1 items-center justify-center px-5 pb-20">
       <div className="w-full max-w-lg text-center" style={wash("coral", "sunshine")}>
         <div className="mx-auto w-fit rotate-[-2deg] rounded-2xl border-4 border-ink bg-screen px-10 py-8 shadow-sticker">
           <p className="font-mono text-5xl font-bold text-coral">404</p>

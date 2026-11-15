@@ -40,10 +40,10 @@ export default function ProjectDetail() {
   const related = getRelated(slug);
 
   return (
-    <PageTransition className="pt-24 pb-20 sm:pt-28">
+    <PageTransition className="page-top pb-20">
       {/* ------------------------------------------------------ hero panel */}
       <div style={wash(project.accent, "sunshine")}>
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="shell">
           <Reveal>
             <Link
               to="/projects"
@@ -115,7 +115,7 @@ export default function ProjectDetail() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+      <div className="shell">
         {/* ------------------------------------------------ overview + why */}
         <div className="mt-12 grid gap-6 lg:grid-cols-[1.25fr_1fr]">
           <Reveal>
@@ -137,7 +137,7 @@ export default function ProjectDetail() {
               className="h-full rounded-3xl border-2 border-ink p-7 shadow-sticker-sm sm:p-9"
               style={{ background: `color-mix(in srgb, ${a.field} 18%, var(--surface))` }}
             >
-              <p className="font-mono text-[10px] font-extrabold uppercase tracking-[0.18em] text-plum/70">
+              <p className="font-mono text-[10px] font-extrabold uppercase tracking-[0.18em] text-ink/70">
                 Why it matters
               </p>
               <p className="mt-4 font-display text-lg font-bold leading-relaxed text-ink">
