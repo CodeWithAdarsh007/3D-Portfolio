@@ -2,73 +2,86 @@ import { Link } from "react-router-dom";
 import PageShell from "../components/common/PageShell";
 import Reveal from "../components/common/Reveal";
 import Icon from "../components/common/Icon";
-import Placeholder from "../components/common/Placeholder";
 import usePageMeta from "../hooks/usePageMeta";
-import { achievements } from "../data/portfolioContent";
+import { achievements, PLACEHOLDER_LABEL } from "../data/portfolioContent";
 
+const FRAME_COLORS = ["var(--sunshine)", "var(--turquoise)", "var(--coral)"];
+
+/** Certificate-style frames. Empty slots stay honestly labelled. */
 export default function Achievements() {
   usePageMeta({
     title: "Achievements",
     description:
-      "Adarsh's achievements and certifications wall. Missing credentials are clearly labelled placeholders until genuine details are supplied.",
+      "Adarsh's achievements wall. Missing credentials are clearly labelled placeholders until genuine details are supplied — nothing is invented.",
     path: "/achievements",
   });
 
   return (
     <PageShell
+      accent="sunshine"
+      second="coral"
       eyebrow="Trophy shelf · achievements"
+      eyebrowColor="var(--sunshine-ink)"
       title="The trophy shelf"
-      body="This shelf is honest: genuine credentials will appear here once supplied. Until then, every empty slot is visibly labelled — no fake awards, certificates, or wins."
+      body="This shelf is honest: genuine credentials will appear here once supplied. Until then, every empty frame is visibly labelled — no fake awards, certificates, or wins."
     >
-      {/* One genuine, factual highlight */}
       <Reveal>
-        <div className="card mb-8 flex flex-col items-start gap-5 border-sage/50 p-7 sm:flex-row sm:items-center">
-          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-sage/15 text-sage-ink">
-            <Icon name="HeartHandshake" size={26} />
+        <div
+          className="mb-10 flex flex-col items-start gap-5 rounded-3xl border-2 border-ink p-7 shadow-sticker sm:flex-row sm:items-center"
+          style={{ background: "linear-gradient(120deg, color-mix(in srgb, var(--leaf) 30%, var(--surface)), color-mix(in srgb, var(--turquoise) 24%, var(--surface)))" }}
+        >
+          <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border-2 border-ink bg-leaf text-plum shadow-sticker-sm">
+            <Icon name="HeartHandshake" size={28} />
           </span>
           <div className="flex-1">
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-sage-ink">
+            <p className="font-mono text-[10px] font-extrabold uppercase tracking-[0.16em] text-leaf-ink">
               Verified community contribution
             </p>
-            <h2 className="mt-1.5 text-lg font-extrabold text-ink">
+            <h2 className="mt-1.5 font-display text-xl font-extrabold text-ink">
               NSS voter-registration camp — 120 student registrations reported
             </h2>
-            <p className="mt-1.5 text-sm leading-relaxed text-muted">
+            <p className="mt-1.5 text-sm font-semibold leading-relaxed text-muted">
               Conducted with the 152 Borivali Electoral Registration Office at Thakur Shyamnarayan
               Engineering College. Community engagement through the National Service Scheme.
             </p>
           </div>
-          <Link
-            to="/journey"
-            className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-line bg-raised px-4 py-2 text-xs font-bold text-ink transition-colors hover:border-sage hover:text-sage-ink"
-          >
+          <Link to="/journey" className="sticker bg-raised text-ink shrink-0">
             See the journey
             <Icon name="ArrowRight" size={13} />
           </Link>
         </div>
       </Reveal>
 
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-8 md:grid-cols-3">
         {achievements.map((item, i) => (
           <Reveal key={item.id} delay={i * 0.08}>
-            <div className="card h-full p-6">
-              <div className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-desk text-muted">
-                  <Icon name={item.icon} size={20} />
+            <div
+              className="relative rounded-2xl border-4 border-ink bg-raised p-3 shadow-sticker transition-transform duration-300 hover:-translate-y-1.5 hover:rotate-0"
+              style={{ transform: `rotate(${[-1.5, 1, -0.8][i]}deg)` }}
+            >
+              <div
+                className="relative flex min-h-[240px] flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-6 text-center"
+                style={{ borderColor: FRAME_COLORS[i], background: `color-mix(in srgb, ${FRAME_COLORS[i]} 12%, var(--surface))` }}
+              >
+                <span
+                  className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-ink text-plum shadow-sticker-sm"
+                  style={{ background: FRAME_COLORS[i] }}
+                >
+                  <Icon name={item.icon} size={24} />
                 </span>
-                <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-muted">
-                  Slot {String(i + 1).padStart(2, "0")}
-                </div>
+                <p className="font-display text-base font-extrabold text-ink">{item.title}</p>
+                <p className="font-mono text-[10px] font-bold text-muted">
+                  {item.issuer} · {item.date}
+                </p>
+                <span className="placeholder-label">{PLACEHOLDER_LABEL}</span>
+                {/* certificate corner flourishes */}
+                <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M4 14 V4 H14" fill="none" stroke={FRAME_COLORS[i]} strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+                  <path d="M96 86 V96 H86" fill="none" stroke={FRAME_COLORS[i]} strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+                </svg>
               </div>
-              <div className="mt-5">
-                <Placeholder icon={item.icon} minHeight={170} title={item.title}>
-                  <p className="text-xs text-muted">
-                    {item.issuer} · {item.date}
-                  </p>
-                </Placeholder>
-              </div>
-              <p className="mt-4 font-mono text-[10px] leading-relaxed text-muted">
-                add genuine details in portfolioContent.js → achievements
+              <p className="px-2 py-3 text-center font-mono text-[9.5px] font-bold uppercase tracking-[0.14em] text-muted">
+                frame {String(i + 1).padStart(2, "0")} · awaiting genuine credential
               </p>
             </div>
           </Reveal>
@@ -76,16 +89,15 @@ export default function Achievements() {
       </div>
 
       <Reveal className="mt-10">
-        <div className="rounded-2xl border border-line bg-desk/50 p-6 text-sm leading-relaxed text-muted">
-          <p className="flex items-center gap-2 font-extrabold text-ink">
-            <Icon name="Info" size={16} className="text-blue-ink" />
-            How to fill this shelf
+        <div className="rounded-2xl border-2 border-dashed border-sunshine-ink bg-sunshine/20 p-6 text-sm font-semibold leading-relaxed text-muted">
+          <p className="flex items-center gap-2 font-display text-base font-extrabold text-ink">
+            <Icon name="Info" size={16} className="text-sunshine-ink" />
+            How this shelf fills up
           </p>
           <p className="mt-2">
-            Replace each placeholder entry in <code className="font-mono text-xs">src/data/portfolioContent.js</code>{" "}
-            with a real title, issuer, and date, set <code className="font-mono text-xs">placeholder: false</code>,
-            and (optionally) attach a certificate image in <code className="font-mono text-xs">src/assets/images</code>.
-            The full checklist lives in <code className="font-mono text-xs">CONTENT_REPLACEMENT_GUIDE.md</code>.
+            Each frame becomes a real certificate or milestone only when genuine details are
+            supplied. Nothing here will ever invent an award on your behalf — the shelf stays
+            honestly labelled until then.
           </p>
         </div>
       </Reveal>

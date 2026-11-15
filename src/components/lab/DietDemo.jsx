@@ -18,7 +18,7 @@ const SAMPLE_MEALS = {
 
 function bmiCategory(bmi) {
   if (bmi < 18.5) return { label: "Underweight", tone: "text-warning" };
-  if (bmi < 25) return { label: "Normal range", tone: "text-sage-ink" };
+  if (bmi < 25) return { label: "Normal range", tone: "text-leaf-ink" };
   if (bmi < 30) return { label: "Overweight", tone: "text-warning" };
   return { label: "Obese range", tone: "text-danger" };
 }
@@ -121,15 +121,15 @@ export default function DietDemo() {
             ))}
           </div>
 
-          <div className="rounded-xl border border-dashed border-amber/60 bg-surface p-4">
+          <div className="rounded-xl border border-dashed border-sunshine/60 bg-surface p-4">
             <p className="flex items-center gap-2 text-xs font-extrabold text-ink">
-              <Icon name="Salad" size={14} className="text-sage-ink" />
+              <Icon name="Salad" size={14} className="text-leaf-ink" />
               Sample day of meals (~{Math.round(results.tdee)} kcal target)
             </p>
             <ul className="mt-2.5 space-y-1.5">
               {results.meals.map((meal) => (
                 <li key={meal} className="flex items-start gap-2 text-xs leading-relaxed text-muted">
-                  <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-amber" />
+                  <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-sunshine" />
                   {meal}
                 </li>
               ))}

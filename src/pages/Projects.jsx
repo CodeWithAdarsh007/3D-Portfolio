@@ -12,7 +12,7 @@ export default function Projects() {
   usePageMeta({
     title: "Projects",
     description:
-      "Adarsh's project archive: NoteKart, Paper Format Translator, AI Diet Recommendation, Online College Election System, and the AI Agent Reliability Lab.",
+      "Adarsh's project gallery: NoteKart, Paper Format Translator, AI Diet Recommendation, Online College Election System, and the AI Agent Reliability Lab — each with its own visual identity.",
     path: "/projects",
   });
 
@@ -37,15 +37,20 @@ export default function Projects() {
     return list;
   }, [category, query, sort]);
 
+  const isCurated = category === "All" && !query.trim() && sort === "default";
+
   return (
     <PageShell
       wide
-      eyebrow="Laptop · my projects"
-      title="Things I've built and explored"
-      body="Every project gets an honest case study — the problem, my contribution, the approach, and what I learned. Unverified links and screenshots are clearly labelled."
+      accent="tangerine"
+      second="lavender"
+      eyebrow="Laptop · the project gallery"
+      eyebrowColor="var(--tangerine-ink)"
+      title="A gallery of things I've built"
+      body="Every project gets its own artwork, palette and case study — the problem, my contribution, the approach, and what I learned. Concept visuals are labelled; unverified links never pretend to work."
     >
       {/* --------------------------------------------------------- controls */}
-      <Reveal className="mb-8 space-y-4">
+      <Reveal className="mb-10 space-y-4">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <label className="relative block w-full lg:max-w-sm">
             <span className="sr-only">Search projects</span>
@@ -55,26 +60,23 @@ export default function Projects() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by name, stack, or category…"
-              className="w-full rounded-full border border-line bg-raised py-2.5 pl-11 pr-4 text-sm font-medium text-ink placeholder:text-muted/70 focus:border-blue"
+              className="w-full rounded-full border-2 border-ink bg-raised py-2.5 pl-11 pr-4 text-sm font-semibold text-ink shadow-sticker-sm placeholder:text-muted/70 focus:border-blue"
             />
           </label>
           <div className="flex items-center gap-3">
-            <label className="flex items-center gap-2 font-mono text-[11px] font-semibold text-muted">
+            <label className="flex items-center gap-2 font-mono text-[11px] font-bold text-muted">
               sort
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
-                className="rounded-full border border-line bg-raised px-3 py-2 text-xs font-semibold text-ink focus:border-blue"
+                className="rounded-full border-2 border-ink bg-raised px-3 py-2 text-xs font-bold text-ink focus:border-blue"
               >
-                <option value="default">Archive order</option>
+                <option value="default">Curated order</option>
                 <option value="name">Name A–Z</option>
                 <option value="category">Category</option>
               </select>
             </label>
-            <Link
-              to="/projects/archive"
-              className="inline-flex items-center gap-1.5 rounded-full border border-line bg-raised px-4 py-2 text-xs font-bold text-ink transition-colors hover:border-blue hover:text-blue-ink"
-            >
+            <Link to="/projects/archive" className="sticker bg-sunshine">
               <Icon name="FolderArchive" size={14} />
               Full archive
             </Link>
@@ -88,10 +90,10 @@ export default function Projects() {
               type="button"
               onClick={() => setCategory(c)}
               aria-pressed={category === c}
-              className={`rounded-full px-4 py-2 text-xs font-bold transition-all duration-200 ${
+              className={`rounded-full border-2 px-4 py-2 text-xs font-extrabold transition-all duration-200 ${
                 category === c
-                  ? "btn-primary shadow-lift"
-                  : "border border-line bg-raised text-muted hover:border-blue/50 hover:text-ink"
+                  ? "border-ink bg-blue text-white dark:text-plum shadow-sticker-sm"
+                  : "border-ink/25 bg-raised text-muted hover:-translate-y-0.5 hover:border-ink hover:text-ink"
               }`}
             >
               {c}
@@ -99,26 +101,28 @@ export default function Projects() {
           ))}
         </div>
 
-        <p className="font-mono text-[11px] tracking-wide text-muted" aria-live="polite">
+        <p className="font-mono text-[11px] font-bold tracking-wide text-muted" aria-live="polite">
           showing {filtered.length} of {projects.length} projects
           {category !== "All" && ` · ${category}`}
           {query.trim() && ` · “${query.trim()}”`}
         </p>
       </Reveal>
 
-      {/* ------------------------------------------------------------ grid */}
+      {/* ---------------------------------------------------------- mosaic */}
       {filtered.length > 0 ? (
-        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2">
           {filtered.map((p, i) => (
-            <ProjectCard key={p.slug} project={p} index={i} />
+            <ProjectCard key={p.slug} project={p} index={i} featured={isCurated && i === 0} />
           ))}
         </div>
       ) : (
-        <div className="card flex flex-col items-center gap-4 p-14 text-center">
-          <Icon name="FileSearch" size={34} className="text-muted" />
-          <p className="text-lg font-extrabold text-ink">No projects match that search.</p>
-          <p className="max-w-sm text-sm text-muted">
-            Try a different keyword or category — the archive covers AI/ML, agents, software, web,
+        <div className="card flex flex-col items-center gap-4 border-2 border-ink p-14 text-center">
+          <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-sunshine text-plum shadow-sticker-sm">
+            <Icon name="FileSearch" size={26} />
+          </span>
+          <p className="font-display text-lg font-extrabold text-ink">No projects match that search.</p>
+          <p className="max-w-sm text-sm font-medium text-muted">
+            Try a different keyword or category — the gallery covers AI/ML, agents, software, web,
             entrepreneurship, and research.
           </p>
           <button
@@ -127,14 +131,13 @@ export default function Projects() {
               setQuery("");
               setCategory("All");
             }}
-            className="btn-primary rounded-full px-5 py-2.5 text-sm font-bold"
+            className="sticker bg-coral"
           >
             Reset filters
           </button>
         </div>
       )}
 
-      {/* ---------------------------------------------------------- github */}
       <Reveal className="mt-14">
         <GitHubPanel />
       </Reveal>

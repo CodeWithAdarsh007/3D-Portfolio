@@ -69,21 +69,21 @@ export const currentFocus = [
     title: "Building NoteKart",
     body: "A student-to-student marketplace for study materials — shaping the product, the community, and the campaigns around it.",
     to: "/projects/notekart",
-    accent: "amber",
+    accent: "tangerine",
   },
   {
     icon: "Bot",
     title: "AI agent reliability",
     body: "Running and reviewing agent task executions to understand where intelligent workflows succeed, fail, and need validation.",
     to: "/projects/ai-agent-reliability-lab",
-    accent: "blue",
+    accent: "lavender",
   },
   {
     icon: "FileSearch",
     title: "Research paper conversion",
     body: "Investigating how academic papers survive format translation — structure, citations, figures, and tables.",
     to: "/projects/paper-format-translator",
-    accent: "sage",
+    accent: "leaf",
   },
 ];
 
@@ -101,7 +101,7 @@ export const skills = [
   {
     category: "Development",
     icon: "Layers",
-    accent: "sage",
+    accent: "tangerine",
     items: [
       { name: "Django", projects: ["notekart"] },
       { name: "Streamlit", projects: ["ai-diet-recommendation"] },
@@ -110,7 +110,7 @@ export const skills = [
   {
     category: "Databases",
     icon: "Database",
-    accent: "amber",
+    accent: "turquoise",
     items: [{ name: "MySQL", projects: ["online-college-election-system", "notekart"] }],
   },
 ];
@@ -138,7 +138,7 @@ export const journey = [
   {
     id: "notekart",
     kind: "Product / Entrepreneurship",
-    accent: "amber",
+    accent: "tangerine",
     icon: "Rocket",
     title: "NoteKart — student marketplace",
     org: "NoteKart",
@@ -150,7 +150,7 @@ export const journey = [
   {
     id: "nss",
     kind: "Community engagement",
-    accent: "sage",
+    accent: "leaf",
     icon: "HeartHandshake",
     title: "NSS — voter registration camp",
     org: "Thakur Shyamnarayan Engineering College",
@@ -193,7 +193,7 @@ export const research = [
     id: "paper-conversion",
     type: "Engineering study",
     status: "Unpublished · ongoing",
-    accent: "sage",
+    accent: "leaf",
     title: "Quality evaluation of research-paper format conversion",
     body: "Investigating how academic papers change when translated between publication formats: structural preservation, missing-content detection, citation and reference defects, and figure/table integrity.",
     tags: ["Document conversion", "Evaluation", "Integrity checks"],
@@ -203,7 +203,7 @@ export const research = [
     id: "agent-reliability",
     type: "Experiment",
     status: "Ongoing",
-    accent: "blue",
+    accent: "lavender",
     title: "AI agent task-execution reliability",
     body: "Running agent tasks, tracking runs, and reviewing logs to evaluate how reliably agent-generated results can be validated. Personal experimentation, not a commercial product.",
     tags: ["AI agents", "Validation", "Run history"],
@@ -213,7 +213,7 @@ export const research = [
     id: "diet-ml",
     type: "Applied ML",
     status: "Prototype",
-    accent: "amber",
+    accent: "coral",
     title: "ML-assisted diet recommendation",
     body: "A Streamlit application combining deterministic energy calculations (BMI/BMR/TDEE) with nutrition data and a machine-learning model integration for meal recommendations.",
     tags: ["Streamlit", "Nutrition data", "Model integration"],
@@ -247,21 +247,21 @@ export const labCategories = [
     id: "deep-learning",
     label: "Deep Learning",
     icon: "Network",
-    accent: "sage",
+    accent: "turquoise",
     blurb: "Explorations of neural architectures and representation learning.",
   },
   {
     id: "ai-agents",
     label: "AI Agents",
     icon: "Bot",
-    accent: "amber",
+    accent: "lavender",
     blurb: "Task execution, tool use, planning, and reliability validation.",
   },
   {
     id: "data-science",
     label: "Data Science",
     icon: "ChartScatter",
-    accent: "blue",
+    accent: "leaf",
     blurb: "Cleaning, exploring, and reasoning about real data.",
   },
 ];

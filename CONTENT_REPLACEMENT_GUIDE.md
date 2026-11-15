@@ -1,14 +1,16 @@
 # Content Replacement Guide — The Dev Workspace
 
 This portfolio ships with **clearly labelled placeholders** so the site is complete and
-deployable before every genuine asset exists. Every placeholder is visibly marked
-`DEMO PLACEHOLDER — NOT GENUINE` in the UI.
+deployable before every genuine asset exists. Two label families are used in the UI:
 
-Work through this checklist before treating the site as final. All content lives in two
-editable files unless noted otherwise:
+- `DEMO PLACEHOLDER — NOT GENUINE` — missing genuine assets (photo, resume, links, certificates, screenshots).
+- `Concept Visual — Not Actual Product Screenshot` — original illustrated UI concepts
+  (project artwork, workflow diagrams). These are design illustrations, never product evidence.
+
+All copy, links and project data live in two editable files:
 
 - `src/data/portfolioContent.js` — identity, links, skills, journey, achievements, research, lab, contact
-- `src/data/projects.js` — the five project case studies
+- `src/data/projects.js` — the five case studies (incl. `palette`, `workflow`, `why`)
 
 ---
 
@@ -16,87 +18,81 @@ editable files unless noted otherwise:
 
 | Item | Field | Current state | What to do |
 | --- | --- | --- | --- |
-| Contact email | `links.email` | `null` (placeholder) | Set your real email; the Contact page channel card activates automatically. |
-| LinkedIn | `links.linkedin` | `null` (placeholder) | Set your profile URL. |
-| Resume file | `public/resume-adarsh-placeholder.pdf` | Generated placeholder PDF | Replace with your real PDF. Keep the filename, or update `links.resume`. |
-| Institution name | `identity.education.institution` | `null` (labelled) | Add your college name; also set `institutionPlaceholder: false`. |
-| Profile photograph | `src/pages/About.jsx` photo block | Labelled placeholder | Add the image to `src/assets/images/`, import it in `About.jsx`, and replace the `<Placeholder …>` block with an `<img>` (keep meaningful `alt` text). |
-| Illustrated avatar | `src/components/profile/AvatarIllustration.jsx` | Original placeholder art | Keep as stylized art, or replace with your own illustration. It is intentionally **not** a photo. |
+| Contact email | `links.email` | `null` (labelled pending) | Set your real email; the Contact channel card activates automatically. |
+| LinkedIn | `links.linkedin` | `null` (labelled pending) | Set your profile URL. |
+| Resume file | `public/resume-adarsh-placeholder.pdf` | Generated placeholder PDF | Replace with your real PDF (keep the filename or update `links.resume`). |
+| Institution name | `identity.education.institution` | `null` (UI shows "institution name pending") | Add your college name. |
+| Profile photograph | `src/pages/About.jsx` photo block | Labelled placeholder | Add the image to `src/assets/images/`, import it in `About.jsx`, replace the `<Placeholder …>` with an `<img>` and meaningful `alt`. |
+| Illustrated avatar | `src/components/profile/AvatarIllustration.jsx` | Original placeholder art | Keep as stylized art or replace. It is intentionally **not** a photograph. |
 
 ## 2. Projects (`src/data/projects.js`)
 
-For **each** of the five projects (NoteKart, Paper Format Translator, AI Diet Recommendation,
+For **each** project (NoteKart, Paper Format Translator, AI Diet Recommendation,
 Online College Election System, AI Agent Reliability Lab):
 
 | Item | Field | What to do |
 | --- | --- | --- |
-| GitHub link | `github` | Set the real repository URL (currently `null` → labelled placeholder chip). |
+| GitHub link | `github` | Set the real repository URL (`null` → labelled non-clickable chip). |
 | Live demo | `demo` | Set the real demo URL if one exists. |
-| Screenshots | `screenshots[]` | Add images to `src/assets/images/projects/`, then render them in `ProjectDetail.jsx` in place of the `<Placeholder>` blocks (captions already exist). |
-| Timeline | `year` | Add real dates; the detail page shows a labelled "add dates" chip until then. |
-| Feature statuses | `features[].status` | Confirm each item: `Built`, `Worked on`, `Planned`, `Exploring`. The election system's features are currently all `Planned` — update as you confirm implementation. |
-| Results | `results` | Only add metrics (users, revenue, accuracy…) once **verified**. Never estimate. |
+| Genuine screenshots | `screenshots[]` | Add images to `src/assets/images/projects/` and render them in `ProjectDetail.jsx` ("Interface previews") in place of the `<Placeholder>` blocks. |
+| Concept artwork | `src/components/art/ProjectArt.jsx` | Original illustrated UI concepts per project. Replace with real screenshots when available; until then keep the `Concept Visual` label. |
+| Timeline | `year` | Add real dates if you want them displayed. |
+| Feature statuses | `features[].status` | Confirm each: `Built`, `Worked on`, `Planned`, `Exploring`. Election-system features are currently `Planned`. |
+| Results | `results` | Add metrics (users, revenue, accuracy…) **only once verified**. Never estimate. |
+| Workflow steps | `workflow` | Adjust the diagram steps to match the real pipeline. |
 
 ## 3. Journey (`portfolioContent.js → journey`)
 
-- `notekart.period` and `nss.period` are `null` → labelled date chips. Add real periods.
-- `education.org` is `null` → add the institution (same value as `identity.education.institution`).
-- The NSS entry (120 registrations reported, 152 Borivali ERO) is factual per your brief — keep or
-  refine wording, but do not reframe it as employment.
+- `notekart.period` and `nss.period` are `null` → UI shows "date pending". Add real periods.
+- `education.org` is `null` → add the institution.
+- The NSS entry (120 registrations reported, 152 Borivali ERO) is factual per your brief —
+  keep it as community engagement, never as employment.
 
 ## 4. Achievements (`portfolioContent.js → achievements`)
 
-All three slots are placeholders. For each genuine credential:
-
-1. Set `title`, `issuer`, `date` to real values.
-2. Set `placeholder: false`.
-3. Optionally add a certificate image and render it in `src/pages/Achievements.jsx`.
-
-Do **not** add awards, certificates, or wins that did not happen.
+All three certificate frames are placeholders. For each genuine credential set real
+`title`, `issuer`, `date`, set `placeholder: false`, and optionally attach a certificate
+image rendered in `src/pages/Achievements.jsx`. Never add awards that did not happen.
 
 ## 5. Contact form backend (`src/pages/Contact.jsx`)
 
-The form validates input but runs in **demo mode** — it never claims a message was sent.
-To enable real delivery, pick one provider and wire the `onSubmit` handler:
+The form validates but runs in **demo mode** — it never claims a message was sent.
+To enable delivery, wire `onSubmit` to a provider:
 
-- **Formspree**: create a form, then `fetch("https://formspree.io/f/<id>", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) })`.
-- **Web3Forms**: POST to `https://api.web3forms.com/submit` with your `access_key`.
+- **Formspree**: `fetch("https://formspree.io/f/<id>", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) })`
+- **Web3Forms**: POST `https://api.web3forms.com/submit` with your `access_key`.
 - **EmailJS**: `emailjs.send(serviceId, templateId, form)` after `emailjs.init(publicKey)`.
 
-Store any public form key in an env var (`VITE_FORM_KEY`) and read it via
-`import.meta.env.VITE_FORM_KEY`; never commit secret keys. After wiring, remove the demo
-banner and the `demoSubmitted` state, and show success **only** on a confirmed API response.
+Store public form keys in `VITE_FORM_KEY` (read via `import.meta.env`); never commit secrets.
+Show success **only** on a confirmed API response, then remove the demo banner.
 
-## 6. AI Lab demos (`src/data/portfolioContent.js → labExperiments`)
+## 6. AI Lab demos
 
-- The diet demo computes real BMI/BMR/TDEE (Mifflin-St Jeor). Its meal suggestions are static
-  sample data in `src/components/lab/DietDemo.jsx → SAMPLE_MEALS` — replace with verified data
-  or a real model endpoint when available.
-- The agent workflow (`src/components/lab/AgentWorkflow.jsx`) is a **scripted illustration**.
-  Replace with live execution only when a real backend exists.
-- The "Neural network visualizer" slot is reserved (`placeholder: true`). Plug a real demo in
-  when a model file/endpoint is configured.
+- `DietDemo.jsx` computes real BMI/BMR/TDEE (Mifflin-St Jeor). Meal suggestions are static
+  sample data (`SAMPLE_MEALS`) — replace with verified data or a real endpoint when available.
+- `AgentWorkflow.jsx` is a **scripted illustration**, labelled as such. Replace with live
+  execution only when a real backend exists.
+- The "Neural network visualizer" slot is reserved (`placeholder: true` in `labExperiments`).
 
 ## 7. GitHub panel
 
-`src/components/projects/GitHubPanel.jsx` fetches public repos for `CodeWithAdarsh007`
-unauthenticated. If you rename the account or want a different user, update the `API` constant.
-No token is required or stored.
+`GitHubPanel.jsx` fetches public repos for `CodeWithAdarsh007` unauthenticated.
+Update the `API` constant if the account changes. No token is required or stored.
 
-## 8. SEO & domain
+## 8. Visual system & SEO
 
-- Canonical/OG URLs point at `https://3-d-portfolio-xi-tan.vercel.app` (the existing deployment).
-  If you attach a custom domain later, update: `index.html`, `src/hooks/usePageMeta.js`,
-  `public/robots.txt`, `public/sitemap.xml`.
-- Social share image: `public/og-image.jpg` (1200×630). Replace with your own if desired.
-- Favicon: `public/favicon.svg`.
+- Palette tokens: `src/styles/index.css` (`:root` light / `[data-theme="dark"]`).
+  Illustration-only inks that must not flip with the theme: `--art-ink`, `--art-muted`,
+  `--art-blue`, `--art-coral`, `--art-paper`, `--on-accent`, `--on-blue`.
+- Fonts: Bricolage Grotesque (display), Manrope (body), JetBrains Mono (technical) in `index.html`.
+- Canonical/OG URLs point at `https://3-d-portfolio-xi-tan.vercel.app`. If you attach a custom
+  domain later, update `index.html`, `src/hooks/usePageMeta.js`, `public/robots.txt`, `public/sitemap.xml`.
+- Share image `public/og-image.jpg`, favicon `public/favicon.svg` — replace if desired.
 
 ## 9. Final authenticity sweep
 
-Before sharing the site publicly:
-
 - [ ] Search the repo for `DEMO PLACEHOLDER` — every remaining hit must be intentional.
-- [ ] Search for `placeholder: true` / `Placeholder` usages and confirm each is still honest.
+- [ ] Search for `Concept Visual` — replace with genuine screenshots where available.
 - [ ] Confirm no invented metrics, employers, institutions, publications, or awards remain.
 - [ ] Replace the resume PDF and confirm the download serves the real file.
 - [ ] Test the contact form end-to-end with the real provider.

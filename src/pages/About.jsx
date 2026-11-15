@@ -7,19 +7,7 @@ import AvatarIllustration from "../components/profile/AvatarIllustration";
 import usePageMeta from "../hooks/usePageMeta";
 import { bio, identity, links } from "../data/portfolioContent";
 
-function FactRow({ icon, label, children }) {
-  return (
-    <div className="flex items-start gap-3">
-      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-desk text-blue-ink">
-        <Icon name={icon} size={15} />
-      </span>
-      <div>
-        <p className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-muted">{label}</p>
-        <div className="mt-1 text-sm font-semibold text-ink">{children}</div>
-      </div>
-    </div>
-  );
-}
+const INTEREST_COLORS = ["bg-sunshine", "bg-turquoise", "bg-lavender", "bg-coral", "bg-leaf", "bg-tangerine", "bg-blue", "bg-sunshine"];
 
 export default function About() {
   usePageMeta({
@@ -31,89 +19,119 @@ export default function About() {
 
   return (
     <PageShell
+      accent="coral"
+      second="sunshine"
       eyebrow="ID card · about me"
+      eyebrowColor="var(--coral-ink)"
       title="The person behind the desk"
-      body="Student, builder, and experimenter — here's the honest version, with placeholders where real details are still on the way."
+      body="Student, builder, and experimenter — here's the honest version, with labelled placeholders where real details are still on the way."
     >
-      <div className="grid gap-10 lg:grid-cols-[340px_1fr]">
-        {/* ------------------------------------------------ identity column */}
-        <div className="space-y-6">
+      <div className="grid gap-10 lg:grid-cols-[360px_1fr]">
+        {/* --------------------------------------------- identity column */}
+        <div className="space-y-8">
           <Reveal>
-            <Placeholder
-              icon="User"
-              title="Profile photograph"
-              minHeight={380}
-              note="DEMO PLACEHOLDER — NOT GENUINE — REPLACE WITH ADARSH'S REAL PHOTO. Drop the image into src/assets/images and update this block."
-              className="aspect-[3/4]"
-            />
-          </Reveal>
-          <Reveal delay={0.1}>
-            <div className="card flex flex-col items-center gap-3 p-6">
-              <AvatarIllustration size={190} />
-              <p className="text-center font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-muted">
-                Illustrated avatar · placeholder identity art
+            <div className="tape card relative rotate-[-1.5deg] border-2 border-ink p-6 shadow-desk">
+              <div className="flex items-center justify-between">
+                <span className="sticker bg-coral !text-[10px]">studio id · 001</span>
+                <Icon name="Sparkles" size={18} className="text-tangerine" />
+              </div>
+              <div className="mt-5 flex justify-center">
+                <AvatarIllustration size={180} />
+              </div>
+              <p className="mt-4 text-center font-display text-2xl font-extrabold text-ink">Adarsh</p>
+              <p className="mt-1 text-center font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-muted">
+                CSE (AI/ML) · third year
               </p>
-              <p className="text-center text-xs text-muted">
-                Original illustration — intentionally not a photograph of Adarsh.
+              <div className="mt-5 flex flex-wrap justify-center gap-1.5">
+                {identity.careerInterests.map((c, i) => (
+                  <span key={c} className={`sticker ${INTEREST_COLORS[i]} !px-2.5 !py-1 !text-[9.5px]`}>
+                    {c}
+                  </span>
+                ))}
+              </div>
+              <p className="mt-4 text-center font-mono text-[9.5px] font-semibold text-muted">
+                illustrated avatar · placeholder identity art
               </p>
             </div>
           </Reveal>
-          <Reveal delay={0.15}>
-            <div className="card p-6">
+
+          <Reveal delay={0.08}>
+            <Placeholder
+              icon="User"
+              title="Profile photograph"
+              minHeight={300}
+              note="Replace with Adarsh's real photo — the illustrated avatar above is intentionally not a photograph."
+            />
+          </Reveal>
+
+          <Reveal delay={0.12}>
+            <div className="card border-2 border-ink p-6">
               <ButtonAnchor href={links.resume} download icon="Download" className="w-full">
                 Download Resume
               </ButtonAnchor>
-              <p className="mt-3 text-center font-mono text-[10px] leading-relaxed text-muted">
+              <p className="mt-3 text-center font-mono text-[10px] font-semibold text-muted">
                 DEMO PLACEHOLDER — NOT GENUINE
-                <br />
-                replace public/resume-adarsh-placeholder.pdf
               </p>
             </div>
           </Reveal>
         </div>
 
-        {/* ---------------------------------------------------- bio column */}
+        {/* -------------------------------------------------- bio column */}
         <div className="space-y-8">
           <Reveal>
-            <div className="card space-y-4 p-7 sm:p-8">
-              <p className="eyebrow">Introduction</p>
-              {bio.map((paragraph) => (
-                <p key={paragraph.slice(0, 24)} className="text-[15px] leading-relaxed text-muted">
+            <div className="card paper-lines border-2 border-ink p-7 sm:p-9">
+              <p className="eyebrow mb-5" style={{ "--eyebrow-color": "var(--coral-ink)" }}>Introduction</p>
+              {bio.map((paragraph, i) => (
+                <p
+                  key={paragraph.slice(0, 24)}
+                  className={`mb-4 text-[15px] font-medium leading-[28px] text-muted last:mb-0 ${
+                    i === 0 ? "first-letter:float-left first-letter:mr-2 first-letter:font-display first-letter:text-5xl first-letter:font-extrabold first-letter:leading-[0.9] first-letter:text-coral-ink" : ""
+                  }`}
+                >
                   {paragraph}
                 </p>
               ))}
             </div>
           </Reveal>
 
-          <Reveal delay={0.05}>
-            <div className="card grid gap-6 p-7 sm:grid-cols-2 sm:p-8">
-              <FactRow icon="GraduationCap" label="Education">
-                {identity.education.degree}
-                <span className="block text-xs font-medium text-muted">{identity.education.year}</span>
-                <span className="mt-1.5 inline-block">
-                  <span className="placeholder-label !text-[9px]">institution: add in portfolioContent.js</span>
-                </span>
-              </FactRow>
-              <FactRow icon="Target" label="Career interests">
-                <ul className="space-y-1">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Reveal delay={0.05}>
+              <div className="h-full rounded-2xl border-2 border-ink bg-sunshine/40 p-6 shadow-sticker-sm">
+                <p className="flex items-center gap-2 font-mono text-[10px] font-extrabold uppercase tracking-[0.16em] text-plum/70">
+                  <Icon name="GraduationCap" size={14} /> Education
+                </p>
+                <p className="mt-3 font-display text-base font-extrabold leading-snug text-ink">
+                  {identity.education.degree}
+                </p>
+                <p className="mt-1 text-xs font-bold text-muted">{identity.education.year}</p>
+                <p className="mt-2 font-mono text-[9.5px] font-semibold text-muted">
+                  institution name pending
+                </p>
+              </div>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <div className="h-full rounded-2xl border-2 border-ink bg-turquoise/30 p-6 shadow-sticker-sm">
+                <p className="flex items-center gap-2 font-mono text-[10px] font-extrabold uppercase tracking-[0.16em] text-plum/70">
+                  <Icon name="Target" size={14} /> Career interests
+                </p>
+                <ul className="mt-3 space-y-1.5">
                   {identity.careerInterests.map((interest) => (
-                    <li key={interest} className="flex items-center gap-2 text-sm">
-                      <span className="h-1 w-1 rounded-full bg-amber" />
+                    <li key={interest} className="flex items-center gap-2 text-sm font-bold text-ink">
+                      <span className="h-2 w-2 rounded-full border border-ink bg-coral" />
                       {interest}
                     </li>
                   ))}
                 </ul>
-              </FactRow>
-            </div>
-          </Reveal>
+              </div>
+            </Reveal>
+          </div>
 
           <Reveal delay={0.08}>
-            <div className="card p-7 sm:p-8">
-              <p className="eyebrow mb-4">Technical interests</p>
+            <div className="card border-2 border-ink p-7">
+              <p className="eyebrow mb-4" style={{ "--eyebrow-color": "var(--leaf-ink)" }}>Technical interests</p>
               <div className="flex flex-wrap gap-2">
-                {identity.technicalInterests.map((interest) => (
-                  <span key={interest} className="chip">
-                    <Icon name="Sparkles" size={12} className="text-sage-ink" />
+                {identity.technicalInterests.map((interest, i) => (
+                  <span key={interest} className={`sticker ${INTEREST_COLORS[i % INTEREST_COLORS.length]} !text-[11px]`}>
                     {interest}
                   </span>
                 ))}
@@ -122,12 +140,14 @@ export default function About() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="card p-7 sm:p-8">
-              <p className="eyebrow mb-4">Currently exploring</p>
-              <ul className="space-y-3">
+            <div className="rounded-3xl border-2 border-ink bg-lavender/25 p-7 shadow-sticker-sm">
+              <p className="flex items-center gap-2 font-mono text-[10px] font-extrabold uppercase tracking-[0.16em] text-plum/70">
+                <Icon name="Compass" size={14} /> Currently exploring
+              </p>
+              <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                 {identity.currentlyExploring.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-muted">
-                    <Icon name="Compass" size={16} className="mt-0.5 shrink-0 text-blue-ink" />
+                  <li key={item} className="flex items-start gap-2.5 rounded-xl border-2 border-ink/15 bg-raised p-3.5 text-sm font-semibold leading-relaxed text-muted">
+                    <Icon name="Sparkles" size={15} className="mt-0.5 shrink-0 text-lavender-ink" />
                     {item}
                   </li>
                 ))}

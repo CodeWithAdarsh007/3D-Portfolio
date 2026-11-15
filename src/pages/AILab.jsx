@@ -10,14 +10,36 @@ import usePageMeta from "../hooks/usePageMeta";
 import { labCategories, labExperiments } from "../data/portfolioContent";
 import { getAccent } from "../lib/accents";
 
-const STATUS_TONE = {
-  "Interactive demo": "bg-blue/12 text-blue-ink border-blue/40",
-  Illustrative: "bg-amber/18 text-amber-ink border-amber/50",
-  Notes: "bg-sage/15 text-sage-ink border-sage/40",
-  Experiment: "bg-blue/12 text-blue-ink border-blue/40",
-  "Sample data": "bg-amber/18 text-amber-ink border-amber/50",
-  Planned: "bg-desk text-muted border-line",
+const STATUS_BG = {
+  "Interactive demo": "bg-turquoise",
+  Illustrative: "bg-sunshine",
+  Notes: "bg-leaf",
+  Experiment: "bg-lavender",
+  "Sample data": "bg-coral",
+  Planned: "bg-desk",
 };
+
+function Constellation() {
+  const nodes = [
+    [60, 40, "var(--sunshine)"], [180, 90, "var(--coral)"], [320, 30, "var(--turquoise)"],
+    [460, 80, "var(--lavender)"], [600, 40, "var(--leaf)"], [720, 90, "var(--tangerine)"],
+  ];
+  return (
+    <svg viewBox="0 0 780 130" className="h-24 w-full sm:h-28" aria-hidden="true">
+      <g stroke="var(--lavender)" strokeWidth="2.5" fill="none" className="flow-dash" opacity="0.8">
+        {nodes.slice(0, -1).map((n, i) => (
+          <path key={i} d={`M${n[0]} ${n[1]} Q ${(n[0] + nodes[i + 1][0]) / 2} ${Math.min(n[1], nodes[i + 1][1]) - 26} ${nodes[i + 1][0]} ${nodes[i + 1][1]}`} />
+        ))}
+      </g>
+      {nodes.map(([x, y, c], i) => (
+        <g key={i}>
+          <circle cx={x} cy={y} r="16" fill={c} stroke="var(--ink)" strokeWidth="2.5" />
+          <circle cx={x} cy={y} r="24" fill="none" stroke={c} strokeWidth="2" opacity="0.5" className="neural-node" />
+        </g>
+      ))}
+    </svg>
+  );
+}
 
 export default function AILab() {
   usePageMeta({
@@ -35,15 +57,21 @@ export default function AILab() {
   return (
     <PageShell
       wide
+      accent="lavender"
+      second="turquoise"
       eyebrow="AI chip · the laboratory"
+      eyebrowColor="var(--lavender-ink)"
       title="AI & Agent Lab"
-      body="Where intelligent systems get tested, not just admired. Real interactive demos run on honest math; everything scripted or planned is labelled as such — no fake model predictions."
+      body="Where intelligent systems get tested, not just admired. Real interactive demos run on honest math; everything scripted or planned is labelled — no fake model predictions."
     >
+      <Reveal className="mb-8">
+        <Constellation />
+      </Reveal>
+
       <div className="grid gap-8 lg:grid-cols-[270px_1fr]">
-        {/* ---------------------------------------------------- category rail */}
         <Reveal>
           <div className="lg:sticky lg:top-24">
-            <div className="grid grid-cols-2 gap-2.5 lg:grid-cols-1" role="tablist" aria-label="Lab categories">
+            <div className="grid grid-cols-2 gap-3 lg:grid-cols-1" role="tablist" aria-label="Lab categories">
               {labCategories.map((c) => {
                 const ca = getAccent(c.accent);
                 const selected = c.id === active;
@@ -54,68 +82,55 @@ export default function AILab() {
                     role="tab"
                     aria-selected={selected}
                     onClick={() => setActive(c.id)}
-                    className={`rounded-2xl border p-4 text-left transition-all duration-200 ${
+                    className={`rounded-2xl border-2 p-4 text-left transition-all duration-200 ${
                       selected
-                        ? "border-blue/50 bg-raised shadow-lift"
-                        : "border-line bg-surface hover:border-blue/30 hover:bg-raised"
+                        ? "border-ink bg-raised shadow-sticker"
+                        : "border-ink/20 bg-surface hover:-translate-y-0.5 hover:border-ink"
                     }`}
                   >
-                    <span className={`flex h-9 w-9 items-center justify-center rounded-lg ${ca.tile}`}>
-                      <Icon name={c.icon} size={17} />
+                    <span className={`flex h-10 w-10 items-center justify-center rounded-xl border-2 border-ink ${ca.solid} text-plum shadow-sticker-sm`}>
+                      <Icon name={c.icon} size={18} />
                     </span>
-                    <span className="mt-2.5 block text-sm font-extrabold text-ink">{c.label}</span>
-                    <span className="mt-1 hidden text-[11px] leading-relaxed text-muted lg:block">
+                    <span className="mt-2.5 block font-display text-sm font-extrabold text-ink">{c.label}</span>
+                    <span className="mt-1 hidden text-[11px] font-semibold leading-relaxed text-muted lg:block">
                       {c.blurb}
                     </span>
                   </button>
                 );
               })}
             </div>
-            <p className="mt-4 hidden rounded-xl border border-line bg-desk/50 p-4 font-mono text-[10px] leading-relaxed text-muted lg:block">
-              playground rule #1: a demo must never pretend to be a trained model it isn&apos;t.
+            <p className="mt-4 hidden rounded-2xl border-2 border-dashed border-lavender bg-lavender/15 p-4 font-mono text-[10px] font-bold leading-relaxed text-lavender-ink lg:block">
+              lab rule #1: a demo must never pretend to be a trained model it isn&apos;t.
             </p>
           </div>
         </Reveal>
 
-        {/* ------------------------------------------------------- content */}
         <div>
           <Reveal key={active}>
             <div className="mb-6 flex items-center gap-3">
-              <span className={`flex h-11 w-11 items-center justify-center rounded-xl ${a.tile}`}>
-                <Icon name={category.icon} size={20} />
+              <span className={`flex h-12 w-12 items-center justify-center rounded-2xl border-2 border-ink ${a.solid} text-plum shadow-sticker-sm`}>
+                <Icon name={category.icon} size={22} />
               </span>
               <div>
-                <h2 className="text-xl font-extrabold tracking-tight text-ink">{category.label}</h2>
-                <p className="text-sm text-muted">{category.blurb}</p>
+                <h2 className="font-display text-2xl font-extrabold tracking-tight text-ink">{category.label}</h2>
+                <p className="text-sm font-semibold text-muted">{category.blurb}</p>
               </div>
             </div>
 
             <div className="space-y-6">
               {experiments.map((exp) => (
-                <div key={exp.id} className="card overflow-hidden">
-                  <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-desk/40 px-6 py-4">
-                    <h3 className="text-base font-extrabold text-ink">{exp.title}</h3>
-                    <span
-                      className={`rounded-full border px-3 py-1 font-mono text-[9.5px] font-bold uppercase tracking-wide ${
-                        STATUS_TONE[exp.status] || STATUS_TONE.Notes
-                      }`}
-                    >
+                <div key={exp.id} className="card overflow-hidden border-2 border-ink">
+                  <div className={`flex flex-wrap items-center justify-between gap-3 border-b-2 border-ink px-6 py-4 ${a.tile}`}>
+                    <h3 className="font-display text-base font-extrabold text-ink">{exp.title}</h3>
+                    <span className={`rounded-full border-2 border-ink px-3 py-1 font-mono text-[9.5px] font-bold uppercase tracking-wide text-plum shadow-sticker-sm ${STATUS_BG[exp.status] || "bg-desk"}`}>
                       {exp.status}
                     </span>
                   </div>
                   <div className="p-6">
-                    <p className="text-sm leading-relaxed text-muted">{exp.body}</p>
+                    <p className="text-sm font-medium leading-relaxed text-muted">{exp.body}</p>
 
-                    {exp.demo === "agent" && (
-                      <div className="mt-5">
-                        <AgentWorkflow />
-                      </div>
-                    )}
-                    {exp.demo === "diet" && (
-                      <div className="mt-5">
-                        <DietDemo />
-                      </div>
-                    )}
+                    {exp.demo === "agent" && <div className="mt-5"><AgentWorkflow /></div>}
+                    {exp.demo === "diet" && <div className="mt-5"><DietDemo /></div>}
                     {exp.placeholder && (
                       <div className="mt-5">
                         <Placeholder
@@ -127,10 +142,7 @@ export default function AILab() {
                       </div>
                     )}
                     {exp.to && (
-                      <Link
-                        to={exp.to}
-                        className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-blue-ink hover:underline"
-                      >
+                      <Link to={exp.to} className={`mt-4 inline-flex items-center gap-1.5 text-sm font-extrabold ${a.text} hover:underline`}>
                         Open the related case study
                         <Icon name="ArrowRight" size={14} />
                       </Link>

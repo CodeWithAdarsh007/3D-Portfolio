@@ -69,7 +69,7 @@ export default function GitHubPanel() {
             <Icon name="Github" size={19} />
           </span>
           <div>
-            <h3 className="text-base font-extrabold text-ink">Live from GitHub</h3>
+            <h2 className="font-display text-base font-extrabold text-ink">Live from GitHub</h2>
             <p className="font-mono text-[10.5px] tracking-wide text-muted">
               api.github.com · public repos · no credentials
             </p>
@@ -135,7 +135,7 @@ export default function GitHubPanel() {
                 <div className="mt-3 flex items-center gap-3 font-mono text-[10px] text-muted">
                   {repo.language && (
                     <span className="flex items-center gap-1">
-                      <span className="h-2 w-2 rounded-full bg-sage" />
+                      <span className="h-2 w-2 rounded-full bg-leaf" />
                       {repo.language}
                     </span>
                   )}
