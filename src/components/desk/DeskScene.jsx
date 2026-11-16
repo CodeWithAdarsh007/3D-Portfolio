@@ -20,7 +20,7 @@ const DESKTOP_ANCHORS = {
   chip: { x: 15.9, y: 48.2 },
   notebook: { x: 38.75, y: 62.4 },
   folder: { x: 78.4, y: 57 },
-  idcard: { x: 10, y: 83.4 },
+  idcard: { x: 23.4, y: 35.6 },
   trophy: { x: 88.75, y: 40.2 },
   envelope: { x: 55, y: 61.75 },
 };
@@ -206,8 +206,8 @@ export function DesktopDesk({ screenState, introDone, step }) {
             <FolderObject active={activating === "folder"} />
           </DeskObject>
         </g>
-        <g transform="translate(105 592) scale(1.25)">
-          <DeskObject {...obj("idcard")} delay={0.95} haloRx={40} haloRy={9} haloY={-2} hitW={36} hitTop={-6} hitBottom={146}>
+        <g transform="translate(375 182) scale(1.05)">
+          <DeskObject {...obj("idcard")} delay={0.95} haloRx={40} haloRy={12} haloY={100} hitW={36} hitTop={-16} hitBottom={146}>
             <IdCardObject active={activating === "idcard"} />
           </DeskObject>
         </g>
@@ -316,8 +316,8 @@ export function MobileDesk({ screenState, introDone, step }) {
             <FolderObject active={activating === "folder"} />
           </DeskObject>
         </g>
-        <g transform="translate(55 452) scale(0.72)">
-          <DeskObject {...obj("idcard")} delay={0.55} haloRx={42} haloRy={10} haloY={-2} hitW={36} hitTop={-6} hitBottom={146}>
+        <g transform="translate(180 150) scale(0.6)">
+          <DeskObject {...obj("idcard")} delay={0.55} haloRx={42} haloRy={12} haloY={100} hitW={36} hitTop={-16} hitBottom={146}>
             <IdCardObject active={activating === "idcard"} />
           </DeskObject>
         </g>

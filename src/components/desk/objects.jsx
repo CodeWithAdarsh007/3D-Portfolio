@@ -1,4 +1,12 @@
+import { useEffect, useState } from "react";
 import { motion } from "motion/react";
+
+/** Current wall-clock time in India Standard Time (UTC+5:30). */
+function istNow() {
+  const now = new Date();
+  const ist = new Date(now.getTime() + (330 + now.getTimezoneOffset()) * 60000);
+  return { h: ist.getHours(), m: ist.getMinutes() };
+}
 
 /**
  * Original illustrated studio library. Every object is drawn around a local
@@ -296,11 +304,18 @@ export function FolderObject({ active }) {
 export function IdCardObject({ active }) {
   return (
     <motion.g
-      style={{ originX: "0px", originY: "60px" }}
-      animate={active ? { scaleX: [1, 0.15, 1] } : { scaleX: 1 }}
+      style={{ originX: "0px", originY: "0px" }}
+      animate={active ? { rotate: [0, -4, 3, 0] } : { rotate: -2 }}
       transition={{ duration: 0.3 }}
     >
-      <path d="M0 0 C 9 18 -9 38 0 54" stroke="var(--coral)" strokeWidth="4.5" fill="none" strokeLinecap="round" />
+      {/* cast shadow on the wall */}
+      <rect x="-25" y="66" width="62" height="82" rx="8" fill="var(--plum)" opacity="0.14" />
+      {/* nail + hook */}
+      <circle cx="0" cy="-4" r="3.4" fill="var(--wood-deep)" />
+      <path d="M0 -4 q 5 4 0 8" stroke="var(--wood-deep)" strokeWidth="2.4" fill="none" strokeLinecap="round" />
+      {/* lanyard loop hanging from the hook */}
+      <path d="M0 2 C -11 20 -13 38 -6 54" stroke="var(--coral)" strokeWidth="4" fill="none" strokeLinecap="round" />
+      <path d="M0 2 C 11 20 13 38 6 54" stroke="var(--coral)" strokeWidth="4" fill="none" strokeLinecap="round" />
       <rect x="-7" y="52" width="14" height="9" rx="2.5" fill="var(--ink)" />
       <rect x="-31" y="60" width="62" height="82" rx="8" fill="var(--paper)" stroke="var(--art-ink)" strokeWidth="2" />
       <path d="M-31 68 a8 8 0 0 1 8 -8 h46 a8 8 0 0 1 8 8 v10 h-62 z" fill="var(--blue)" />
@@ -566,15 +581,29 @@ export function NeuralPosterProp() {
 }
 
 export function ClockProp() {
+  const [ist, setIst] = useState(() => istNow());
+  useEffect(() => {
+    const id = window.setInterval(() => setIst(istNow()), 1000);
+    return () => window.clearInterval(id);
+  }, []);
+  const hourAngle = ((ist.h % 12) + ist.m / 60) * 30;
+  const minuteAngle = ist.m * 6;
   return (
     <g>
       <circle cx="0" cy="0" r="30" fill="var(--paper)" stroke="var(--tangerine)" strokeWidth="4" />
-      <circle cx="0" cy="0" r="2.6" fill="var(--ink)" />
-      <line x1="0" y1="0" x2="-9" y2="-12" stroke="var(--ink)" strokeWidth="3" strokeLinecap="round" />
-      <line x1="0" y1="0" x2="12" y2="-6" stroke="var(--coral)" strokeWidth="2.4" strokeLinecap="round" />
       {[0, 90, 180, 270].map((deg) => (
-        <line key={deg} x1="0" y1="-22" x2="0" y2="-26" stroke="var(--muted)" strokeWidth="2" transform={`rotate(${deg})`} />
+        <line key={deg} x1="0" y1="-22" x2="0" y2="-26" stroke="var(--art-muted)" strokeWidth="2" transform={`rotate(${deg})`} />
       ))}
+      <g transform={`rotate(${hourAngle})`}>
+        <line x1="0" y1="3" x2="0" y2="-13" stroke="var(--art-ink)" strokeWidth="3.4" strokeLinecap="round" />
+      </g>
+      <g transform={`rotate(${minuteAngle})`}>
+        <line x1="0" y1="4" x2="0" y2="-19" stroke="var(--coral-ink)" strokeWidth="2.6" strokeLinecap="round" />
+      </g>
+      <circle cx="0" cy="0" r="2.6" fill="var(--art-ink)" />
+      <text x="0" y="15" textAnchor="middle" fontFamily="var(--font-mono)" fontSize="6" fontWeight="700" fill="var(--art-muted)">
+        IST
+      </text>
     </g>
   );
 }
