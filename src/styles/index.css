@@ -242,31 +242,21 @@ body {
 }
 
 /* The room is the hero: it fills the viewport left under the navbar. */
-.room-hero {
-  height: calc(100svh - var(--nav-h, 4rem) - 26px);
-  min-height: 440px;
+.room-frame {
+  aspect-ratio: 2 / 1;
+  width: 100%;
+  max-height: calc(100svh - var(--nav-h, 4rem) - 26px);
+  margin-inline: auto;
 }
 @supports not (height: 100svh) {
-  .room-hero {
-    height: calc(100vh - var(--nav-h, 4rem) - 26px);
+  .room-frame {
+    max-height: calc(100vh - var(--nav-h, 4rem) - 26px);
   }
-}
-@media (max-width: 767px) {
-  .room-hero {
-    height: auto;
-    min-height: 0;
-  }
-}
-.room-frame {
-  aspect-ratio: 1200 / 780;
-  height: 100%;
-  max-width: 100%;
-  margin-inline: auto;
 }
 @media (max-width: 767px) {
   .room-frame {
     aspect-ratio: 640 / 620;
-    height: auto;
+    max-height: none;
   }
 }
 

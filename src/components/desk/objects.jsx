@@ -34,7 +34,7 @@ export function DeskObject({
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          activate();
+          activate(e);
         }
       }}
       onMouseEnter={() => onHover(id)}
@@ -629,9 +629,9 @@ export function GarlandProp() {
   const bulbs = ["var(--coral)", "var(--sunshine)", "var(--turquoise)", "var(--lavender)", "var(--leaf)", "var(--tangerine)", "var(--coral)", "var(--sunshine)"];
   return (
     <g>
-      <path d="M40 34 Q 300 92 600 44 Q 900 92 1160 34" fill="none" stroke="var(--ink)" strokeWidth="2.5" opacity="0.7" />
+      <path d="M40 34 Q 400 92 800 44 Q 1200 92 1560 34" fill="none" stroke="var(--ink)" strokeWidth="2.5" opacity="0.7" />
       {bulbs.map((c, i) => {
-        const x = 100 + i * 140;
+        const x = 100 + i * 190;
         const y = i % 2 === 0 ? 62 : 70;
         return (
           <g key={i}>

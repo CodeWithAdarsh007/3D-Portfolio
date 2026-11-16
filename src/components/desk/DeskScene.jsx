@@ -15,14 +15,14 @@ const EASE = [0.22, 1, 0.36, 1];
 const OBJECT_META = Object.fromEntries(deskObjects.map((o) => [o.id, o]));
 
 const DESKTOP_ANCHORS = {
-  monitor: { x: 42.5, y: 28.5 },
-  laptop: { x: 67.5, y: 42 },
-  chip: { x: 16.7, y: 55 },
-  notebook: { x: 42, y: 67.5 },
-  folder: { x: 82, y: 63.5 },
-  idcard: { x: 12, y: 85.5 },
-  trophy: { x: 88, y: 50.5 },
-  envelope: { x: 57.7, y: 69.5 },
+  monitor: { x: 38.75, y: 20 },
+  laptop: { x: 64.4, y: 34.4 },
+  chip: { x: 15.9, y: 48.2 },
+  notebook: { x: 38.75, y: 62.4 },
+  folder: { x: 78.4, y: 57 },
+  idcard: { x: 10, y: 83.4 },
+  trophy: { x: 88.75, y: 40.2 },
+  envelope: { x: 55, y: 61.75 },
 };
 
 function Tooltip({ hovered }) {
@@ -80,41 +80,41 @@ function Wall({ step, introDone }) {
           <stop offset="1" className="ws3" stopColor="var(--lavender)" stopOpacity="0.16" />
         </linearGradient>
       </defs>
-      <rect x="0" y="0" width="1200" height="478" fill="var(--bg)" />
-      <rect x="0" y="0" width="1200" height="478" fill="url(#wall-grad)" />
-      <rect x="0" y="404" width="1200" height="74" fill="var(--bg-desk)" />
+      <rect x="0" y="0" width="1600" height="478" fill="var(--bg)" />
+      <rect x="0" y="0" width="1600" height="478" fill="url(#wall-grad)" />
+      <rect x="0" y="404" width="1600" height="74" fill="var(--bg-desk)" />
       <g stroke="var(--line)" strokeWidth="3" opacity="0.8">
-        {[100, 300, 500, 700, 900, 1100].map((x) => (
+        {[120, 360, 600, 840, 1080, 1320, 1520].map((x) => (
           <line key={x} x1={x} y1="410" x2={x} y2="472" />
         ))}
       </g>
-      <rect x="0" y="400" width="1200" height="8" fill="var(--wood)" />
+      <rect x="0" y="400" width="1600" height="8" fill="var(--wood)" />
 
       <motion.g
         initial={introDone ? false : { opacity: 0 }}
         animate={{ opacity: step >= 1 ? 1 : 0 }}
         transition={{ duration: 0.8 }}
       >
-        <polygon className="window-light" points="70,300 240,300 430,590 130,590" fill="var(--sunshine)" opacity="0.14" />
-        <g transform="translate(150 180)">
+        <polygon className="window-light" points="120,341 320,341 560,590 200,590" fill="var(--sunshine)" opacity="0.14" />
+        <g transform="translate(190 185) scale(1.22)">
           <WindowProp />
         </g>
         <GarlandProp />
       </motion.g>
 
-      <g transform="translate(352 122)">
+      <g transform="translate(375 105)">
         <PosterProp />
       </g>
-      <g transform="translate(580 116)">
+      <g transform="translate(560 86) scale(1.1)">
         <PinboardProp />
       </g>
-      <g transform="translate(762 112)">
+      <g transform="translate(980 118) scale(1.12)">
         <NeuralPosterProp />
       </g>
-      <g transform="translate(906 108)">
+      <g transform="translate(1180 112) scale(1.15)">
         <ClockProp />
       </g>
-      <g transform="translate(1020 162)">
+      <g transform="translate(1400 165) scale(1.2)">
         <ShelfProp />
       </g>
     </motion.g>
@@ -138,7 +138,7 @@ export function DesktopDesk({ screenState, introDone, step }) {
   return (
     <div className="relative">
       <svg
-        viewBox="0 0 1200 780"
+        viewBox="0 0 1600 800"
         className="h-full w-full"
         role="group"
         aria-label="Adarsh's illustrated creative studio. Eight objects open portfolio sections; the same links are available in the navigation bar and the object list below."
@@ -150,11 +150,11 @@ export function DesktopDesk({ screenState, introDone, step }) {
           animate={assembled ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
           transition={{ duration: 0.65, ease: EASE }}
         >
-          <g transform="translate(600 742)">
+          <g transform="translate(800 745) scale(1.3)">
             <RugProp />
           </g>
-          <g transform="translate(600 585)">
-            <DeskSurface />
+          <g transform="translate(800 585)">
+            <DeskSurface width={1540} />
           </g>
         </motion.g>
 
@@ -163,50 +163,50 @@ export function DesktopDesk({ screenState, introDone, step }) {
           animate={{ opacity: assembled ? 1 : 0 }}
           transition={{ delay: introDone ? 0 : 0.35, duration: 0.5 }}
         >
-          <g transform="translate(300 468)"><PlantProp /></g>
-          <g transform="translate(940 468)"><BooksProp /></g>
-          <g transform="translate(515 505)"><KeyboardProp /></g>
-          <g transform="translate(688 512)"><MouseProp /></g>
-          <g transform="translate(330 524)"><CoffeeProp /></g>
-          <g transform="translate(860 520)"><PencilCupProp /></g>
+          <g transform="translate(400 468) scale(1.25)"><PlantProp /></g>
+          <g transform="translate(1215 468) scale(1.2)"><BooksProp /></g>
+          <g transform="translate(660 498) scale(1.3)"><KeyboardProp /></g>
+          <g transform="translate(905 512) scale(1.3)"><MouseProp /></g>
+          <g transform="translate(430 524) scale(1.3)"><CoffeeProp /></g>
+          <g transform="translate(1105 520) scale(1.3)"><PencilCupProp /></g>
         </motion.g>
 
-        <g transform="translate(510 470)">
+        <g transform="translate(620 470) scale(1.3)">
           <DeskObject {...obj("monitor")} delay={0.15} haloRx={92} haloRy={14} hitW={145} hitTop={-258}>
             <MonitorObject screenState={screenState} introDone={introDone} active={activating === "monitor"} />
           </DeskObject>
         </g>
-        <g transform="translate(810 465)">
+        <g transform="translate(1030 465) scale(1.3)">
           <DeskObject {...obj("laptop")} delay={0.3} haloRx={112} haloRy={12} hitW={118} hitTop={-146}>
             <LaptopObject active={activating === "laptop"} />
           </DeskObject>
         </g>
-        <g transform="translate(1068 468)">
+        <g transform="translate(1420 468) scale(1.3)">
           <DeskObject {...obj("trophy")} delay={0.45} haloRx={40} haloRy={9} hitW={44} hitTop={-108}>
             <TrophyObject active={activating === "trophy"} />
           </DeskObject>
         </g>
-        <g transform="translate(200 516)">
+        <g transform="translate(255 516) scale(1.3)">
           <DeskObject {...obj("chip")} delay={0.55} haloRx={48} haloRy={10} hitW={52} hitTop={-100}>
             <ChipObject active={activating === "chip"} />
           </DeskObject>
         </g>
-        <g transform="translate(505 578)">
+        <g transform="translate(620 585) scale(1.3)">
           <DeskObject {...obj("notebook")} delay={0.65} haloRx={90} haloRy={11} hitW={90} hitTop={-66}>
             <NotebookObject active={activating === "notebook"} />
           </DeskObject>
         </g>
-        <g transform="translate(692 572)">
+        <g transform="translate(880 572) scale(1.3)">
           <DeskObject {...obj("envelope")} delay={0.75} haloRx={60} haloRy={10} hitW={62} hitTop={-60}>
             <EnvelopeObject active={activating === "envelope"} />
           </DeskObject>
         </g>
-        <g transform="translate(985 568)">
+        <g transform="translate(1255 568) scale(1.3)">
           <DeskObject {...obj("folder")} delay={0.85} haloRx={74} haloRy={11} hitW={76} hitTop={-86}>
             <FolderObject active={activating === "folder"} />
           </DeskObject>
         </g>
-        <g transform="translate(85 592)">
+        <g transform="translate(105 592) scale(1.25)">
           <DeskObject {...obj("idcard")} delay={0.95} haloRx={40} haloRy={9} haloY={-2} hitW={36} hitTop={-6} hitBottom={146}>
             <IdCardObject active={activating === "idcard"} />
           </DeskObject>
@@ -217,8 +217,8 @@ export function DesktopDesk({ screenState, introDone, step }) {
           animate={{ opacity: assembled ? 1 : 0 }}
           transition={{ delay: introDone ? 0 : 1, duration: 0.4 }}
         >
-          <g transform="translate(632 436)"><StickyNoteProp /></g>
-          <g transform="translate(392 452)"><StickyNoteProp fill="var(--coral)" text="welcome!" /></g>
+          <g transform="translate(812 436) scale(1.2)"><StickyNoteProp /></g>
+          <g transform="translate(480 452) scale(1.2)"><StickyNoteProp fill="var(--coral)" text="welcome!" /></g>
         </motion.g>
       </svg>
       <Tooltip hovered={hovered} />
