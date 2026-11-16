@@ -61,7 +61,7 @@ export default function Achievements() {
             >
               <div
                 className="relative flex min-h-[240px] flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-6 text-center"
-                style={{ borderColor: FRAME_COLORS[i], background: `color-mix(in srgb, ${FRAME_COLORS[i]} 12%, var(--surface))` }}
+                style={{ borderColor: FRAME_COLORS[i], background: `color-mix(in srgb, ${FRAME_COLORS[i]} 20%, var(--surface))` }}
               >
                 <span
                   className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-ink text-plum shadow-sticker-sm"
@@ -89,7 +89,7 @@ export default function Achievements() {
       </div>
 
       <Reveal className="mt-10">
-        <div className="rounded-2xl border-2 border-dashed border-sunshine-ink bg-sunshine/20 p-6 text-sm font-semibold leading-relaxed text-muted">
+        <div className="rounded-2xl border-2 border-dashed panel-sunshine p-6 text-sm font-semibold leading-relaxed text-muted">
           <p className="flex items-center gap-2 font-display text-base font-extrabold text-ink">
             <Icon name="Info" size={16} className="text-sunshine-ink" />
             How this shelf fills up

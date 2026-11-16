@@ -22,7 +22,7 @@
   --blue: #4169f5;
   --blue-ink: #2b4bd8;
   --tangerine: #ff884d;
-  --tangerine-ink: #c2500f;
+  --tangerine-ink: #a8430a;
   --sunshine: #ffd34e;
   --sunshine-ink: #8a6d00;
   --leaf: #50b88a;
@@ -30,7 +30,7 @@
   --lavender: #a58ae8;
   --lavender-ink: #6d4fc2;
   --coral: #ff7895;
-  --coral-ink: #d13b60;
+  --coral-ink: #b8264c;
   --turquoise: #43c7c7;
   --turquoise-ink: #0f7e7e;
 
@@ -60,50 +60,54 @@
   --art-paper: #fffdf8;
   --on-accent: #302744;
   --on-blue: #ffffff;
+  --panel-mix: 30%;
+  --rule-alpha: 16%;
 }
 
 [data-theme="dark"] {
-  --bg: #241d33;
-  --bg-desk: #2e2542;
-  --surface: #2a2240;
-  --raised: #362c50;
-  --ink: #fff3e2;
-  --muted: #bfb3d6;
-  --line: #463a63;
-  --plum: #14101f;
+  --bg: #201d2b;
+  --bg-desk: #2a2538;
+  --surface: #2a2538;
+  --raised: #352e47;
+  --ink: #fff5e9;
+  --muted: #dcd2e4;
+  --line: #554a68;
+  --plum: #171423;
 
-  --blue: #7d97ff;
-  --blue-ink: #a8b8ff;
-  --tangerine: #ff9a66;
-  --tangerine-ink: #ffb992;
-  --sunshine: #ffd34e;
-  --sunshine-ink: #ffe08a;
-  --leaf: #63d3a2;
-  --leaf-ink: #92e4c0;
-  --lavender: #b9a2f5;
-  --lavender-ink: #d0c0fa;
-  --coral: #ff8fa8;
-  --coral-ink: #ffb3c4;
-  --turquoise: #5ad8d8;
-  --turquoise-ink: #8ce6e6;
+  --blue: #87a5ff;
+  --blue-ink: #a9beff;
+  --tangerine: #ffa06b;
+  --tangerine-ink: #ffbe93;
+  --sunshine: #ffd45b;
+  --sunshine-ink: #ffe18a;
+  --leaf: #70d6a7;
+  --leaf-ink: #9ce4c0;
+  --lavender: #b89aff;
+  --lavender-ink: #d0bcff;
+  --coral: #ff91aa;
+  --coral-ink: #ffb4c4;
+  --turquoise: #5bd1c6;
+  --turquoise-ink: #8fe3da;
 
-  --danger: #ff8fa8;
-  --success: #63d3a2;
-  --warning: #ffd34e;
-  --info: #7d97ff;
+  --danger: #ff91aa;
+  --success: #70d6a7;
+  --warning: #ffd45b;
+  --info: #87a5ff;
 
-  --screen: #1b1526;
+  --screen: #171423;
   --wood: #b97f4e;
   --wood-deep: #9a6238;
   --desk-edge: #6b5340;
   --desk-leg: #57432f;
   --paper: #f4ebdd;
 
-  --shadow-lift-v: 0 12px 32px -14px rgb(0 0 0 / 0.6);
-  --shadow-desk-v: 0 30px 70px -30px rgb(0 0 0 / 0.75);
-  --shadow-sticker-v: 4px 4px 0 0 #14101f;
-  --shadow-sticker-sm-v: 3px 3px 0 0 #14101f;
-  --on-blue: #241d33;
+  --shadow-lift-v: 0 12px 32px -14px rgb(0 0 0 / 0.65);
+  --shadow-desk-v: 0 30px 70px -30px rgb(0 0 0 / 0.8);
+  --shadow-sticker-v: 4px 4px 0 0 #171423;
+  --shadow-sticker-sm-v: 3px 3px 0 0 #171423;
+  --on-blue: #201d2b;
+  --panel-mix: 10%;
+  --rule-alpha: 20%;
 }
 
 @theme inline {
@@ -223,7 +227,7 @@ body {
 /* Shared responsive page shell: ~94vw on desktop (max 1440), 92vw tablet,
    viewport minus 32px on mobile. Inner blocks keep their own text measure. */
 .shell {
-  width: min(94vw, 1440px);
+  width: min(94vw, 1500px);
   margin-inline: auto;
 }
 @media (max-width: 1023px) {
@@ -237,9 +241,60 @@ body {
   }
 }
 
-/* Deliberate 24px breathing room below the fixed 64px navbar. */
+/* The room is the hero: it fills the viewport left under the navbar. */
+.room-hero {
+  height: calc(100svh - var(--nav-h, 4rem) - 26px);
+  min-height: 440px;
+}
+@supports not (height: 100svh) {
+  .room-hero {
+    height: calc(100vh - var(--nav-h, 4rem) - 26px);
+  }
+}
+@media (max-width: 767px) {
+  .room-hero {
+    height: auto;
+    min-height: 0;
+  }
+}
+.room-frame {
+  aspect-ratio: 1200 / 780;
+  height: 100%;
+  max-width: 100%;
+  margin-inline: auto;
+}
+@media (max-width: 767px) {
+  .room-frame {
+    aspect-ratio: 640 / 620;
+    height: auto;
+  }
+}
+
+/* Room wall light: warm sunlight by day, cool plum ambience at night. */
+.ws1 { stop-color: var(--sunshine); stop-opacity: 0.28; }
+.ws2 { stop-color: var(--coral); stop-opacity: 0.14; }
+.ws3 { stop-color: var(--lavender); stop-opacity: 0.16; }
+[data-theme="dark"] .ws1 { stop-color: var(--lavender); stop-opacity: 0.1; }
+[data-theme="dark"] .ws2 { stop-color: var(--blue); stop-opacity: 0.08; }
+[data-theme="dark"] .ws3 { stop-color: var(--coral); stop-opacity: 0.07; }
+
+/* Hued, bordered panels: colourful in daylight, clearly tinted at night. */
+.panel-sunshine, .panel-turquoise, .panel-lavender, .panel-coral,
+.panel-leaf, .panel-blue, .panel-tangerine {
+  border-color: color-mix(in srgb, var(--panel-accent) 48%, var(--line));
+  background: color-mix(in srgb, var(--panel-accent) var(--panel-mix), var(--raised));
+}
+.panel-sunshine { --panel-accent: var(--sunshine); }
+.panel-turquoise { --panel-accent: var(--turquoise); }
+.panel-lavender { --panel-accent: var(--lavender); }
+.panel-coral { --panel-accent: var(--coral); }
+.panel-leaf { --panel-accent: var(--leaf); }
+.panel-blue { --panel-accent: var(--blue); }
+.panel-tangerine { --panel-accent: var(--tangerine); }
+
+/* Deliberate 12px breathing room below the fixed 64px navbar. */
 .page-top {
-  padding-top: calc(var(--nav-h, 4rem) + 24px);
+  padding-top: calc(var(--nav-h, 4rem) + 12px);
 }
 
 .eyebrow {
@@ -348,7 +403,7 @@ body {
   background-image: repeating-linear-gradient(
     to bottom,
     transparent 0 27px,
-    color-mix(in srgb, var(--turquoise) 26%, transparent) 27px 28px
+    color-mix(in srgb, var(--turquoise) var(--rule-alpha), transparent) 27px 28px
   );
 }
 

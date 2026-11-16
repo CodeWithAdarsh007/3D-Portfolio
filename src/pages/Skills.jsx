@@ -64,7 +64,11 @@ export default function Skills() {
                   })}
                 </div>
 
-                <ul className="mt-5 space-y-3">
+                <p className="mt-3 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-muted">
+                  {group.items.length} tools · linked to{" "}
+                  {new Set(group.items.flatMap((it) => it.projects)).size} projects
+                </p>
+                <ul className="mt-4 space-y-3">
                   {group.items.map((item) => {
                     const related = item.projects.map(getProject).filter(Boolean);
                     return (
@@ -95,7 +99,7 @@ export default function Skills() {
       </div>
 
       <Reveal className="mt-10">
-        <div className="rounded-3xl border-2 border-ink bg-sunshine/30 p-7 shadow-sticker-sm">
+        <div className="rounded-3xl border-2 border-ink panel-sunshine p-7 shadow-sticker-sm">
           <h2 className="flex items-center gap-2.5 font-display text-lg font-extrabold text-ink">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl border-2 border-ink bg-raised text-plum shadow-sticker-sm">
               <Icon name="Compass" size={16} />

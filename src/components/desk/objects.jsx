@@ -77,7 +77,7 @@ export function MonitorObject({ screenState = "ready", introDone, active }) {
       <motion.rect
         x="-128" y="-240" width="256" height="182" rx="8" fill="var(--sunshine)"
         animate={{ opacity: active ? [0, 0.35, 0] : 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.3 }}
       />
 
       {screenState === "off" && (
@@ -145,7 +145,7 @@ export function LaptopObject({ active }) {
       <motion.g
         style={{ originX: "0px", originY: "-22px" }}
         animate={active ? { rotate: [0, -7, 0], scaleY: [1, 1.05, 1] } : { rotate: 0, scaleY: 1 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.3 }}
       >
         <rect x="-85" y="-142" width="170" height="120" rx="10" fill="var(--ink)" />
         <rect x="-77" y="-134" width="154" height="100" rx="6" fill="var(--screen)" />
@@ -189,7 +189,7 @@ export function ChipObject({ active }) {
       <motion.circle
         cx="0" cy="-56" r="40" fill="none" stroke="var(--lavender)" strokeWidth="2.5"
         animate={active ? { scale: [1, 1.7], opacity: [0.9, 0] } : { scale: 1, opacity: 0 }}
-        transition={{ duration: 0.55 }}
+        transition={{ duration: 0.3 }}
         style={{ originX: "0px", originY: "-56px" }}
       />
       <circle cx="-46" cy="-72" r="5" fill="var(--leaf)" className="neural-node" />
@@ -233,7 +233,7 @@ export function NotebookObject({ active }) {
       <motion.g
         style={{ originX: "8px", originY: "-15px" }}
         animate={active ? { rotate: [0, -16, 0], scaleX: [1, 0.7, 1] } : { rotate: 0, scaleX: 1 }}
-        transition={{ duration: 0.55 }}
+        transition={{ duration: 0.3 }}
       >
         <polygon points="78,-8 8,-15 8,-58 72,-51" fill="var(--paper)" />
         <g stroke="var(--turquoise)" strokeWidth="1.4" opacity="0.7">
@@ -270,7 +270,7 @@ export function FolderObject({ active }) {
       <ellipse cx="0" cy="0" rx="74" ry="11" fill="var(--plum)" opacity="0.14" />
       <rect x="-58" y="-72" width="116" height="70" rx="7" fill="var(--tangerine)" />
       <rect x="-58" y="-82" width="46" height="16" rx="6" fill="var(--tangerine)" />
-      <motion.g animate={active ? { y: -14 } : { y: 0 }} transition={{ duration: 0.4 }}>
+      <motion.g animate={active ? { y: -14 } : { y: 0 }} transition={{ duration: 0.3 }}>
         <rect x="-50" y="-78" width="100" height="12" rx="2" fill="var(--paper)" />
         <rect x="-44" y="-70" width="88" height="10" rx="2" fill="var(--paper)" opacity="0.9" />
         <rect x="-36" y="-74" width="52" height="3" rx="1.5" fill="var(--blue)" opacity="0.7" />
@@ -278,7 +278,7 @@ export function FolderObject({ active }) {
       <motion.g
         style={{ originX: "-64px", originY: "0px" }}
         animate={active ? { rotate: -12 } : { rotate: -2 }}
-        transition={{ duration: 0.4 }}
+        transition={{ duration: 0.3 }}
       >
         <rect x="-64" y="-58" width="128" height="58" rx="8" fill="var(--sunshine)" />
         <rect x="-40" y="-44" width="80" height="19" rx="4" fill="var(--paper)" />
@@ -298,7 +298,7 @@ export function IdCardObject({ active }) {
     <motion.g
       style={{ originX: "0px", originY: "60px" }}
       animate={active ? { scaleX: [1, 0.15, 1] } : { scaleX: 1 }}
-      transition={{ duration: 0.55 }}
+      transition={{ duration: 0.3 }}
     >
       <path d="M0 0 C 9 18 -9 38 0 54" stroke="var(--coral)" strokeWidth="4.5" fill="none" strokeLinecap="round" />
       <rect x="-7" y="52" width="14" height="9" rx="2.5" fill="var(--ink)" />
@@ -337,7 +337,7 @@ export function TrophyObject({ active }) {
       <motion.g
         fill="var(--sunshine)"
         animate={active ? { scale: [1, 1.8], opacity: [1, 0] } : { scale: 1, opacity: 0.9 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.3 }}
         style={{ originX: "0px", originY: "-70px" }}
       >
         <path d="M34 -92 l2 4 4 2 -4 2 -2 4 -2 -4 -4 -2 4 -2 z" />
@@ -358,7 +358,7 @@ export function EnvelopeObject({ active }) {
         <motion.rect
           x="-30" y="-52" width="60" height="40" rx="4" fill="var(--paper)" stroke="var(--line)" strokeWidth="1.5"
           animate={active ? { y: -18 } : { y: 0 }}
-          transition={{ duration: 0.45 }}
+          transition={{ duration: 0.3 }}
         />
         <polygon points="-52,-4 52,-4 44,-42 -44,-42" fill="var(--turquoise)" stroke="var(--ink)" strokeWidth="2" />
         <line x1="-52" y1="-4" x2="-14" y2="-22" stroke="var(--ink)" strokeWidth="1.4" opacity="0.5" />
@@ -366,7 +366,7 @@ export function EnvelopeObject({ active }) {
         <motion.g
           style={{ originX: "0px", originY: "-42px" }}
           animate={active ? { scaleY: -0.7 } : { scaleY: 1 }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.3 }}
         >
           <polygon points="-44,-42 44,-42 0,-18" fill="var(--turquoise)" stroke="var(--ink)" strokeWidth="2" />
         </motion.g>
@@ -599,6 +599,28 @@ export function ShelfProp() {
         <ellipse cx="-11" cy="-42" rx="5" ry="7" fill="var(--leaf)" transform="rotate(-20 -11 -42)" />
         <ellipse cx="13" cy="-44" rx="5" ry="7" fill="var(--leaf)" transform="rotate(18 13 -44)" />
       </g>
+    </g>
+  );
+}
+
+
+export function PinboardProp() {
+  return (
+    <g>
+      <rect x="-72" y="-52" width="144" height="104" rx="10" fill="var(--wood)" stroke="var(--wood-deep)" strokeWidth="4" />
+      <rect x="-58" y="-38" width="116" height="62" rx="4" fill="var(--paper)" transform="rotate(-2)" />
+      <circle cx="-52" cy="-32" r="4" fill="var(--coral)" />
+      <circle cx="52" cy="-34" r="4" fill="var(--turquoise)" />
+      <text x="0" y="-12" textAnchor="middle" fontFamily="var(--font-display)" fontWeight="800" fontSize="20" fill="var(--art-ink)" transform="rotate(-2)">
+        ADARSH
+      </text>
+      <text x="0" y="6" textAnchor="middle" fontFamily="var(--font-mono)" fontSize="7.5" fontWeight="700" fill="var(--art-muted)" transform="rotate(-2)">
+        ai/ml · agents · products
+      </text>
+      <rect x="-40" y="30" width="80" height="14" rx="3" fill="var(--sunshine)" transform="rotate(1.5)" />
+      <text x="0" y="40" textAnchor="middle" fontFamily="var(--font-mono)" fontSize="7" fontWeight="700" fill="#302744" transform="rotate(1.5)">
+        welcome to my studio
+      </text>
     </g>
   );
 }

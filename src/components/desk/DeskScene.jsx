@@ -7,7 +7,7 @@ import {
   BooksProp, ChipObject, ClockProp, CoffeeProp, DeskObject, DeskSurface,
   EnvelopeObject, FolderObject, GarlandProp, IdCardObject, KeyboardProp,
   LaptopObject, MonitorObject, MouseProp, NeuralPosterProp, NotebookObject,
-  PencilCupProp, PlantProp, PosterProp, RugProp, ShelfProp, StickyNoteProp,
+  PencilCupProp, PinboardProp, PlantProp, PosterProp, RugProp, ShelfProp, StickyNoteProp,
   TrophyObject, WindowProp,
 } from "./objects";
 
@@ -75,9 +75,9 @@ function Wall({ step, introDone }) {
     >
       <defs>
         <linearGradient id="wall-grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="var(--sunshine)" stopOpacity="0.28" />
-          <stop offset="0.55" stopColor="var(--coral)" stopOpacity="0.14" />
-          <stop offset="1" stopColor="var(--lavender)" stopOpacity="0.16" />
+          <stop offset="0" className="ws1" stopColor="var(--sunshine)" stopOpacity="0.28" />
+          <stop offset="0.55" className="ws2" stopColor="var(--coral)" stopOpacity="0.14" />
+          <stop offset="1" className="ws3" stopColor="var(--lavender)" stopOpacity="0.16" />
         </linearGradient>
       </defs>
       <rect x="0" y="0" width="1200" height="478" fill="var(--bg)" />
@@ -104,6 +104,9 @@ function Wall({ step, introDone }) {
 
       <g transform="translate(352 122)">
         <PosterProp />
+      </g>
+      <g transform="translate(580 116)">
+        <PinboardProp />
       </g>
       <g transform="translate(762 112)">
         <NeuralPosterProp />
@@ -136,7 +139,7 @@ export function DesktopDesk({ screenState, introDone, step }) {
     <div className="relative">
       <svg
         viewBox="0 0 1200 780"
-        className="h-auto w-full"
+        className="h-full w-full"
         role="group"
         aria-label="Adarsh's illustrated creative studio. Eight objects open portfolio sections; the same links are available in the navigation bar and the object list below."
       >
@@ -215,7 +218,7 @@ export function DesktopDesk({ screenState, introDone, step }) {
           transition={{ delay: introDone ? 0 : 1, duration: 0.4 }}
         >
           <g transform="translate(632 436)"><StickyNoteProp /></g>
-          <g transform="translate(392 452)"><StickyNoteProp fill="var(--coral)" text="ideas" /></g>
+          <g transform="translate(392 452)"><StickyNoteProp fill="var(--coral)" text="welcome!" /></g>
         </motion.g>
       </svg>
       <Tooltip hovered={hovered} />
@@ -243,14 +246,14 @@ export function MobileDesk({ screenState, introDone, step }) {
     <div>
       <svg
         viewBox="0 0 640 620"
-        className="h-auto w-full"
+        className="h-full w-full"
         role="group"
         aria-label="Adarsh's compact illustrated studio. Tap an object to open its section."
       >
         <defs>
           <linearGradient id="wall-grad-m" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="var(--sunshine)" stopOpacity="0.3" />
-            <stop offset="1" stopColor="var(--coral)" stopOpacity="0.16" />
+            <stop offset="0" className="ws1" stopColor="var(--sunshine)" stopOpacity="0.3" />
+            <stop offset="1" className="ws2" stopColor="var(--coral)" stopOpacity="0.16" />
           </linearGradient>
         </defs>
         <motion.g initial={introDone ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
@@ -259,6 +262,7 @@ export function MobileDesk({ screenState, introDone, step }) {
           <rect x="0" y="298" width="640" height="6" fill="var(--wood)" />
           <g transform="translate(95 105) scale(0.55)"><WindowProp /></g>
           <g transform="translate(520 90) scale(0.7)"><NeuralPosterProp /></g>
+          <g transform="translate(300 84) scale(0.62)"><PinboardProp /></g>
         </motion.g>
 
         <motion.g
@@ -329,7 +333,7 @@ export function MobileDesk({ screenState, introDone, step }) {
           </p>
         ) : (
           <p className="font-mono text-[11px] font-bold tracking-wide text-plum">
-            tap an object to explore the studio
+            the dev workspace · by adarsh
           </p>
         )}
       </div>

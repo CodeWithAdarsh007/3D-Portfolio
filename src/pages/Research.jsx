@@ -79,7 +79,7 @@ export default function Research() {
           </div>
         </Reveal>
         <Reveal delay={0.08}>
-          <div className="h-full rounded-3xl border-2 border-ink bg-turquoise/25 p-7 shadow-sticker-sm">
+          <div className="h-full rounded-3xl border-2 border-ink panel-turquoise p-7 shadow-sticker-sm">
             <h2 className="flex items-center gap-2.5 font-display text-lg font-extrabold text-ink">
               <span className="flex h-9 w-9 items-center justify-center rounded-xl border-2 border-ink bg-raised text-plum shadow-sticker-sm">
                 <Icon name="Compass" size={16} />

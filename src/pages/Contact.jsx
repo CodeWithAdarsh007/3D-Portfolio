@@ -103,7 +103,7 @@ export default function Contact() {
   };
 
   const inputCls = (field) =>
-    `w-full rounded-xl border-2 bg-raised px-4 py-3 text-sm font-semibold text-ink placeholder:text-muted/60 transition-colors focus:border-blue ${
+    `w-full rounded-xl border-2 bg-raised px-4 py-3 text-sm font-semibold text-ink placeholder:text-muted/80 transition-colors focus:border-blue ${
       errors[field] ? "border-danger" : "border-ink/25"
     }`;
 
@@ -132,7 +132,7 @@ export default function Contact() {
             </div>
           </Reveal>
           <Reveal delay={0.1}>
-            <div className="rounded-2xl border-2 border-dashed border-blue bg-blue/10 p-5 font-mono text-[11px] font-semibold leading-relaxed text-blue-ink">
+            <div className="rounded-2xl border-2 border-dashed panel-blue p-5 font-mono text-[11px] font-semibold leading-relaxed text-blue-ink">
               <p className="font-extrabold text-ink">response style</p>
               <p className="mt-1.5">
                 I read everything. Expect a thoughtful reply, not an autoresponder — once the email
@@ -144,7 +144,7 @@ export default function Contact() {
 
         <Reveal delay={0.05}>
           <form onSubmit={onSubmit} noValidate className="card paper-lines border-2 border-ink p-6 shadow-desk sm:p-8">
-            <div className="mb-6 flex items-start gap-3 rounded-xl border-2 border-sunshine bg-sunshine/30 p-4">
+            <div className="mb-6 flex items-start gap-3 rounded-xl border-2 panel-sunshine p-4">
               <Icon name="AlertTriangle" size={17} className="mt-0.5 shrink-0 text-sunshine-ink" />
               <p className="text-xs font-bold leading-relaxed text-muted">
                 <span className="font-extrabold text-sunshine-ink">Demo mode — messages are NOT sent.</span>{" "}

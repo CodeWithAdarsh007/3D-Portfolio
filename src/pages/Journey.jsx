@@ -27,8 +27,7 @@ export default function Journey() {
         {journey.map((entry, i) => {
           const a = getAccent(entry.accent);
           return (
-            <Reveal key={entry.id} delay={i * 0.1}>
-              <li className="relative">
+            <Reveal as="li" key={entry.id} delay={i * 0.1} className="relative">
                 <span
                   className={`absolute -left-[54px] top-2 flex h-9 w-9 items-center justify-center rounded-full border-2 border-ink ${a.solid} text-plum shadow-sticker-sm sm:-left-[70px]`}
                   aria-hidden="true"
@@ -60,14 +59,13 @@ export default function Journey() {
                     </Link>
                   )}
                 </article>
-              </li>
             </Reveal>
           );
         })}
       </ol>
 
       <Reveal className="mt-12">
-        <p className="rounded-2xl border-2 border-dashed border-leaf bg-leaf/15 p-5 font-mono text-[11px] font-semibold leading-relaxed text-leaf-ink">
+        <p className="rounded-2xl border-2 border-dashed panel-leaf p-5 font-mono text-[11px] font-semibold leading-relaxed text-leaf-ink">
           note: the NSS voter-registration camp is community engagement with the 152 Borivali
           Electoral Registration Office (120 student registrations reported) — not corporate
           employment.

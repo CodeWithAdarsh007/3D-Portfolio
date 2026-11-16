@@ -99,7 +99,7 @@ export default function AILab() {
                 );
               })}
             </div>
-            <p className="mt-4 hidden rounded-2xl border-2 border-dashed border-lavender bg-lavender/15 p-4 font-mono text-[10px] font-bold leading-relaxed text-lavender-ink lg:block">
+            <p className="mt-4 hidden rounded-2xl border-2 border-dashed panel-lavender p-4 font-mono text-[10px] font-bold leading-relaxed text-lavender-ink lg:block">
               lab rule #1: a demo must never pretend to be a trained model it isn&apos;t.
             </p>
           </div>

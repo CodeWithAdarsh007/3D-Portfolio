@@ -34,15 +34,13 @@ const GLYPH = {
 };
 
 /**
- * Cinematic desk navigation overlay.
- *  0–120ms   tactile press
- *  120–450ms object lifts off the desk toward the viewer
- *  450–650ms object-specific activation (lid, pages, flap, sparkle…)
- *  650–850ms accent flood expands from the object
- *  850ms     route changes underneath the flood
- *  850–1080ms flood dissolves into the destination entrance
+ * Cinematic desk navigation, driven by animation completion callbacks:
+ *   idle → pressed/lift (0.40s) → object-opening (0.30s, flood expands)
+ *   → navigate the instant the opening completes → page-reveal (0.24s)
+ * No setTimeout postpones the route change; a safety net only exists to
+ * recover if a completion callback is ever missed.
  */
-// Dev-only inspection hook: ?slowmo stretches the sequence 4x for frame capture.
+// Dev-only inspection hook: ?slowmo=N stretches the sequence for frame capture.
 const SLOW = import.meta.env.DEV
   ? Number(new URLSearchParams(window.location.search).get("slowmo")) || 1
   : 1;
@@ -50,29 +48,28 @@ const SLOW = import.meta.env.DEV
 export default function ObjectTransition() {
   const { transition, end } = useDeskTransition();
   const navigate = useNavigate();
-  const [stage, setStage] = useState(0);
-  const timers = useRef([]);
+  const [stage, setStage] = useState("lift");
+  const navigated = useRef(false);
+  const safety = useRef(null);
 
   useEffect(() => {
     if (!transition) return undefined;
-    setStage(0);
-    timers.current.forEach(clearTimeout);
-    timers.current = [
-      window.setTimeout(() => setStage(1), 430 * SLOW),
-      window.setTimeout(() => setStage(2), 640 * SLOW),
-      window.setTimeout(() => {
+    navigated.current = false;
+    setStage("lift");
+    safety.current = window.setTimeout(() => {
+      if (!navigated.current) {
+        navigated.current = true;
         navigate(transition.to);
-        setStage(3);
-      }, 850 * SLOW),
-      window.setTimeout(() => end(), 1080 * SLOW),
-    ];
-    return () => timers.current.forEach(clearTimeout);
+      }
+      end();
+    }, 3000 * SLOW);
+    return () => window.clearTimeout(safety.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transition?.key]);
 
   if (!transition) return null;
 
-  const { id, rect } = transition;
+  const { id, rect, to } = transition;
   const glyph = GLYPH[id] || GLYPH.monitor;
   const field = getAccent(ACCENT[id] || "blue").field;
   const cx = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
@@ -81,17 +78,24 @@ export default function ObjectTransition() {
   const dy = window.innerHeight * 0.52 - cy;
   const Glyph = glyph.C;
 
+  const openDone = () => {
+    if (stage !== "open" || navigated.current) return;
+    navigated.current = true;
+    navigate(to);
+    setStage("reveal");
+  };
+
   return (
     <div className="fixed inset-0 z-[90]" aria-hidden="true">
-      {/* desk dims behind the lifted object */}
+      {/* the room dims behind the lifted object */}
       <motion.div
-        className="absolute inset-0 bg-plum/50"
+        className="absolute inset-0 bg-plum/55"
         initial={{ opacity: 0 }}
-        animate={{ opacity: stage >= 1 && stage < 3 ? 1 : 0 }}
-        transition={{ duration: 0.25 }}
+        animate={{ opacity: stage === "reveal" ? 0 : 1 }}
+        transition={{ duration: 0.22 * SLOW }}
       />
 
-      {/* accent flood that becomes the destination reveal */}
+      {/* accent flood: expands while the object opens, dissolves into the page */}
       <motion.div
         className="absolute inset-0"
         style={{
@@ -99,42 +103,51 @@ export default function ObjectTransition() {
         }}
         initial={{ clipPath: "circle(0% at 50% 55%)", opacity: 1 }}
         animate={{
-          clipPath: stage >= 2 ? "circle(140% at 50% 55%)" : "circle(0% at 50% 55%)",
-          opacity: stage >= 3 ? 0 : 1,
+          clipPath: stage === "lift" ? "circle(0% at 50% 55%)" : "circle(140% at 50% 55%)",
+          opacity: stage === "reveal" ? 0 : 1,
         }}
         transition={{
-          clipPath: { duration: 0.26 * SLOW, ease: "easeIn" },
-          opacity: { duration: 0.23 * SLOW, ease: "easeOut" },
+          clipPath: { duration: 0.3 * SLOW, ease: "easeIn" },
+          opacity: { duration: 0.24 * SLOW, ease: "easeOut" },
         }}
+        onAnimationComplete={openDone}
       />
 
-      {/* the object itself, picked up and brought to the camera */}
+      {/* the object: pressed, lifted toward the camera, then opened */}
       <motion.div
         className="absolute w-[min(46vh,420px)]"
         style={{ left: cx, top: cy, translateX: "-50%", translateY: "-50%" }}
         initial={{ x: 0, y: 0, scale: 0.6, rotate: 0, opacity: 1 }}
-        animate={{
-          x: [0, 0, dx, dx, dx],
-          y: [0, 5, dy, dy, dy],
-          scale: [0.6, 0.55, 1.18, 1.34, 1.75],
-          rotate: [0, -2.5, 2.5, 0, 0],
-          opacity: [1, 1, 1, 1, 0],
+        animate={
+          stage === "lift"
+            ? { x: [0, 0, dx], y: [0, 6, dy], scale: [0.6, 0.54, 1.22], rotate: [0, -2.5, 2], opacity: 1 }
+            : stage === "open"
+              ? { x: dx, y: dy, scale: 1.42, rotate: 0, opacity: 1 }
+              : { x: dx, y: dy, scale: 1.8, rotate: 0, opacity: 0 }
+        }
+        transition={
+          stage === "lift"
+            ? { duration: 0.4 * SLOW, times: [0, 0.3, 1], ease: [0.22, 1, 0.36, 1] }
+            : { duration: (stage === "open" ? 0.3 : 0.24) * SLOW, ease: "easeOut" }
+        }
+        onAnimationComplete={() => {
+          if (stage === "lift") setStage("open");
+          else if (stage === "reveal") end();
         }}
-        transition={{ duration: 0.85 * SLOW, times: [0, 0.14, 0.5, 0.76, 1], ease: "easeInOut" }}
       >
         <motion.div
           className="absolute inset-0 -z-10 rounded-full"
           style={{ background: `radial-gradient(circle, ${field} 0%, transparent 70%)` }}
-          animate={{ opacity: stage >= 1 ? 0.55 : 0.2, scale: stage >= 1 ? 1.5 : 1 }}
-          transition={{ duration: 0.35 }}
+          animate={{ opacity: stage === "lift" ? 0.25 : 0.6, scale: stage === "lift" ? 1 : 1.5 }}
+          transition={{ duration: 0.3 * SLOW }}
         />
         <svg viewBox={glyph.vb} className="h-auto w-full drop-shadow-2xl">
-          <Glyph active={stage >= 1} screenState="ready" introDone />
+          <Glyph active={stage !== "lift"} screenState="ready" introDone />
         </svg>
         <motion.p
           className="mt-2 text-center font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-white"
-          animate={{ opacity: stage === 1 || stage === 2 ? 1 : 0 }}
-          transition={{ duration: 0.2 }}
+          animate={{ opacity: stage === "open" ? 1 : 0 }}
+          transition={{ duration: 0.18 * SLOW }}
         >
           {META[id]?.label}
         </motion.p>

@@ -47,7 +47,7 @@ export default function ProjectDetail() {
           <Reveal>
             <Link
               to="/projects"
-              className="mb-6 inline-flex items-center gap-1.5 font-mono text-[11.5px] font-bold tracking-wide text-muted transition-colors hover:text-blue-ink"
+              className="mb-3 inline-flex items-center gap-1.5 font-mono text-[11.5px] font-bold tracking-wide text-muted transition-colors hover:text-blue-ink"
             >
               <Icon name="ArrowLeft" size={13} />
               back to the gallery
@@ -149,10 +149,10 @@ export default function ProjectDetail() {
 
         {/* -------------------------------------------- problem + contribution */}
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
-          <CaseSection icon="Target" title="The problem" tint="bg-coral/10">
+          <CaseSection icon="Target" title="The problem" tint="panel-coral">
             <p>{project.problem}</p>
           </CaseSection>
-          <CaseSection icon="Wrench" title="My contribution" delay={0.06} tint="bg-turquoise/10">
+          <CaseSection icon="Wrench" title="My contribution" delay={0.06} tint="panel-turquoise">
             <p>{project.contribution}</p>
           </CaseSection>
         </div>
@@ -200,10 +200,10 @@ export default function ProjectDetail() {
 
         {/* ------------------------------------------ challenges + learnings */}
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
-          <CaseSection icon="AlertTriangle" title="Technical challenges" tint="bg-sunshine/15">
+          <CaseSection icon="AlertTriangle" title="Technical challenges" tint="panel-sunshine">
             <p>{project.challenges}</p>
           </CaseSection>
-          <CaseSection icon="Lightbulb" title="Solution approach" delay={0.06} tint="bg-lavender/12">
+          <CaseSection icon="Lightbulb" title="Solution approach" delay={0.06} tint="panel-lavender">
             <p>{project.approach}</p>
           </CaseSection>
         </div>
@@ -250,9 +250,9 @@ export default function ProjectDetail() {
         {related.length > 0 && (
           <Reveal className="mt-14">
             <h2 className="font-display text-xl font-extrabold tracking-tight text-ink">Related work</h2>
-            <div className="mt-5 grid gap-6 sm:grid-cols-2">
+            <div className={`mt-5 grid gap-6 ${related.length > 1 ? "sm:grid-cols-2" : ""}`}>
               {related.map((p, i) => (
-                <ProjectCard key={p.slug} project={p} index={i} />
+                <ProjectCard key={p.slug} project={p} index={i} featured={related.length === 1} />
               ))}
             </div>
           </Reveal>

@@ -10,17 +10,17 @@ export default function PageShell({ eyebrow, eyebrowColor, title, body, children
     <PageTransition className="page-top pb-20">
       <div style={wash(accent, second)}>
         <div className="shell">
-          <header className="mb-12">
+          <header className="mb-8">
             <Reveal>
               <Link
                 to="/"
-                className="mb-6 inline-flex items-center gap-1.5 font-mono text-[11.5px] font-bold tracking-wide text-muted transition-colors hover:text-blue-ink"
+                className="mb-3 inline-flex items-center gap-1.5 font-mono text-[11.5px] font-bold tracking-wide text-muted transition-colors hover:text-blue-ink"
               >
                 <Icon name="ArrowLeft" size={13} />
                 back to the desk
               </Link>
               {eyebrow && (
-                <p className="eyebrow mb-3" style={{ "--eyebrow-color": eyebrowColor || "var(--blue-ink)" }}>
+                <p className="eyebrow mb-2" style={{ "--eyebrow-color": eyebrowColor || "var(--blue-ink)" }}>
                   {eyebrow}
                 </p>
               )}
