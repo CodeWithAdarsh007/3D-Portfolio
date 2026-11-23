@@ -2,18 +2,10 @@ import { Link } from "react-router-dom";
 import PageShell from "../components/common/PageShell";
 import Reveal from "../components/common/Reveal";
 import Icon from "../components/common/Icon";
-import usePageMeta from "../hooks/usePageMeta";
 import { futureResearch, learningNotes, research } from "../data/portfolioContent";
 import { getAccent } from "../lib/accents";
 
 export default function Research() {
-  usePageMeta({
-    title: "Research & Learning",
-    description:
-      "Adarsh's research notebook: document-conversion evaluation, AI agent reliability experiments, applied ML, and ongoing learning notes. Unpublished work is labelled.",
-    path: "/research",
-  });
-
   return (
     <PageShell
       accent="leaf"
@@ -21,7 +13,7 @@ export default function Research() {
       eyebrow="Notebook · research & learning"
       eyebrowColor="var(--leaf-ink)"
       title="Questions I'm working through"
-      body="An archive of experiments, evaluations, and learning notes — kept like a lab notebook. Nothing here is claimed as a formal publication."
+      body="My working notebook on document conversion, agent reliability, and applied machine learning. These entries follow experiments in progress."
     >
       <div className="grid gap-6 lg:grid-cols-3">
         {research.map((item, i) => {

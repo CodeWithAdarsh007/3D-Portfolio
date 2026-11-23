@@ -1,3 +1,4 @@
+import { useLocation } from "react-router-dom";
 import { createContext, useCallback, useContext, useRef, useState } from "react";
 
 const TransitionContext = createContext(null);
@@ -8,14 +9,15 @@ const TransitionContext = createContext(null);
  */
 export function TransitionProvider({ children }) {
   const [transition, setTransition] = useState(null);
+  const { key: originKey } = useLocation();
   const activeRef = useRef(false);
 
   const begin = useCallback((id, to, rect) => {
     if (activeRef.current) return false;
     activeRef.current = true;
-    setTransition({ id, to, rect, key: Date.now() });
+    setTransition({ id, to, rect, originKey });
     return true;
-  }, []);
+  }, [originKey]);
 
   const end = useCallback(() => {
     activeRef.current = false;

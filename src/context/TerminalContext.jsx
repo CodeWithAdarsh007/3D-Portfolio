@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useState, useEffect } from "react";
 
 const TerminalContext = createContext(null);
 
@@ -7,6 +7,17 @@ export function TerminalProvider({ children }) {
   const open = useCallback(() => setIsOpen(true), []);
   const close = useCallback(() => setIsOpen(false), []);
   const toggle = useCallback(() => setIsOpen((v) => !v), []);
+
+  useEffect(() => {
+    const onKey = (event) => {
+      if (event.ctrlKey && event.key === "`") {
+        event.preventDefault();
+        toggle();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [toggle]);
 
   return (
     <TerminalContext.Provider value={{ isOpen, open, close, toggle }}>

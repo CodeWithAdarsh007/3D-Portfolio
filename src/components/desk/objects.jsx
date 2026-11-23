@@ -4,8 +4,8 @@ import { motion } from "motion/react";
 /** Current wall-clock time in India Standard Time (UTC+5:30). */
 function istNow() {
   const now = new Date();
-  const ist = new Date(now.getTime() + (330 + now.getTimezoneOffset()) * 60000);
-  return { h: ist.getHours(), m: ist.getMinutes() };
+  const ist = new Date(now.getTime() + 330 * 60000);
+  return { h: ist.getUTCHours(), m: ist.getUTCMinutes() };
 }
 
 /**
@@ -33,11 +33,9 @@ export function DeskObject({
       role="button"
       tabIndex={0}
       aria-label={`${label} — ${desc}`}
-      initial={introDone ? false : { opacity: 0, y: 26 }}
+      initial={introDone || id === "monitor" ? false : { opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: introDone ? 0 : delay, duration: 0.55, ease: EASE }}
-      whileHover={{ y: -6 }}
-      whileTap={{ scale: 0.97 }}
       onClick={activate}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -45,17 +43,17 @@ export function DeskObject({
           activate(e);
         }
       }}
-      onMouseEnter={() => onHover(id)}
-      onMouseLeave={() => onHover(null)}
-      onFocus={() => onHover(id)}
-      onBlur={() => onHover(null)}
+      onMouseEnter={() => onHover?.(id)}
+      onMouseLeave={() => onHover?.(null)}
+      onFocus={() => onHover?.(id)}
+      onBlur={() => onHover?.(null)}
     >
       <ellipse className="halo" cx="0" cy={haloY} rx={haloRx} ry={haloRy} fill="var(--sunshine)" fillOpacity="0.4" />
       <ellipse className="focus-ring" cx="0" cy={haloY} rx={haloRx + 6} ry={haloRy + 4} fill="none" stroke="var(--blue)" strokeWidth="2.5" strokeDasharray="6 4" />
       {/* stable transparent hit area so hover/tap transforms never move the
           click target out from under the pointer (hollow centres included) */}
       <rect x={-hw} y={hitTop} width={hw * 2} height={hb - hitTop} fill="transparent" stroke="none" />
-      {children}
+      <g className="object-art" pointerEvents="none">{children}</g>
     </motion.g>
   );
 }
@@ -76,7 +74,7 @@ export function MonitorObject({ screenState = "ready", introDone, active }) {
       <ellipse cx="0" cy="2" rx="92" ry="13" fill="var(--plum)" opacity="0.16" />
       <rect x="-48" y="-13" width="96" height="13" rx="6" fill="var(--wood-deep)" />
       <rect x="-10" y="-46" width="20" height="36" rx="5" fill="var(--wood-deep)" />
-      <rect x="-142" y="-254" width="284" height="216" rx="16" fill="var(--ink)" />
+      <rect x="-142" y="-254" width="284" height="216" rx="16" fill="var(--hardware)" />
       <rect x="-136" y="-248" width="272" height="204" rx="12" fill="var(--wood)" opacity="0.25" />
       <rect x="-128" y="-240" width="256" height="182" rx="8" fill="var(--screen)" />
       <circle cx="0" cy="-246" r="2.2" fill="var(--muted)" />
@@ -88,6 +86,9 @@ export function MonitorObject({ screenState = "ready", introDone, active }) {
         transition={{ duration: 0.3 }}
       />
 
+      <text x="-114" y="-192" fontFamily="var(--font-display)" fontWeight="800" fontSize="20" fill="#fff5e6">
+        Hello, I&apos;m Adarsh.
+      </text>
       {screenState === "off" && (
         <g>
           <polygon points="-128,-240 -40,-240 -128,-120" fill="#ffffff" opacity="0.04" />
@@ -104,7 +105,7 @@ export function MonitorObject({ screenState = "ready", introDone, active }) {
           <circle cx="-94" cy="-226" r="3" fill="var(--leaf)" />
           {BOOT_LINES.map((line, i) => (
             <motion.text
-              key={line.text} x="-114" y={-202 + i * 22} fill={line.fill}
+              key={line.text} x="-114" y={-168 + i * 18} fill={line.fill}
               initial={introDone ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: introDone ? 0 : 0.15 + i * 0.16, duration: 0.25 }}
@@ -112,7 +113,7 @@ export function MonitorObject({ screenState = "ready", introDone, active }) {
               {line.text}
             </motion.text>
           ))}
-          <rect x="-114" y="-88" width="7" height="12" fill="var(--leaf)" className="cursor-blink" />
+          <rect x="-114" y="-84" width="7" height="12" fill="var(--leaf)" className="cursor-blink" />
         </g>
       )}
 
@@ -121,9 +122,6 @@ export function MonitorObject({ screenState = "ready", introDone, active }) {
           <circle cx="-114" cy="-226" r="3" fill="var(--coral)" />
           <circle cx="-104" cy="-226" r="3" fill="var(--sunshine)" />
           <circle cx="-94" cy="-226" r="3" fill="var(--leaf)" />
-          <text x="-114" y="-192" fontFamily="var(--font-display)" fontWeight="800" fontSize="20" fill="#fff5e6">
-            Hello, I&apos;m Adarsh.
-          </text>
           <text x="-114" y="-168" fontFamily="var(--font-mono)" fontSize="9.5" fill="var(--leaf)">
             AI/ML Student | Aspiring AI Engineer
           </text>
@@ -135,7 +133,7 @@ export function MonitorObject({ screenState = "ready", introDone, active }) {
             ~ explore my workspace
           </text>
           <rect x="20" y="-127" width="7" height="11" fill="var(--turquoise)" className="cursor-blink" />
-          <text x="-114" y="-72" fontFamily="var(--font-mono)" fontSize="8.5" fill="var(--muted)">
+          <text x="-114" y="-72" fontFamily="var(--font-mono)" fontSize="8.5" fill="#bcb5ce">
             status: ready · 8 objects online
           </text>
         </g>
@@ -155,7 +153,7 @@ export function LaptopObject({ active }) {
         animate={active ? { rotate: [0, -7, 0], scaleY: [1, 1.05, 1] } : { rotate: 0, scaleY: 1 }}
         transition={{ duration: 0.3 }}
       >
-        <rect x="-85" y="-142" width="170" height="120" rx="10" fill="var(--ink)" />
+        <rect x="-85" y="-142" width="170" height="120" rx="10" fill="var(--hardware)" />
         <rect x="-77" y="-134" width="154" height="100" rx="6" fill="var(--screen)" />
         <rect x="-77" y="-134" width="154" height="16" rx="6" fill="var(--blue)" />
         <text x="-68" y="-123" fontFamily="var(--font-mono)" fontSize="8" fill="var(--on-blue)">
@@ -215,7 +213,7 @@ export function ChipObject({ active }) {
           <rect x="28" y={y} width="8" height="4" rx="1" />
         </g>
       ))}
-      <rect x="-28" y="-56" width="56" height="56" rx="10" fill="var(--ink)" />
+      <rect x="-28" y="-56" width="56" height="56" rx="10" fill="var(--hardware)" />
       <rect x="-19" y="-47" width="38" height="38" rx="6" fill="var(--lavender)" />
       <g stroke="#fff5e6" strokeWidth="1.6" opacity="0.9" fill="none">
         <path d="M-12 -38 h8 v8 h8" />
@@ -514,19 +512,30 @@ export function WindowProp() {
   return (
     <g>
       <rect x="-96" y="-116" width="192" height="232" rx="14" fill="var(--wood-deep)" />
-      <rect x="-84" y="-104" width="168" height="208" rx="10" fill="var(--turquoise)" />
-      <rect x="-84" y="-104" width="168" height="104" rx="10" fill="var(--blue)" opacity="0.35" />
-      <circle cx="-36" cy="-58" r="22" fill="var(--sunshine)" />
-      <g stroke="var(--sunshine)" strokeWidth="4" strokeLinecap="round" opacity="0.85">
-        <line x1="-36" y1="-92" x2="-36" y2="-84" />
-        <line x1="-36" y1="-32" x2="-36" y2="-24" />
-        <line x1="-70" y1="-58" x2="-62" y2="-58" />
-        <line x1="-10" y1="-58" x2="-2" y2="-58" />
+      <defs>
+        <linearGradient id="studio-sky" x2="0" y2="1">
+          <stop stopColor="var(--sky-top)" />
+          <stop offset="1" stopColor="var(--sky-horizon)" />
+        </linearGradient>
+      </defs>
+      <rect x="-84" y="-104" width="168" height="208" rx="10" fill="url(#studio-sky)" />
+      <g className="dark:hidden">
+        <circle cx="-36" cy="-58" r="22" fill="var(--sunshine)" />
+        <g stroke="var(--sunshine)" strokeWidth="4" strokeLinecap="round">
+          <path d="M-36 -92v8m0 52v8m-34 -34h8m52 0h8" />
+        </g>
+        <g fill="white" opacity="0.85">
+          <ellipse cx="34" cy="-30" rx="26" ry="9" />
+          <ellipse cx="52" cy="-38" rx="16" ry="7" />
+          <ellipse cx="-40" cy="24" rx="22" ry="8" />
+        </g>
       </g>
-      <g fill="#ffffff" opacity="0.9">
-        <ellipse cx="34" cy="-30" rx="26" ry="9" />
-        <ellipse cx="52" cy="-38" rx="16" ry="7" />
-        <ellipse cx="-40" cy="24" rx="22" ry="8" />
+      <g className="hidden dark:block" fill="#fff1ca">
+        <path d="M-29 -78a23 23 0 1 0 21 34 25 25 0 0 1-21-34Z" />
+        <path d="m38 -77 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" />
+        <circle cx="61" cy="-25" r="2.3" />
+        <circle cx="-61" cy="19" r="2" />
+        <circle cx="17" cy="-47" r="1.6" />
       </g>
       <rect x="-4" y="-104" width="8" height="208" fill="var(--wood-deep)" />
       <rect x="-84" y="-4" width="168" height="8" fill="var(--wood-deep)" />
@@ -583,8 +592,15 @@ export function NeuralPosterProp() {
 export function ClockProp() {
   const [ist, setIst] = useState(() => istNow());
   useEffect(() => {
-    const id = window.setInterval(() => setIst(istNow()), 1000);
-    return () => window.clearInterval(id);
+    let timer;
+    function schedule() {
+      timer = window.setTimeout(() => {
+        setIst(istNow());
+        schedule();
+      }, 60000 - Date.now() % 60000);
+    }
+    schedule();
+    return () => window.clearTimeout(timer);
   }, []);
   const hourAngle = ((ist.h % 12) + ist.m / 60) * 30;
   const minuteAngle = ist.m * 6;
@@ -687,8 +703,19 @@ export function DeskSurface({ width = 1140 }) {
   const half = width / 2;
   return (
     <g>
+      <defs>
+        <linearGradient id="tabletop-light" x1="0" y1="0" x2="0.83" y2="1">
+          <stop stopColor="var(--desk-edge)" />
+          <stop offset="0.48" stopColor="var(--wood)" />
+          <stop offset="1" stopColor="var(--wood-deep)" />
+        </linearGradient>
+        <linearGradient id="drawer-light" x2="0.2" y2="1">
+          <stop stopColor="var(--wood-deep)" />
+          <stop offset="0.4" stopColor="var(--wood)" />
+        </linearGradient>
+      </defs>
       <ellipse cx="0" cy="140" rx={half - 40} ry="26" fill="var(--plum)" opacity="0.12" />
-      <polygon points={`${-half + 30},-130 ${half - 30},-130 ${half},0 ${-half},0`} fill="var(--wood)" />
+      <polygon points={`${-half + 30},-130 ${half - 30},-130 ${half},0 ${-half},0`} fill="url(#tabletop-light)" />
       <polygon points={`${-half + 30},-130 ${half - 30},-130 ${half - 26},-116 ${-half + 26},-116`} fill="var(--raised)" opacity="0.4" />
       <g stroke="var(--wood-deep)" strokeWidth="2" opacity="0.35">
         <path d={`M${-half + 80},-90 Q 0,-70 ${half - 80},-95`} fill="none" />
@@ -696,7 +723,7 @@ export function DeskSurface({ width = 1140 }) {
       </g>
       <rect x={-half} y="0" width={width} height="22" rx="7" fill="var(--wood-deep)" />
       <g transform={`translate(${half - 210} 22)`}>
-        <rect x="0" y="0" width="150" height="112" rx="8" fill="var(--wood)" stroke="var(--wood-deep)" strokeWidth="3" />
+        <rect x="0" y="0" width="150" height="112" rx="8" fill="url(#drawer-light)" stroke="var(--wood-deep)" strokeWidth="3" />
         <rect x="12" y="12" width="126" height="40" rx="6" fill="var(--desk-edge)" />
         <rect x="12" y="60" width="126" height="40" rx="6" fill="var(--desk-edge)" />
         <circle cx="75" cy="32" r="5" fill="var(--coral)" />

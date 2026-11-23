@@ -12,12 +12,11 @@ achievements, and contact.
 
 ## Experience
 
-- **Cinematic opening** (~3.6s): the workspace assembles, the monitor boots a terminal sequence,
+- **Cinematic opening** (~1.8s): the workspace assembles, the monitor boots a terminal sequence,
   and the greeting types in. Skippable, replayable on demand, never auto-replayed on navigation,
   instant under `prefers-reduced-motion`, simplified on mobile.
 - **Interactive desk** — 8 clickable objects (monitor, laptop, AI chip, notebook, project folder,
-  ID card, trophy, envelope) with hover tooltips, keyboard access, and a button-based legend so
-  navigation never depends on the illustration alone. A separate compact composition serves mobile.
+  ID card, trophy, envelope) with hover tooltips, keyboard access, and alternate navigation through the site menu. A separate compact composition serves mobile.
 - **Working terminal** (`Ctrl + `` ` or the navbar button): `help`, `about`, `projects`, `ai-lab`,
   `skills`, `journey`, `contact`, `open <page>`, `theme`, `neofetch`, history recall, Tab completion.
 - **Dark / light theme** persisted locally, with the whole desk re-lighting via CSS variables.
@@ -41,7 +40,7 @@ Skills · Journey · Achievements · Contact · 404
 - **Motion** (Framer Motion) for choreography and page transitions
 - **Lucide** icons · **React Router 7** (SPA, Vercel rewrites)
 - Original hand-built SVG illustration — **no Three.js, no heavy 3D**
-- Deployed on **Vercel** from this repository (`vercel.json` pins the Vite build + SPA rewrites)
+- Deployed on **Vercel** from this repository (`vercel.json` pins the Vite build and clean URLs)
 
 ## Run locally
 
@@ -51,6 +50,7 @@ npm run dev        # http://localhost:5173
 npm run build      # production build → dist/
 npm run preview    # serve the production build
 npm run lint       # eslint
+npm test           # release checks against the production build
 ```
 
 ## Editing content

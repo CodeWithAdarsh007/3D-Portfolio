@@ -74,10 +74,10 @@ export default function DietDemo() {
 
       <div className="mt-5 grid gap-6 lg:grid-cols-2">
         <div className="space-y-5">
-          <Slider label="Age" unit="yrs" min={12} max={80} value={age} onChange={setAge} />
+          <Slider label="Age" unit="yrs" min={20} max={80} value={age} onChange={setAge} />
           <Slider label="Height" unit="cm" min={120} max={220} value={height} onChange={setHeight} />
           <Slider label="Weight" unit="kg" min={30} max={150} value={weight} onChange={setWeight} />
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid gap-3 min-[420px]:grid-cols-2">
             <label className="block text-xs font-bold text-ink">
               Sex (formula input)
               <select
@@ -107,15 +107,15 @@ export default function DietDemo() {
         </div>
 
         <div className="space-y-3">
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-1.5 sm:gap-3">
             {[
               { label: "BMI", value: results.bmi.toFixed(1), sub: results.category.label, tone: results.category.tone },
               { label: "BMR", value: Math.round(results.bmr), sub: "kcal at rest" },
               { label: "TDEE", value: Math.round(results.tdee), sub: "kcal / day" },
             ].map((r) => (
-              <div key={r.label} className="rounded-xl border border-line bg-surface p-3.5 text-center">
+              <div key={r.label} className="rounded-xl border border-line bg-surface px-1 py-3 text-center sm:p-3.5">
                 <p className="font-mono text-[9.5px] font-bold uppercase tracking-[0.16em] text-muted">{r.label}</p>
-                <p className="mt-1 text-2xl font-extrabold text-ink">{r.value}</p>
+                <p className="mt-1 text-lg sm:text-2xl font-extrabold text-ink">{r.value}</p>
                 <p className={`mt-0.5 text-[10px] font-bold ${r.tone || "text-muted"}`}>{r.sub}</p>
               </div>
             ))}
@@ -124,7 +124,7 @@ export default function DietDemo() {
           <div className="rounded-xl border border-dashed border-sunshine/60 bg-surface p-4">
             <p className="flex items-center gap-2 text-xs font-extrabold text-ink">
               <Icon name="Salad" size={14} className="text-leaf-ink" />
-              Sample day of meals (~{Math.round(results.tdee)} kcal target)
+              Illustrative meals for the selected activity profile
             </p>
             <ul className="mt-2.5 space-y-1.5">
               {results.meals.map((meal) => (
@@ -139,7 +139,7 @@ export default function DietDemo() {
 
           <p className="flex items-start gap-2 text-[10.5px] leading-relaxed text-muted">
             <Icon name="Info" size={13} className="mt-0.5 shrink-0 text-blue-ink" />
-            BMI/BMR/TDEE use the standard Mifflin-St Jeor equations — real math, computed live.
+            BMI uses weight divided by height squared. BMR uses the Mifflin–St Jeor equation, and TDEE multiplies that estimate by the selected activity factor.
             Meal suggestions are static sample data, not model output, and nothing here is medical
             advice. The related project explores ML integration on top of these foundations.
           </p>

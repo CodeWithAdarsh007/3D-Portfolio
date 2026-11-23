@@ -8,20 +8,13 @@ import { DesktopDesk, MobileDesk } from "../components/desk/DeskScene";
 import ProjectCard from "../components/projects/ProjectCard";
 import useIntro from "../hooks/useIntro";
 import useMediaQuery from "../hooks/useMediaQuery";
-import usePageMeta from "../hooks/usePageMeta";
 import { currentFocus, identity, links } from "../data/portfolioContent";
 import { projects } from "../data/projects";
-import { getAccent, wash } from "../lib/accents";
+import { getAccent } from "../lib/accents";
 
 const FEATURED = ["notekart", "ai-agent-reliability-lab", "paper-format-translator"];
 
 export default function Home() {
-  usePageMeta({
-    title: "",
-    description:
-      "Explore Adarsh's personal developer workspace, featuring AI/ML experiments, AI agent development, software projects, research, and product-building experiences.",
-    path: "/",
-  });
   const { step, introDone, skip, replay, screenState } = useIntro();
   const isMobile = useMediaQuery("(max-width: 767px)");
   const featured = FEATURED.map((slug) => projects.find((p) => p.slug === slug));
@@ -29,8 +22,8 @@ export default function Home() {
   return (
     <PageTransition className="page-top">
       {/* ---------------------------------------------------- the room hero */}
-      <section className="room-hero shell relative pb-4" style={wash("tangerine", "coral")} aria-label="The illustrated developer room">
-        <div className="absolute right-3 top-3 z-20">
+      <section className="room-hero shell relative pb-4" aria-label="The illustrated developer room">
+        <div className="absolute bottom-[4.35rem] right-3 z-20 md:bottom-7 md:right-4">
           {introDone ? (
             <button type="button" onClick={replay} className="sticker bg-raised text-ink !px-3 !py-1.5 !text-[10.5px]">
               <Icon name="RotateCcw" size={12} />
@@ -54,18 +47,18 @@ export default function Home() {
       </section>
 
       {/* ------------------------------------------- personal introduction */}
-      <section className="shell pt-6" aria-label="Introduction">
+      <section id="introduction" tabIndex={-1} className="shell pt-6" aria-label="Introduction">
         <Reveal>
           <div className="card flex flex-col items-start justify-between gap-6 border-2 border-ink p-6 sm:p-8 md:flex-row md:items-center">
             <div>
               <p className="eyebrow mb-2" style={{ "--eyebrow-color": "var(--tangerine-ink)" }}>
-                The Dev Workspace · by Adarsh
+                Computer Science · AI & ML
               </p>
               <h1 className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
                 Hello, I&apos;m <span className="text-blue-ink">Adarsh.</span>
               </h1>
               <p className="mt-2 max-w-xl text-sm font-semibold leading-relaxed text-muted sm:text-base">
-                {identity.tagline}
+                {identity.education.year} building student products and exploring how reliably AI agents complete tasks.
               </p>
             </div>
             <div className="flex shrink-0 flex-wrap gap-3">
@@ -73,7 +66,7 @@ export default function Home() {
                 Explore Projects
               </ButtonLink>
               <ButtonAnchor href={links.resume} download variant="ghost" icon="Download">
-                Download Resume
+                {links.resumePlaceholder ? "Résumé sample (PDF)" : "Download résumé"}
               </ButtonAnchor>
             </div>
           </div>
@@ -121,7 +114,7 @@ export default function Home() {
             eyebrow="Selected work"
             eyebrowColor="var(--lavender-ink)"
             title="Projects from the studio"
-            body="Product building, research engineering, and agent experiments — each with its own visual identity and an honest case study."
+            body="A student marketplace, an agent reliability lab, and a study of what changes when a paper switches formats."
           />
           <Reveal delay={0.15}>
             <ButtonLink to="/projects" variant="ghost" iconRight="ArrowRight">
@@ -143,21 +136,21 @@ export default function Home() {
             className="relative overflow-hidden rounded-3xl border-2 border-ink p-8 shadow-desk sm:p-12"
             style={{
               background:
-                "linear-gradient(120deg, var(--blue) 0%, var(--lavender) 45%, var(--coral) 100%)",
+                "linear-gradient(115deg, var(--screen) 20%, #49385f 75%, #62466c)",
             }}
           >
             <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full bg-sunshine opacity-30" aria-hidden="true" />
             <div className="pointer-events-none absolute -bottom-24 left-1/3 h-64 w-64 rounded-full bg-turquoise opacity-30" aria-hidden="true" />
             <div className="relative flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
               <div>
-                <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-white/90 dark:text-plum/80">
+                <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-white/90">
                   The thinking behind the builds
                 </p>
-                <h2 className="mt-2 max-w-md font-display text-3xl font-extrabold tracking-tight text-white dark:text-plum sm:text-4xl">
+                <h2 className="mt-2 max-w-md font-display text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
                   Curious how I approach problems?
                 </h2>
-                <p className="mt-2 max-w-md text-sm font-semibold leading-relaxed text-white/85 dark:text-plum/80">
-                  Read the research notes, or start a conversation — both are open.
+                <p className="mt-2 max-w-md text-sm font-semibold leading-relaxed text-white/85">
+                  Explore my research notebook or find my public profiles.
                 </p>
               </div>
               <div className="flex flex-wrap gap-3">

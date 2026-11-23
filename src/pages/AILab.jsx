@@ -6,7 +6,6 @@ import Icon from "../components/common/Icon";
 import Placeholder from "../components/common/Placeholder";
 import AgentWorkflow from "../components/lab/AgentWorkflow";
 import DietDemo from "../components/lab/DietDemo";
-import usePageMeta from "../hooks/usePageMeta";
 import { labCategories, labExperiments } from "../data/portfolioContent";
 import { getAccent } from "../lib/accents";
 
@@ -42,13 +41,6 @@ function Constellation() {
 }
 
 export default function AILab() {
-  usePageMeta({
-    title: "AI & Agent Lab",
-    description:
-      "Adarsh's AI laboratory: machine learning, deep learning, AI agents, and data science — with honest interactive demos and clearly labelled illustrative content.",
-    path: "/ai-lab",
-  });
-
   const [active, setActive] = useState("ai-agents");
   const category = labCategories.find((c) => c.id === active);
   const experiments = labExperiments.filter((e) => e.category === active);
@@ -62,7 +54,7 @@ export default function AILab() {
       eyebrow="AI chip · the laboratory"
       eyebrowColor="var(--lavender-ink)"
       title="AI & Agent Lab"
-      body="Where intelligent systems get tested, not just admired. Real interactive demos run on honest math; everything scripted or planned is labelled — no fake model predictions."
+      body="Step through a scripted agent run, explore a formula-based calculator, and follow the projects behind the experiments."
     >
       <Reveal className="mb-8">
         <Constellation />
@@ -72,7 +64,7 @@ export default function AILab() {
         <Reveal>
           <div className="lg:sticky lg:top-24">
             <div className="grid grid-cols-2 gap-3 lg:grid-cols-1" role="tablist" aria-label="Lab categories">
-              {labCategories.map((c) => {
+              {labCategories.map((c, index) => {
                 const ca = getAccent(c.accent);
                 const selected = c.id === active;
                 return (
@@ -80,6 +72,21 @@ export default function AILab() {
                     key={c.id}
                     type="button"
                     role="tab"
+                    id={`lab-tab-${c.id}`}
+                    aria-controls={selected ? "lab-panel" : undefined}
+                    tabIndex={selected ? 0 : -1}
+                    onKeyDown={(event) => {
+                      const next = {
+                        ArrowDown: index + 1, ArrowRight: index + 1,
+                        ArrowUp: index - 1, ArrowLeft: index - 1,
+                        Home: 0, End: labCategories.length - 1,
+                      }[event.key];
+                      if (next === undefined) return;
+                      event.preventDefault();
+                      const id = labCategories[(next + labCategories.length) % labCategories.length].id;
+                      setActive(id);
+                      document.getElementById(`lab-tab-${id}`)?.focus();
+                    }}
                     aria-selected={selected}
                     onClick={() => setActive(c.id)}
                     className={`rounded-2xl border-2 p-4 text-left transition-all duration-200 ${
@@ -99,13 +106,10 @@ export default function AILab() {
                 );
               })}
             </div>
-            <p className="mt-4 hidden rounded-2xl border-2 border-dashed panel-lavender p-4 font-mono text-[10px] font-bold leading-relaxed text-lavender-ink lg:block">
-              lab rule #1: a demo must never pretend to be a trained model it isn&apos;t.
-            </p>
           </div>
         </Reveal>
 
-        <div>
+        <div id="lab-panel" role="tabpanel" aria-labelledby={`lab-tab-${active}`} tabIndex={0}>
           <Reveal key={active}>
             <div className="mb-6 flex items-center gap-3">
               <span className={`flex h-12 w-12 items-center justify-center rounded-2xl border-2 border-ink ${a.solid} text-plum shadow-sticker-sm`}>
@@ -126,7 +130,7 @@ export default function AILab() {
                       {exp.status}
                     </span>
                   </div>
-                  <div className="p-6">
+                  <div className="p-4 sm:p-6">
                     <p className="text-sm font-medium leading-relaxed text-muted">{exp.body}</p>
 
                     {exp.demo === "agent" && <div className="mt-5"><AgentWorkflow /></div>}

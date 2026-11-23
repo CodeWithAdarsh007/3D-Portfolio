@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { preloadDestination } from "../../lib/routes";
 import { deskObjects } from "../../data/portfolioContent";
 import { useDeskTransition } from "../../context/TransitionContext";
 import {
@@ -43,7 +44,6 @@ function Tooltip({ hovered }) {
         >
           <p className="font-display text-sm font-extrabold text-ink">{meta.label}</p>
           <p className="text-xs font-semibold text-muted">{meta.desc}</p>
-          <p className="mt-1 font-mono text-[10px] tracking-wide text-blue-ink">click to open ↵</p>
         </motion.div>
       )}
     </AnimatePresence>
@@ -60,6 +60,7 @@ function useActivation() {
   const reduce = useReducedMotion();
   const { begin, transition } = useDeskTransition();
   const onActivate = (id, to, rect) => {
+    preloadDestination(to);
     if (reduce) navigate(to);
     else begin(id, to, rect);
   };
@@ -141,7 +142,7 @@ export function DesktopDesk({ screenState, introDone, step }) {
         viewBox="0 0 1600 800"
         className="h-full w-full"
         role="group"
-        aria-label="Adarsh's illustrated creative studio. Eight objects open portfolio sections; the same links are available in the navigation bar and the object list below."
+        aria-label="Adarsh's illustrated creative studio. Eight objects open portfolio sections; each object is keyboard accessible."
       >
         <Wall step={step} introDone={introDone} />
 
@@ -221,14 +222,14 @@ export function DesktopDesk({ screenState, introDone, step }) {
           <g transform="translate(480 452) scale(1.2)"><StickyNoteProp fill="var(--coral)" text="welcome!" /></g>
         </motion.g>
       </svg>
-      <Tooltip hovered={hovered} />
+      <Tooltip hovered={activating ? null : hovered} />
     </div>
   );
 }
 
 /** Compact colourful composition for small screens — not a shrunk desktop. */
 export function MobileDesk({ screenState, introDone, step }) {
-  const [hovered, setHovered] = useState(null);
+
   const { activating, onActivate } = useActivation();
   const obj = (id) => ({
     id,
@@ -236,10 +237,10 @@ export function MobileDesk({ screenState, introDone, step }) {
     desc: OBJECT_META[id].desc,
     to: OBJECT_META[id].to,
     introDone,
-    onHover: setHovered,
+
     onActivate,
   });
-  const meta = hovered ? OBJECT_META[hovered] : null;
+
   const assembled = introDone || step >= 2;
 
   return (
@@ -323,20 +324,13 @@ export function MobileDesk({ screenState, introDone, step }) {
         </g>
       </svg>
 
-      <div
-        className="mx-auto mt-3 flex h-12 max-w-sm items-center justify-center rounded-full border-2 border-ink bg-sunshine px-4 text-center shadow-sticker-sm"
-        aria-live="polite"
-      >
-        {meta ? (
-          <p className="text-xs font-extrabold text-plum">
-            {meta.label} <span className="font-semibold text-plum/70">— {meta.desc}</span>
-          </p>
-        ) : (
-          <p className="font-mono text-[11px] font-bold tracking-wide text-plum">
-            the dev workspace · by adarsh
-          </p>
-        )}
-      </div>
+      <nav aria-label="Workspace shortcuts" className="grid grid-cols-3 border-t border-line bg-raised">
+        {[["Projects", "/projects"], ["AI Lab", "/ai-lab"], ["About", "/about"]].map(([label, to]) => (
+          <Link key={to} to={to} className="flex min-h-11 items-center justify-center gap-1 border-r border-line text-sm font-bold text-ink last:border-0 hover:bg-desk">
+            {label}<span aria-hidden="true" className="text-blue-ink">↗</span>
+          </Link>
+        ))}
+      </nav>
     </div>
   );
 }

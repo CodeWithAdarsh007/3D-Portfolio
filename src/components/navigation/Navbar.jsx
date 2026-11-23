@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { AnimatePresence, motion, useScroll } from "motion/react";
 import { nav, links } from "../../data/portfolioContent";
 import { useTheme } from "../../context/ThemeContext";
 import { useTerminal } from "../../context/TerminalContext";
+import useMediaQuery from "../../hooks/useMediaQuery";
 import Icon from "../common/Icon";
 
 export function LogoMark({ size = 30 }) {
@@ -19,7 +20,7 @@ export function LogoMark({ size = 30 }) {
   );
 }
 
-const ACTIVE_BG = ["bg-sunshine", "bg-turquoise", "bg-coral", "bg-lavender", "bg-leaf", "bg-tangerine", "bg-blue", "bg-sunshine", "bg-coral"];
+const ACTIVE_BG = ["bg-sunshine", "bg-turquoise", "bg-coral", "bg-lavender", "bg-leaf", "bg-tangerine", "bg-turquoise", "bg-sunshine", "bg-coral"];
 
 export default function Navbar() {
   const { theme, toggle } = useTheme();
@@ -27,16 +28,23 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const location = useLocation();
+  const menuButton = useRef(null);
+  const desktop = useMediaQuery("(min-width: 1280px)");
 
   useEffect(() => {
     setMenuOpen(false);
-  }, [location.pathname]);
+  }, [location.key, desktop]);
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
+    if (!menuOpen) return;
+    const dismiss = (event) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        menuButton.current?.focus();
+      }
     };
+    window.addEventListener("keydown", dismiss);
+    return () => window.removeEventListener("keydown", dismiss);
   }, [menuOpen]);
 
   return (
@@ -58,8 +66,8 @@ export default function Navbar() {
       />
 
       <header className="fixed inset-x-0 top-0 z-50 border-b-2 border-ink/10 bg-bg/90 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-5 sm:px-8">
-          <Link to="/" className="flex shrink-0 items-center gap-2.5" aria-label="The Dev Workspace — home">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-1 px-2 min-[375px]:gap-3 min-[375px]:px-4 sm:px-6">
+          <Link to="/" className="flex shrink-0 items-center gap-1.5 sm:gap-2.5" aria-label="The Dev Workspace — home">
             <LogoMark />
             <span className="leading-none">
               <span className="block font-display text-[15px] font-extrabold tracking-tight text-ink">
@@ -71,7 +79,7 @@ export default function Navbar() {
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Primary">
+          <nav className="hidden items-center gap-0.5 xl:flex" aria-label="Primary">
             {nav.map((item, i) => (
               <NavLink
                 key={item.to}
@@ -90,7 +98,7 @@ export default function Navbar() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex shrink-0 items-center gap-0 min-[375px]:gap-1.5">
             <a
               href={links.github}
               target="_blank"
@@ -102,7 +110,7 @@ export default function Navbar() {
             </a>
             <button
               type="button"
-              onClick={toggleTerminal}
+              onClick={() => { setMenuOpen(false); toggleTerminal(); }}
               className="rounded-full border-2 border-transparent p-2 text-muted transition-colors hover:border-ink hover:bg-lavender hover:text-plum"
               aria-label="Toggle terminal (Ctrl + backtick)"
               title="Terminal (Ctrl + `)"
@@ -123,13 +131,15 @@ export default function Navbar() {
               className="btn-primary ml-1 hidden items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-extrabold md:inline-flex"
             >
               <Icon name="Download" size={14} />
-              Resume
+              {links.resumePlaceholder ? "Résumé sample" : "Résumé"}
             </a>
             <button
               type="button"
               onClick={() => setMenuOpen((v) => !v)}
-              className="rounded-full border-2 border-ink bg-sunshine p-2 text-plum shadow-sticker-sm lg:hidden"
+              className="rounded-full border-2 border-ink bg-sunshine p-2 text-plum shadow-sticker-sm xl:hidden"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
+              ref={menuButton}
+              aria-controls={menuOpen ? "mobile-navigation" : undefined}
               aria-expanded={menuOpen}
             >
               <Icon name={menuOpen ? "X" : "Menu"} size={20} />
@@ -140,11 +150,16 @@ export default function Navbar() {
         <AnimatePresence>
           {menuOpen && (
             <motion.nav
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-              className="overflow-hidden border-t-2 border-ink/10 bg-bg lg:hidden"
+              id="mobile-navigation"
+              onBlur={(event) => {
+                if (event.relatedTarget && !event.currentTarget.parentElement.contains(event.relatedTarget)) setMenuOpen(false);
+              }}
+              onClick={() => setMenuOpen(false)}
+              initial={{ y: -6, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -6, opacity: 0 }}
+              transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
+              className="max-h-[calc(100dvh-4rem)] overflow-y-auto border-t-2 border-ink/10 bg-bg xl:hidden"
               aria-label="Mobile"
             >
               <div className="grid grid-cols-2 gap-2 px-5 py-4">
@@ -170,7 +185,7 @@ export default function Navbar() {
                   className="btn-primary col-span-2 mt-1 inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-extrabold"
                 >
                   <Icon name="Download" size={15} />
-                  Download Resume (placeholder)
+                  {links.resumePlaceholder ? "Résumé sample (PDF)" : "Download résumé"}
                 </a>
               </div>
             </motion.nav>

@@ -7,7 +7,6 @@ import Placeholder from "../components/common/Placeholder";
 import ProjectArt, { ConceptTag } from "../components/art/ProjectArt";
 import ProjectCard from "../components/projects/ProjectCard";
 import { CaseSection, FeatureStatus, LinkPlaceholder, WorkflowDiagram } from "../components/projects/CaseStudy";
-import usePageMeta from "../hooks/usePageMeta";
 import { getProject, getRelated, projects } from "../data/projects";
 import { getAccent, wash } from "../lib/accents";
 import NotFound from "./NotFound";
@@ -15,7 +14,7 @@ import NotFound from "./NotFound";
 function MetaSticker({ label, value, bg }) {
   return (
     <div className={`rounded-2xl border-2 border-ink px-4 py-3 shadow-sticker-sm ${bg}`}>
-      <p className="font-mono text-[9px] font-extrabold uppercase tracking-[0.16em] text-plum/70">{label}</p>
+      <p className="font-mono text-[9px] font-extrabold uppercase tracking-[0.16em] text-plum">{label}</p>
       <p className="mt-1 text-sm font-extrabold text-plum">{value}</p>
     </div>
   );
@@ -25,11 +24,6 @@ export default function ProjectDetail() {
   const { slug } = useParams();
   const project = getProject(slug);
 
-  usePageMeta({
-    title: project ? project.title : "Project",
-    description: project ? project.tagline : "Project case study.",
-    path: project ? `/projects/${project.slug}` : "/projects",
-  });
 
   if (!project) return <NotFound />;
 

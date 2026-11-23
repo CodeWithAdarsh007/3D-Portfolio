@@ -5,6 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   build: {
+    manifest: true,
     target: "es2020",
     sourcemap: false,
     rollupOptions: {

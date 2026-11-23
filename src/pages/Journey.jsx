@@ -2,18 +2,10 @@ import { Link } from "react-router-dom";
 import PageShell from "../components/common/PageShell";
 import Reveal from "../components/common/Reveal";
 import Icon from "../components/common/Icon";
-import usePageMeta from "../hooks/usePageMeta";
 import { journey } from "../data/portfolioContent";
 import { getAccent } from "../lib/accents";
 
 export default function Journey() {
-  usePageMeta({
-    title: "My Journey",
-    description:
-      "Adarsh's journey so far: CSE (AI/ML) education, NoteKart product building, and NSS community engagement — a factual, editable timeline with no invented employment.",
-    path: "/journey",
-  });
-
   return (
     <PageShell
       accent="tangerine"
@@ -21,7 +13,7 @@ export default function Journey() {
       eyebrow="Timeline · my journey"
       eyebrowColor="var(--tangerine-ink)"
       title="The path so far"
-      body="Education, product building, and community work — presented as they are. No internships or employment are invented."
+      body="My path through engineering school, student communities, and the work of building NoteKart."
     >
       <ol className="relative mx-auto max-w-5xl space-y-12 border-l-4 border-dashed border-tangerine pl-10 sm:pl-14">
         {journey.map((entry, i) => {

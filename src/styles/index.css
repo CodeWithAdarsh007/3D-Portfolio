@@ -1,5 +1,30 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/fonts/bricolage-grotesque.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/fonts/manrope.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/jetbrains-mono.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+}
+
+
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 /* ---------------------------------------------------------------------------
@@ -9,6 +34,9 @@
 --------------------------------------------------------------------------- */
 
 :root {
+  --sky-top: #63b7e7;
+  --sky-horizon: #b2ebd7;
+  --hardware: #332c40;
   --nav-h: 4rem;
   --bg: #fff5e6;
   --bg-desk: #f7e8d2;
@@ -24,19 +52,19 @@
   --tangerine: #ff884d;
   --tangerine-ink: #a8430a;
   --sunshine: #ffd34e;
-  --sunshine-ink: #8a6d00;
+  --sunshine-ink: #745900;
   --leaf: #50b88a;
-  --leaf-ink: #1f7a55;
+  --leaf-ink: #196946;
   --lavender: #a58ae8;
-  --lavender-ink: #6d4fc2;
+  --lavender-ink: #6043b2;
   --coral: #ff7895;
   --coral-ink: #b8264c;
   --turquoise: #43c7c7;
-  --turquoise-ink: #0f7e7e;
+  --turquoise-ink: #106d70;
 
   --danger: #d13b60;
-  --success: #1f7a55;
-  --warning: #8a6d00;
+  --success: #196946;
+  --warning: #745900;
   --info: #2b4bd8;
 
   --screen: #241d33;
@@ -65,6 +93,10 @@
 }
 
 [data-theme="dark"] {
+  color-scheme: dark;
+  --sky-top: #252645;
+  --sky-horizon: #7372a6;
+  --hardware: #736880;
   --bg: #201d2b;
   --bg-desk: #2a2538;
   --surface: #2a2538;
@@ -241,23 +273,16 @@ body {
   }
 }
 
-/* The room is the hero: it fills the viewport left under the navbar. */
-.room-frame {
-  aspect-ratio: 2 / 1;
-  width: 100%;
-  max-height: calc(100svh - var(--nav-h, 4rem) - 26px);
-  margin-inline: auto;
+/* Scale the frame and illustration together on short landscape screens. */
+.room-hero {
+  width: min(94vw, 1500px, calc(200svh - 184px));
 }
-@supports not (height: 100svh) {
-  .room-frame {
-    max-height: calc(100vh - var(--nav-h, 4rem) - 26px);
-  }
-}
+.room-frame svg[role="group"] { display: block; width: 100%; height: auto; }
+#introduction { scroll-margin-top: 1rem; }
+main[tabindex="-1"]:focus, #introduction:focus { outline: none; }
+
 @media (max-width: 767px) {
-  .room-frame {
-    aspect-ratio: 640 / 620;
-    max-height: none;
-  }
+  .room-hero { width: min(calc(100vw - 24px), 560px); }
 }
 
 /* Room wall light: warm sunlight by day, cool plum ambience at night. */
@@ -330,7 +355,7 @@ body {
   box-shadow: var(--shadow-sticker-sm-v);
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
-.sticker:hover {
+:is(a, button).sticker:hover {
   transform: translate(-2px, -2px);
   box-shadow: 5px 5px 0 0 var(--plum);
 }
@@ -520,7 +545,14 @@ body {
 .flow-dash { stroke-dasharray: 10 8; animation: tdw-dash 6s linear infinite; }
 
 /* Desk interactive objects */
-.desk-object { cursor: pointer; outline: none; }
+.desk-object { cursor: pointer; outline: none; touch-action: manipulation; }
+.object-art { transition: transform 140ms ease-out; transform-box: fill-box; transform-origin: center; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .desk-object:hover .object-art { transform: translateY(-3px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .desk-object:active .object-art { transform: scale(0.98); }
+}
 .desk-object .halo { opacity: 0; transition: opacity 0.25s ease; }
 .desk-object:hover .halo,
 .desk-object:focus-visible .halo { opacity: 1; }

@@ -8,6 +8,8 @@
       name="description"
       content="Explore Adarsh's personal developer workspace, featuring AI/ML experiments, AI agent development, software projects, research, and product-building experiences."
     />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:image:alt" content="The Dev Workspace by Adarsh" />
     <meta name="author" content="Adarsh" />
     <meta name="theme-color" content="#FFF5E6" />
     <link rel="canonical" href="https://3-d-portfolio-xi-tan.vercel.app/" />
@@ -30,19 +32,14 @@
     />
     <meta name="twitter:image" content="https://3-d-portfolio-xi-tan.vercel.app/og-image.jpg" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
     <script>
       (function () {
         try {
           var stored = localStorage.getItem("tdw-theme");
           document.documentElement.setAttribute(
             "data-theme",
-            stored === "dark" ? "dark" : "light",
+            stored === "dark" || stored === "light" ? stored :
+              window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
           );
         } catch (e) {
           document.documentElement.setAttribute("data-theme", "light");

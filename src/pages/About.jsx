@@ -4,19 +4,11 @@ import Icon from "../components/common/Icon";
 import Placeholder from "../components/common/Placeholder";
 import { ButtonAnchor } from "../components/common/Buttons";
 import AvatarIllustration from "../components/profile/AvatarIllustration";
-import usePageMeta from "../hooks/usePageMeta";
 import { bio, identity, links } from "../data/portfolioContent";
 
 const INTEREST_COLORS = ["bg-sunshine", "bg-turquoise", "bg-lavender", "bg-coral", "bg-leaf", "bg-tangerine", "bg-blue", "bg-sunshine"];
 
 export default function About() {
-  usePageMeta({
-    title: "About",
-    description:
-      "Adarsh — third-year Computer Science Engineering (AI/ML) student building software, experimenting with intelligent systems, and turning ideas into practical products.",
-    path: "/about",
-  });
-
   return (
     <PageShell
       accent="coral"
@@ -24,7 +16,7 @@ export default function About() {
       eyebrow="ID card · about me"
       eyebrowColor="var(--coral-ink)"
       title="The person behind the desk"
-      body="Student, builder, and experimenter — here's the honest version, with labelled placeholders where real details are still on the way."
+      body="I study Computer Science Engineering with a focus on AI and ML. My projects bring together software, research questions, and the practical work of building a product."
     >
       <div className="grid gap-10 lg:grid-cols-[360px_1fr]">
         {/* --------------------------------------------- identity column */}
@@ -32,7 +24,7 @@ export default function About() {
           <Reveal>
             <div className="tape card relative rotate-[-1.5deg] border-2 border-ink p-6 shadow-desk">
               <div className="flex items-center justify-between">
-                <span className="sticker bg-coral !text-[10px]">studio id · 001</span>
+                <span className="sticker bg-coral !text-[10px]">workspace ID</span>
                 <Icon name="Sparkles" size={18} className="text-tangerine" />
               </div>
               <div className="mt-5 flex justify-center">
@@ -59,15 +51,15 @@ export default function About() {
             <Placeholder
               icon="User"
               title="Profile photograph"
-              minHeight={300}
-              note="Replace with Adarsh's real photo — the illustrated avatar above is intentionally not a photograph."
+              minHeight={110}
+              note="A profile photograph has yet to be added."
             />
           </Reveal>
 
           <Reveal delay={0.12}>
             <div className="card border-2 border-ink p-6">
               <ButtonAnchor href={links.resume} download icon="Download" className="w-full">
-                Download Resume
+                {links.resumePlaceholder ? "Résumé sample (PDF)" : "Download résumé"}
               </ButtonAnchor>
               <p className="mt-3 text-center font-mono text-[10px] font-semibold text-muted">
                 DEMO PLACEHOLDER — NOT GENUINE

@@ -2,18 +2,15 @@ import { Link } from "react-router-dom";
 import PageTransition from "../components/common/PageTransition";
 import Icon from "../components/common/Icon";
 import { ButtonLink } from "../components/common/Buttons";
-import usePageMeta from "../hooks/usePageMeta";
 import { wash } from "../lib/accents";
 
 export default function NotFound() {
-  usePageMeta({ title: "Page not found", description: "This page isn't on the desk.", path: "/404" });
-
   return (
     <PageTransition className="page-top flex flex-1 items-center justify-center px-5 pb-20">
       <div className="w-full max-w-lg text-center" style={wash("coral", "sunshine")}>
         <div className="mx-auto w-fit rotate-[-2deg] rounded-2xl border-4 border-ink bg-screen px-10 py-8 shadow-sticker">
           <p className="font-mono text-5xl font-bold text-coral">404</p>
-          <p className="mt-2 font-mono text-[11px] text-muted">
+          <p className="mt-2 font-mono text-[11px] text-[#dcd2e4]">
             segment not found on this desk
             <span className="cursor-blink ml-1 inline-block h-3 w-[7px] translate-y-[2px] bg-leaf" />
           </p>

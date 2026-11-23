@@ -2,7 +2,6 @@ import { useState } from "react";
 import PageShell from "../components/common/PageShell";
 import Reveal from "../components/common/Reveal";
 import Icon from "../components/common/Icon";
-import usePageMeta from "../hooks/usePageMeta";
 import { contact, links, PLACEHOLDER_LABEL } from "../data/portfolioContent";
 
 const initialForm = { name: "", email: "", subject: "", message: "" };
@@ -27,10 +26,10 @@ function ChannelCard({ icon, title, value, href, placeholder, note, bg }) {
   );
 
   const cls =
-    "card flex h-full items-start gap-3.5 border-2 border-ink p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-sticker";
+    "card flex h-full items-start gap-3.5 border-2 border-ink p-5";
 
   return href && !placeholder ? (
-    <a href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className={cls}>
+    <a href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className={`${cls} transition-shadow hover:shadow-sticker`}>
       {inner}
     </a>
   ) : (
@@ -65,13 +64,6 @@ function EnvelopeScene() {
 }
 
 export default function Contact() {
-  usePageMeta({
-    title: "Contact",
-    description:
-      "Get in touch with Adarsh — GitHub, contact form, and resume. The form runs in clearly labelled demo mode until a submission provider is connected.",
-    path: "/contact",
-  });
-
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({});
   const [demoSubmitted, setDemoSubmitted] = useState(false);
@@ -96,7 +88,9 @@ export default function Contact() {
     e.preventDefault();
     const next = validate();
     setErrors(next);
-    if (Object.keys(next).length === 0) {
+    const firstInvalid = Object.keys(next)[0];
+    if (firstInvalid) e.currentTarget.elements.namedItem(firstInvalid)?.focus();
+    else {
       // Demo mode: no backend configured. Never claim the message was sent.
       setDemoSubmitted(true);
     }
@@ -126,18 +120,9 @@ export default function Contact() {
           <Reveal delay={0.05}>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
               <ChannelCard icon="Github" title="GitHub" value="CodeWithAdarsh007" href={links.github} bg="bg-sunshine" />
-              <ChannelCard icon="Linkedin" title="LinkedIn" value="profile link pending" placeholder note="not published yet" bg="bg-turquoise" />
-              <ChannelCard icon="AtSign" title="Email" value="address pending" placeholder note="not published yet" bg="bg-coral" />
-              <ChannelCard icon="FileText" title="Resume" value="placeholder PDF" href={links.resume} placeholder note="replace with genuine resume" bg="bg-lavender" />
-            </div>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <div className="rounded-2xl border-2 border-dashed panel-blue p-5 font-mono text-[11px] font-semibold leading-relaxed text-blue-ink">
-              <p className="font-extrabold text-ink">response style</p>
-              <p className="mt-1.5">
-                I read everything. Expect a thoughtful reply, not an autoresponder — once the email
-                channel above is connected.
-              </p>
+              <ChannelCard icon="Linkedin" title="LinkedIn" value={links.linkedin || "Profile pending"} href={links.linkedin} placeholder={!links.linkedin} bg="bg-turquoise" />
+              <ChannelCard icon="AtSign" title="Email" value={links.email || "Address pending"} href={links.email ? `mailto:${links.email}` : undefined} placeholder={!links.email} bg="bg-coral" />
+              <ChannelCard icon="FileText" title="Resume" value={links.resumePlaceholder ? "Sample PDF" : "Download PDF"} href={links.resume} placeholder={links.resumePlaceholder} bg="bg-lavender" />
             </div>
           </Reveal>
         </div>
@@ -148,39 +133,38 @@ export default function Contact() {
               <Icon name="AlertTriangle" size={17} className="mt-0.5 shrink-0 text-sunshine-ink" />
               <p className="text-xs font-bold leading-relaxed text-muted">
                 <span className="font-extrabold text-sunshine-ink">Demo mode — messages are NOT sent.</span>{" "}
-                No form backend is configured yet. Connecting a provider (Formspree, Web3Forms,
-                EmailJS…) enables real delivery; the replacement guide explains how.
+                You can preview a message here. Your entries stay in this browser tab.
               </p>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="block">
                 <span className="mb-1.5 block text-xs font-extrabold text-ink">Name</span>
-                <input type="text" value={form.name} onChange={setField("name")} placeholder="Your name" className={inputCls("name")} aria-invalid={Boolean(errors.name)} />
-                {errors.name && <span className="mt-1 block text-[11px] font-bold text-danger">{errors.name}</span>}
+                <input type="text" name="name" required autoComplete="name" aria-describedby={errors.name ? "name-error" : undefined} value={form.name} onChange={setField("name")} placeholder="Your name" className={inputCls("name")} aria-invalid={Boolean(errors.name)} />
+                {errors.name && <span id="name-error" className="mt-1 block text-[11px] font-bold text-danger">{errors.name}</span>}
               </label>
               <label className="block">
                 <span className="mb-1.5 block text-xs font-extrabold text-ink">Email</span>
-                <input type="email" value={form.email} onChange={setField("email")} placeholder="you@example.com" className={inputCls("email")} aria-invalid={Boolean(errors.email)} />
-                {errors.email && <span className="mt-1 block text-[11px] font-bold text-danger">{errors.email}</span>}
+                <input type="email" name="email" required autoComplete="email" aria-describedby={errors.email ? "email-error" : undefined} value={form.email} onChange={setField("email")} placeholder="you@example.com" className={inputCls("email")} aria-invalid={Boolean(errors.email)} />
+                {errors.email && <span id="email-error" className="mt-1 block text-[11px] font-bold text-danger">{errors.email}</span>}
               </label>
             </div>
 
             <label className="mt-4 block">
               <span className="mb-1.5 block text-xs font-extrabold text-ink">Subject</span>
-              <input type="text" value={form.subject} onChange={setField("subject")} placeholder="What's this about?" className={inputCls("subject")} aria-invalid={Boolean(errors.subject)} />
-              {errors.subject && <span className="mt-1 block text-[11px] font-bold text-danger">{errors.subject}</span>}
+              <input type="text" name="subject" required aria-describedby={errors.subject ? "subject-error" : undefined} value={form.subject} onChange={setField("subject")} placeholder="What's this about?" className={inputCls("subject")} aria-invalid={Boolean(errors.subject)} />
+              {errors.subject && <span id="subject-error" className="mt-1 block text-[11px] font-bold text-danger">{errors.subject}</span>}
             </label>
 
             <label className="mt-4 block">
               <span className="mb-1.5 block text-xs font-extrabold text-ink">Message</span>
-              <textarea rows={5} value={form.message} onChange={setField("message")} placeholder="Tell me about the idea, problem, or collaboration…" className={`${inputCls("message")} resize-y`} aria-invalid={Boolean(errors.message)} />
-              {errors.message && <span className="mt-1 block text-[11px] font-bold text-danger">{errors.message}</span>}
+              <textarea rows={5} name="message" required aria-describedby={errors.message ? "message-error" : undefined} value={form.message} onChange={setField("message")} placeholder="Tell me about the idea, problem, or collaboration…" className={`${inputCls("message")} resize-y`} aria-invalid={Boolean(errors.message)} />
+              {errors.message && <span id="message-error" className="mt-1 block text-[11px] font-bold text-danger">{errors.message}</span>}
             </label>
 
             <button type="submit" className="btn-primary mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-extrabold sm:w-auto">
               <Icon name="Send" size={15} />
-              Send message (demo)
+              Preview message
             </button>
 
             {demoSubmitted && (
@@ -190,8 +174,7 @@ export default function Contact() {
                   Demo mode — this message was NOT sent.
                 </p>
                 <p className="mt-1.5 text-xs font-semibold leading-relaxed text-muted">
-                  Validation passed, so in a live setup this would be delivered. Nothing left your
-                  browser. Connect a form provider to enable real submissions.
+                  Your draft is ready to review.
                 </p>
                 <p className="mt-2 font-mono text-[10px] font-semibold text-muted">
                   preview → from: {form.name} &lt;{form.email}&gt; · subject: {form.subject}

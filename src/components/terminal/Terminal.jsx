@@ -64,10 +64,10 @@ const NEOFETCH = [
 ];
 
 export default function Terminal() {
-  const { isOpen, close, toggle } = useTerminal();
+  const { isOpen, close } = useTerminal();
   const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
-  const [lines, setLines] = useState([]);
+  const [lines, setLines] = useState(BANNER);
   const [input, setInput] = useState("");
   const [history, setHistory] = useState([]);
   const [histIdx, setHistIdx] = useState(-1);
@@ -76,23 +76,23 @@ export default function Terminal() {
 
   useEffect(() => {
     const onKey = (e) => {
-      if (e.ctrlKey && e.key === "`") {
-        e.preventDefault();
-        toggle();
-      } else if (e.key === "Escape" && isOpen) {
+      if (e.key === "Escape" && isOpen) {
         close();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [isOpen, toggle, close]);
+  }, [isOpen, close]);
 
   useEffect(() => {
-    if (isOpen) {
-      if (lines.length === 0) setLines(BANNER);
-      requestAnimationFrame(() => inputRef.current?.focus());
-    }
-  }, [isOpen, lines.length]);
+    if (!isOpen) return;
+    const opener = document.activeElement;
+    const frame = requestAnimationFrame(() => inputRef.current?.focus());
+    return () => {
+      cancelAnimationFrame(frame);
+      if (opener?.isConnected) opener.focus({ preventScroll: true });
+    };
+  }, [isOpen]);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -182,7 +182,7 @@ export default function Terminal() {
           const target = arg.toLowerCase();
           if (!target) {
             out = [{ kind: "err", text: "usage: open <page|project-slug> — e.g. open ai-lab" }];
-          } else if (ROUTES[target]) {
+          } else if (Object.hasOwn(ROUTES, target)) {
             out = go(ROUTES[target], target);
           } else if (projects.some((p) => p.slug === target)) {
             out = go(`/projects/${target}`, target);
@@ -280,16 +280,15 @@ export default function Terminal() {
         setHistIdx(idx);
         setInput(history[idx]);
       }
-    } else if (e.key === "Tab") {
-      e.preventDefault();
+    } else if (e.key === "Tab" && !e.shiftKey) {
       const parts = input.split(/\s+/);
       if (parts.length <= 1) {
         const match = COMMANDS.find((c) => c.startsWith(parts[0].toLowerCase()) && parts[0]);
-        if (match) setInput(match + " ");
+        if (match) { e.preventDefault(); setInput(match + " "); }
       } else if (parts[0] === "open") {
         const targets = [...Object.keys(ROUTES), ...projects.map((p) => p.slug)];
         const match = targets.find((t) => t.startsWith(parts[1].toLowerCase()) && parts[1]);
-        if (match) setInput(`open ${match}`);
+        if (match && input !== `open ${match}`) { e.preventDefault(); setInput(`open ${match}`); }
       }
     }
   };
@@ -310,7 +309,7 @@ export default function Terminal() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.98 }}
           transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed inset-x-3 bottom-3 z-[80] flex h-[340px] flex-col overflow-hidden rounded-2xl border border-[#554a68] bg-[#201d2b] shadow-desk sm:inset-x-auto sm:right-6 sm:bottom-6 sm:h-[400px] sm:w-[620px]"
+          className="fixed inset-x-3 bottom-3 z-[80] flex h-[340px] max-h-[calc(100dvh-1.5rem)] flex-col overflow-hidden rounded-2xl border border-[#554a68] bg-[#201d2b] shadow-desk sm:inset-x-auto sm:right-6 sm:bottom-6 sm:h-[400px] sm:w-[620px]"
           role="dialog"
           aria-label="Workspace terminal"
         >

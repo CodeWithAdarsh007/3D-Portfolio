@@ -1,71 +1,60 @@
-import { lazy, Suspense, useEffect } from "react";
+import { Component, lazy, Suspense, useState } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
-import { AnimatePresence } from "motion/react";
+import { MotionConfig } from "motion/react";
 import { ThemeProvider } from "./context/ThemeContext";
-import { TerminalProvider } from "./context/TerminalContext";
+import { TerminalProvider, useTerminal } from "./context/TerminalContext";
 import { TransitionProvider } from "./context/TransitionContext";
 import ObjectTransition from "./components/desk/ObjectTransition";
 import Navbar from "./components/navigation/Navbar";
 import Footer from "./components/navigation/Footer";
-import Terminal from "./components/terminal/Terminal";
+import { routes } from "./lib/routes";
 
-const Home = lazy(() => import("./pages/Home"));
-const About = lazy(() => import("./pages/About"));
-const Projects = lazy(() => import("./pages/Projects"));
-const ProjectArchive = lazy(() => import("./pages/ProjectArchive"));
-const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
-const AILab = lazy(() => import("./pages/AILab"));
-const Research = lazy(() => import("./pages/Research"));
-const Skills = lazy(() => import("./pages/Skills"));
-const Journey = lazy(() => import("./pages/Journey"));
-const Achievements = lazy(() => import("./pages/Achievements"));
-const Contact = lazy(() => import("./pages/Contact"));
-const NotFound = lazy(() => import("./pages/NotFound"));
+const Terminal = lazy(() => import("./components/terminal/Terminal"));
 
 function RouteFallback() {
   return (
-    <div className="flex flex-1 items-center justify-center pt-28 pb-20" role="status" aria-label="Loading page">
+    <div className="flex min-h-svh flex-1 items-center justify-center pt-28 pb-20" role="status" aria-label="Loading page">
       <span className="h-8 w-8 animate-spin rounded-full border-2 border-line border-t-blue" />
     </div>
   );
 }
 
-function ScrollToTop() {
-  const { pathname, hash } = useLocation();
-  useEffect(() => {
-    if (hash) {
-      const el = document.querySelector(hash);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-        return;
-      }
-    }
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }, [pathname, hash]);
-  return null;
+function TerminalPanel() {
+  const { isOpen } = useTerminal();
+  const [loaded, setLoaded] = useState(false);
+  if (isOpen && !loaded) setLoaded(true);
+  return loaded ? <Suspense fallback={null}><Terminal /></Suspense> : null;
+}
+
+class RouteBoundary extends Component {
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  render() {
+    if (!this.state.failed) return this.props.children;
+    return (
+      <main id="main-content" className="shell page-top min-h-svh">
+        <h1 className="mt-10 text-3xl font-bold">This page couldn’t open.</h1>
+        <p className="my-4 text-muted">Check your connection and reload to try again.</p>
+        <a className="sticker bg-sunshine" href={window.location.href}>Reload page</a>
+      </main>
+    );
+  }
 }
 
 function AnimatedRoutes() {
   const location = useLocation();
   return (
-    <AnimatePresence mode="wait" initial={false}>
+    <RouteBoundary key={location.pathname}>
       <Suspense fallback={<RouteFallback />}>
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/projects/archive" element={<ProjectArchive />} />
-          <Route path="/projects/:slug" element={<ProjectDetail />} />
-          <Route path="/ai-lab" element={<AILab />} />
-          <Route path="/research" element={<Research />} />
-          <Route path="/skills" element={<Skills />} />
-          <Route path="/journey" element={<Journey />} />
-          <Route path="/achievements" element={<Achievements />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
+        <Routes location={location}>
+          {routes.map(({ path, Page }) => <Route key={path} path={path} element={<Page />} />)}
         </Routes>
       </Suspense>
-    </AnimatePresence>
+    </RouteBoundary>
   );
 }
 
@@ -75,14 +64,15 @@ export default function App() {
       <TerminalProvider>
         <BrowserRouter>
           <TransitionProvider>
-            <ScrollToTop />
-            <div className="grain flex min-h-screen flex-col">
-              <Navbar />
-              <AnimatedRoutes />
-              <Footer />
-              <Terminal />
-              <ObjectTransition />
-            </div>
+            <MotionConfig reducedMotion="user">
+              <div className="grain flex min-h-screen flex-col">
+                <Navbar />
+                <AnimatedRoutes />
+                <Footer />
+                <TerminalPanel />
+                <ObjectTransition />
+              </div>
+            </MotionConfig>
           </TransitionProvider>
         </BrowserRouter>
       </TerminalProvider>

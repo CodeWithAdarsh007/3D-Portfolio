@@ -2,20 +2,12 @@ import { Link } from "react-router-dom";
 import PageShell from "../components/common/PageShell";
 import Reveal from "../components/common/Reveal";
 import Icon from "../components/common/Icon";
-import usePageMeta from "../hooks/usePageMeta";
 import { achievements, PLACEHOLDER_LABEL } from "../data/portfolioContent";
 
 const FRAME_COLORS = ["var(--sunshine)", "var(--turquoise)", "var(--coral)"];
 
 /** Certificate-style frames. Empty slots stay honestly labelled. */
 export default function Achievements() {
-  usePageMeta({
-    title: "Achievements",
-    description:
-      "Adarsh's achievements wall. Missing credentials are clearly labelled placeholders until genuine details are supplied — nothing is invented.",
-    path: "/achievements",
-  });
-
   return (
     <PageShell
       accent="sunshine"
@@ -23,7 +15,7 @@ export default function Achievements() {
       eyebrow="Trophy shelf · achievements"
       eyebrowColor="var(--sunshine-ink)"
       title="The trophy shelf"
-      body="This shelf is honest: genuine credentials will appear here once supplied. Until then, every empty frame is visibly labelled — no fake awards, certificates, or wins."
+      body="Verified awards and certificates will appear here. For work you can explore now, visit the project case studies."
     >
       <Reveal>
         <div

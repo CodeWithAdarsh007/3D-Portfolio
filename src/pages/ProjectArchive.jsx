@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import PageShell from "../components/common/PageShell";
 import Reveal from "../components/common/Reveal";
 import Icon from "../components/common/Icon";
-import usePageMeta from "../hooks/usePageMeta";
 import { projects } from "../data/projects";
 import { getAccent } from "../lib/accents";
 
@@ -10,12 +9,6 @@ const ROW_TINT = ["bg-sunshine/20", "bg-turquoise/15", "bg-coral/15", "bg-lavend
 
 /** Dense archive view — the "project folder" on the desk opens this. */
 export default function ProjectArchive() {
-  usePageMeta({
-    title: "Project Archive",
-    description: "The complete project archive of Adarsh's Dev Workspace — every case study in one folder.",
-    path: "/projects/archive",
-  });
-
   return (
     <PageShell
       wide

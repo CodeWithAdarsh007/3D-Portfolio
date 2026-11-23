@@ -318,7 +318,7 @@ export const labExperiments = [
 
 export const contact = {
   heading: "Let's build something useful.",
-  body: "Whether it's an AI idea, a product collaboration, or just a conversation about intelligent systems — my inbox is open.",
+  body: "Find my public work on GitHub or preview a collaboration enquiry below. Email and LinkedIn details are pending.",
   formDemo: true, // no backend configured yet
 };
 
@@ -335,7 +335,7 @@ export const nav = [
 ];
 
 export const deskObjects = [
-  { id: "monitor", label: "Monitor", desc: "Home & introduction", to: "/", icon: "Monitor" },
+  { id: "monitor", label: "Monitor", desc: "Home & introduction", to: "/#introduction", icon: "Monitor" },
   { id: "laptop", label: "Laptop", desc: "My projects", to: "/projects", icon: "Laptop" },
   { id: "chip", label: "AI Chip", desc: "AI & Agent Lab", to: "/ai-lab", icon: "Cpu" },
   { id: "notebook", label: "Notebook", desc: "Research & learning", to: "/research", icon: "BookOpen" },

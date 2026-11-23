@@ -21,7 +21,7 @@ function markSeen() {
 }
 
 /**
- * Intro choreography (~3.6s):
+ * Intro choreography (~1.8s):
  *   0 room appears · 1 sunlight + garland · 2 desk & objects assemble
  *   3 monitor boots · 4 terminal greeting types · 5 workspace ready
  * Skippable, replayable on demand, never auto-replayed on navigation,
@@ -46,8 +46,8 @@ export default function useIntro() {
       return;
     }
     const schedule = isMobile
-      ? [[0, 0], [300, 1], [600, 2], [1100, 4], [1900, 5]]
-      : [[0, 0], [400, 1], [800, 2], [1700, 3], [2600, 4], [3600, 5]];
+      ? [[0, 0], [100, 1], [220, 2], [600, 4], [1000, 5]]
+      : [[0, 0], [100, 1], [250, 2], [680, 3], [1220, 4], [1800, 5]];
     schedule.forEach(([t, s]) => {
       timers.current.push(window.setTimeout(() => setStep(s), t));
     });

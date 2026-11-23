@@ -19,23 +19,26 @@ export default function GitHubPanel() {
   const [state, setState] = useState({ status: "loading", repos: [] });
 
   useEffect(() => {
-    let cancelled = false;
+    const controller = new AbortController();
     try {
       const cached = sessionStorage.getItem(CACHE_KEY);
-      if (cached) {
-        setState({ status: "ready", repos: JSON.parse(cached) });
+      const repos = cached && JSON.parse(cached);
+      if (Array.isArray(repos) && repos.every((repo) => repo && typeof repo.name === "string" && typeof repo.url === "string" && repo.url.startsWith("https://github.com/"))) {
+        setState({ status: "ready", repos });
         return;
       }
     } catch {
       /* fall through to fetch */
     }
-    fetch(API, { headers: { Accept: "application/vnd.github+json" } })
+    const timeout = window.setTimeout(() => controller.abort(), 8000);
+    let mounted = true;
+    fetch(API, { signal: controller.signal, headers: { Accept: "application/vnd.github+json" } })
       .then((res) => {
         if (!res.ok) throw new Error(`GitHub API responded ${res.status}`);
         return res.json();
       })
       .then((repos) => {
-        if (cancelled) return;
+        if (!mounted) return;
         const slim = repos.map((r) => ({
           id: r.id,
           name: r.name,
@@ -54,10 +57,13 @@ export default function GitHubPanel() {
         setState({ status: "ready", repos: slim });
       })
       .catch(() => {
-        if (!cancelled) setState({ status: "error", repos: [] });
-      });
+        if (mounted) setState({ status: "error", repos: [] });
+      })
+      .finally(() => window.clearTimeout(timeout));
     return () => {
-      cancelled = true;
+      mounted = false;
+      controller.abort();
+      window.clearTimeout(timeout);
     };
   }, []);
 

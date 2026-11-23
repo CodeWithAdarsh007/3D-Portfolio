@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { motion } from "motion/react";
+import Reveal from "../common/Reveal";
 import Icon from "../common/Icon";
 import ProjectArt, { ConceptTag } from "../art/ProjectArt";
 import { getAccent } from "../../lib/accents";
@@ -16,7 +16,7 @@ export default function ProjectCard({ project, index = 0, featured = false }) {
     <div className={`relative overflow-hidden ${featured ? "h-56 sm:h-full sm:min-h-[280px]" : "h-44"}`}>
       <ProjectArt
         slug={project.slug}
-        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06] group-hover:rotate-1"
+        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
       />
       <ConceptTag className="absolute left-3 top-3" />
     </div>
@@ -35,12 +35,12 @@ export default function ProjectCard({ project, index = 0, featured = false }) {
       </h2>
       <p className="mt-2 text-sm leading-relaxed text-muted">{project.tagline}</p>
       {featured && (
-        <p className="mt-3 line-clamp-3 text-sm font-medium leading-relaxed text-muted/90">
+        <p className="mt-3 line-clamp-3 text-sm font-medium leading-relaxed text-muted">
           {project.description}
         </p>
       )}
 
-      <div className="mt-4 flex flex-wrap gap-1.5">
+      <div className="my-4 flex flex-wrap gap-1.5">
         {project.categories.slice(0, featured ? 3 : 2).map((c) => (
           <span key={c} className={`chip !border-ink/20 ${a.tile}`}>
             {c}
@@ -48,7 +48,7 @@ export default function ProjectCard({ project, index = 0, featured = false }) {
         ))}
       </div>
 
-      <div className="mt-auto flex items-center justify-between gap-3 border-t-2 border-line pt-4">
+      <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t-2 border-line pt-4">
         <span className="min-w-0 truncate font-mono text-[11px] font-semibold text-muted">
           {project.stack.slice(0, 3).join(" · ")}
         </span>
@@ -61,16 +61,12 @@ export default function ProjectCard({ project, index = 0, featured = false }) {
   );
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.55, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+    <Reveal delay={index * 0.04}
       className={featured ? "md:col-span-2" : ""}
     >
       <Link
         to={`/projects/${project.slug}`}
-        className={`card group flex h-full overflow-hidden border-2 border-ink transition-all duration-300 hover:-translate-y-2 hover:shadow-desk ${
+        className={`card group flex h-full overflow-hidden border-2 border-ink transition-all duration-300 hover:-translate-y-1 hover:shadow-desk ${
           featured ? "flex-col sm:flex-row" : "flex-col"
         }`}
       >
@@ -86,6 +82,6 @@ export default function ProjectCard({ project, index = 0, featured = false }) {
           </>
         )}
       </Link>
-    </motion.div>
+    </Reveal>
   );
 }

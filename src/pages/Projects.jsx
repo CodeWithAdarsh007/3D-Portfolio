@@ -1,24 +1,25 @@
-import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { useMemo } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import PageShell from "../components/common/PageShell";
 import Reveal from "../components/common/Reveal";
 import Icon from "../components/common/Icon";
 import ProjectCard from "../components/projects/ProjectCard";
 import GitHubPanel from "../components/projects/GitHubPanel";
-import usePageMeta from "../hooks/usePageMeta";
 import { projectCategories, projects } from "../data/projects";
 
 export default function Projects() {
-  usePageMeta({
-    title: "Projects",
-    description:
-      "Adarsh's project gallery: NoteKart, Paper Format Translator, AI Diet Recommendation, Online College Election System, and the AI Agent Reliability Lab — each with its own visual identity.",
-    path: "/projects",
-  });
-
-  const [category, setCategory] = useState("All");
-  const [query, setQuery] = useState("");
-  const [sort, setSort] = useState("default");
+  const [params, setParams] = useSearchParams();
+  const category = projectCategories.includes(params.get("category")) ? params.get("category") : "All";
+  const query = params.get("q") || "";
+  const sort = params.get("sort") || "default";
+  const update = (values) => {
+    const next = new URLSearchParams(params);
+    for (const [key, value] of Object.entries(values)) {
+      if (value) next.set(key, value);
+      else next.delete(key);
+    }
+    setParams(next, { replace: true });
+  };
 
   const filtered = useMemo(() => {
     let list = projects.filter((p) => {
@@ -46,8 +47,8 @@ export default function Projects() {
       second="lavender"
       eyebrow="Laptop · the project gallery"
       eyebrowColor="var(--tangerine-ink)"
-      title="A gallery of things I've built"
-      body="Every project gets its own artwork, palette and case study — the problem, my contribution, the approach, and what I learned. Concept visuals are labelled; unverified links never pretend to work."
+      title="Projects from my workspace"
+      body="Explore five case studies across AI, software, and student products. Each covers my role, the implementation status, and what I learned."
     >
       {/* --------------------------------------------------------- controls */}
       <Reveal className="mb-10 space-y-4">
@@ -58,17 +59,17 @@ export default function Projects() {
             <input
               type="search"
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => update({ q: e.target.value })}
               placeholder="Search by name, stack, or category…"
               className="w-full rounded-full border-2 border-ink bg-raised py-2.5 pl-11 pr-4 text-sm font-semibold text-ink shadow-sticker-sm placeholder:text-muted/70 focus:border-blue"
             />
           </label>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <label className="flex items-center gap-2 font-mono text-[11px] font-bold text-muted">
               sort
               <select
                 value={sort}
-                onChange={(e) => setSort(e.target.value)}
+                onChange={(e) => update({ sort: e.target.value === "default" ? "" : e.target.value })}
                 className="rounded-full border-2 border-ink bg-raised px-3 py-2 text-xs font-bold text-ink focus:border-blue"
               >
                 <option value="default">Curated order</option>
@@ -88,7 +89,7 @@ export default function Projects() {
             <button
               key={c}
               type="button"
-              onClick={() => setCategory(c)}
+              onClick={() => update({ category: c === "All" ? "" : c })}
               aria-pressed={category === c}
               className={`rounded-full border-2 px-4 py-2 text-xs font-extrabold transition-all duration-200 ${
                 category === c
@@ -128,8 +129,7 @@ export default function Projects() {
           <button
             type="button"
             onClick={() => {
-              setQuery("");
-              setCategory("All");
+              update({ q: "", category: "" });
             }}
             className="sticker bg-coral"
           >

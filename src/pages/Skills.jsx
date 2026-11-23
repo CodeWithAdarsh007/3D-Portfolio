@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import PageShell from "../components/common/PageShell";
 import Reveal from "../components/common/Reveal";
 import Icon from "../components/common/Icon";
-import usePageMeta from "../hooks/usePageMeta";
 import { exploringSkills, skills } from "../data/portfolioContent";
 import { getProject } from "../data/projects";
 import { getAccent } from "../lib/accents";
@@ -11,13 +10,6 @@ const SPINE_COLORS = ["var(--blue)", "var(--coral)", "var(--sunshine)", "var(--l
 
 /** Skills as a studio bookshelf: each technology is a spine linked to real work. */
 export default function Skills() {
-  usePageMeta({
-    title: "Technical Skills",
-    description:
-      "Adarsh's technical skills as a studio bookshelf — Python, Java, PHP, Django, Streamlit, MySQL — each linked to the projects where it was used. No invented proficiency percentages.",
-    path: "/skills",
-  });
-
   let spineIdx = 0;
 
   return (
@@ -27,7 +19,7 @@ export default function Skills() {
       eyebrow="Toolbox · technical skills"
       eyebrowColor="var(--turquoise-ink)"
       title="The studio bookshelf"
-      body="Skills live where they're used: every spine on this shelf links to the project that earned it. No progress bars, no invented percentages — the work is the evidence."
+      body="Follow a book spine to see how a language, framework, or database fits into a project."
     >
       <div className="grid gap-8 lg:grid-cols-3">
         {skills.map((group, gi) => {
@@ -53,9 +45,9 @@ export default function Skills() {
                         to={related[0] ? `/projects/${related[0].slug}` : "/projects"}
                         title={related.map((p) => p.title).join(", ")}
                         className="group relative flex w-14 flex-col items-center justify-end rounded-t-lg border-2 border-b-0 border-ink pb-2 pt-3 transition-transform duration-200 hover:-translate-y-2"
-                        style={{ background: color, height: 120 + (spineIdx % 3) * 14 }}
+                        style={{ background: color, color: color === "var(--blue)" ? "var(--on-blue)" : "var(--plum)", height: 120 + (spineIdx % 3) * 14 }}
                       >
-                        <span className="font-mono text-[10px] font-extrabold text-plum [writing-mode:vertical-rl]">
+                        <span className="font-mono text-[10px] font-extrabold [writing-mode:vertical-rl]">
                           {item.name}
                         </span>
                         <span className="mt-2 h-1.5 w-6 rounded-full bg-plum/25" />
