@@ -32,7 +32,7 @@ Online College Election System, AI Agent Reliability Lab):
 
 | Item | Field | What to do |
 | --- | --- | --- |
-| GitHub link | `github` | Set the real repository URL (`null` → labelled non-clickable chip). |
+| GitHub link | `github` | Set the real repository URL. A brief availability note covers pending project links. |
 | Live demo | `demo` | Set the real demo URL if one exists. |
 | Genuine screenshots | `screenshots[]` | Put real captures in `public/projects/`, then set `src` (e.g. `/projects/screen.webp`), `alt`, and `caption` on the corresponding entries. The case study renders them automatically. |
 | Concept artwork | `src/components/art/ProjectArt.jsx` | Original illustrated UI concepts per project. Replace with real screenshots when available; until then keep the `Concept Visual` label. |

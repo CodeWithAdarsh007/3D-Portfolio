@@ -20,8 +20,7 @@ achievements, and contact.
 - **Project case studies** with search, category filters, sorting, a dense archive table, and
   reusable detail components. Feature statuses distinguish built / worked-on / planned / exploring.
 - **Live GitHub panel** — public repository data straight from the GitHub API, no credentials.
-- **Authenticity policy** — every missing or sample asset is visibly labelled
-  `DEMO PLACEHOLDER — NOT GENUINE`. See [CONTENT_REPLACEMENT_GUIDE.md](./CONTENT_REPLACEMENT_GUIDE.md).
+- **Content status** distinguishes concept artwork, sample files, and pending links from published work. See [CONTENT_REPLACEMENT_GUIDE.md](./CONTENT_REPLACEMENT_GUIDE.md).
 
 ## Sections
 

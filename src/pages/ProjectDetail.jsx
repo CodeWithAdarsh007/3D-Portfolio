@@ -5,7 +5,7 @@ import Reveal from "../components/common/Reveal";
 import Icon from "../components/common/Icon";
 import ProjectArt, { ConceptTag } from "../components/art/ProjectArt";
 import ProjectCard from "../components/projects/ProjectCard";
-import { CaseSection, FeatureStatus, LinkPlaceholder, WorkflowDiagram } from "../components/projects/CaseStudy";
+import { CaseSection, FeatureStatus, WorkflowDiagram } from "../components/projects/CaseStudy";
 import { getProject, getRelated, projects } from "../data/projects";
 import { getAccent, wash } from "../lib/accents";
 import NotFound from "./NotFound";
@@ -68,19 +68,21 @@ export default function ProjectDetail() {
                     {project.tagline}
                   </p>
                   <div className="mt-6 flex flex-wrap items-center gap-3">
-                    {project.github ? (
+                    {project.github && (
                       <a href={project.github} target="_blank" rel="noreferrer" className="btn-primary inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold">
                         <Icon name="Github" size={15} /> GitHub
                       </a>
-                    ) : (
-                      <LinkPlaceholder icon="Github" label="GitHub link" />
                     )}
-                    {project.demo ? (
+                    {project.demo && (
                       <a href={project.demo} target="_blank" rel="noreferrer" className="sticker bg-raised text-ink">
                         <Icon name="ExternalLink" size={15} /> Live demo
                       </a>
-                    ) : (
-                      <LinkPlaceholder icon="ExternalLink" label="Live demo" />
+                    )}
+                    {(!project.github || !project.demo) && (
+                      <p className="flex items-center gap-2 text-xs font-semibold text-muted">
+                        <Icon name="Info" size={15} className="shrink-0" />
+                        {project.github ? "Live demo link pending." : project.demo ? "Repository link pending." : "Repository and live demo links pending."}
+                      </p>
                     )}
                   </div>
                 </div>

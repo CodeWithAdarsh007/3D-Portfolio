@@ -1,6 +1,5 @@
 import Icon from "../common/Icon";
 import Reveal from "../common/Reveal";
-import { PLACEHOLDER_LABEL } from "../../data/portfolioContent";
 import { getAccent } from "../../lib/accents";
 
 export function CaseSection({ icon, title, children, delay = 0, tint }) {
@@ -34,20 +33,6 @@ export function FeatureStatus({ status }) {
       }`}
     >
       {status}
-    </span>
-  );
-}
-
-/** Honest stand-in for a missing GitHub / live-demo URL. Never navigates. */
-export function LinkPlaceholder({ icon, label }) {
-  return (
-    <span
-      className="inline-flex cursor-not-allowed items-center gap-2 rounded-full border-2 border-dashed border-ink/40 bg-desk px-4 py-2.5 text-sm font-bold text-muted"
-      title="Link pending — not yet published"
-    >
-      <Icon name={icon} size={15} />
-      {label}
-      <span className="placeholder-label !px-2 !py-0.5 !text-[8.5px]">{PLACEHOLDER_LABEL}</span>
     </span>
   );
 }
