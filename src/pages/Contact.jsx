@@ -39,30 +39,6 @@ function ChannelCard({ icon, title, value, href, placeholder, note, bg }) {
   );
 }
 
-/** Illustrated envelope scene for the contact header. */
-function EnvelopeScene() {
-  return (
-    <svg viewBox="0 0 300 170" className="h-36 w-full sm:h-44" aria-hidden="true">
-      <circle cx="150" cy="90" r="70" fill="var(--sunshine)" opacity="0.35" />
-      <g className="floaty">
-        <rect x="80" y="60" width="140" height="86" rx="10" fill="var(--turquoise)" stroke="var(--ink)" strokeWidth="3" />
-        <polygon points="80,66 150,116 220,66" fill="var(--turquoise)" stroke="var(--ink)" strokeWidth="3" />
-        <rect x="105" y="30" width="90" height="60" rx="6" fill="var(--paper)" stroke="var(--ink)" strokeWidth="3" />
-        <rect x="118" y="44" width="64" height="6" rx="3" fill="var(--coral)" />
-        <rect x="118" y="58" width="48" height="6" rx="3" fill="var(--muted)" opacity="0.6" />
-        <circle cx="150" cy="116" r="14" fill="var(--coral)" stroke="var(--ink)" strokeWidth="3" />
-        <text x="150" y="121" textAnchor="middle" fontFamily="var(--font-mono)" fontWeight="700" fontSize="13" fill="#fff5e6">@</text>
-      </g>
-      <g fill="var(--coral)">
-        <path d="M40 40 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z" className="neural-node" />
-        <path d="M258 60 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z" className="neural-node" />
-      </g>
-      <path d="M30 130 Q 60 110 90 132" fill="none" stroke="var(--lavender)" strokeWidth="4" strokeLinecap="round" className="flow-dash" />
-      <path d="M210 140 Q 240 120 272 142" fill="none" stroke="var(--leaf)" strokeWidth="4" strokeLinecap="round" className="flow-dash" />
-    </svg>
-  );
-}
-
 export default function Contact() {
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({});
@@ -103,20 +79,12 @@ export default function Contact() {
 
   return (
     <PageShell
-      accent="blue"
-      second="coral"
       eyebrow="Envelope · contact"
-      eyebrowColor="var(--blue-ink)"
       title={contact.heading}
       body={contact.body}
     >
       <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
         <div className="space-y-5">
-          <Reveal>
-            <div className="card border-2 border-ink p-4">
-              <EnvelopeScene />
-            </div>
-          </Reveal>
           <Reveal delay={0.05}>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
               <ChannelCard icon="Github" title="GitHub" value="CodeWithAdarsh007" href={links.github} bg="bg-sunshine" />
@@ -177,8 +145,9 @@ export default function Contact() {
                   Your draft is ready to review.
                 </p>
                 <p className="mt-2 font-mono text-[10px] font-semibold text-muted">
-                  preview → from: {form.name} &lt;{form.email}&gt; · subject: {form.subject}
+                  {form.name} &lt;{form.email}&gt; · {form.subject}
                 </p>
+                <blockquote className="mt-3 whitespace-pre-wrap break-words border-l-2 border-line pl-3 text-sm text-ink">{form.message}</blockquote>
               </div>
             )}
           </form>

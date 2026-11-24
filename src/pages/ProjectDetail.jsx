@@ -3,7 +3,6 @@ import { motion } from "motion/react";
 import PageTransition from "../components/common/PageTransition";
 import Reveal from "../components/common/Reveal";
 import Icon from "../components/common/Icon";
-import Placeholder from "../components/common/Placeholder";
 import ProjectArt, { ConceptTag } from "../components/art/ProjectArt";
 import ProjectCard from "../components/projects/ProjectCard";
 import { CaseSection, FeatureStatus, LinkPlaceholder, WorkflowDiagram } from "../components/projects/CaseStudy";
@@ -24,7 +23,6 @@ export default function ProjectDetail() {
   const { slug } = useParams();
   const project = getProject(slug);
 
-
   if (!project) return <NotFound />;
 
   const a = getAccent(project.accent);
@@ -32,6 +30,7 @@ export default function ProjectDetail() {
   const prev = projects[(idx - 1 + projects.length) % projects.length];
   const next = projects[(idx + 1) % projects.length];
   const related = getRelated(slug);
+  const screenshots = project.screenshots.filter(shot => shot.src);
 
   return (
     <PageTransition className="page-top pb-20">
@@ -53,7 +52,7 @@ export default function ProjectDetail() {
                 background: `linear-gradient(135deg, color-mix(in srgb, ${a.field} 26%, var(--surface)) 0%, var(--surface) 55%, color-mix(in srgb, var(--sunshine) 22%, var(--surface)) 100%)`,
               }}
             >
-              <div className="grid items-center gap-8 lg:grid-cols-[1fr_1.05fr]">
+              <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
                 <div>
                   <div className="flex flex-wrap gap-2">
                     {project.categories.map((c, i) => (
@@ -62,7 +61,7 @@ export default function ProjectDetail() {
                       </span>
                     ))}
                   </div>
-                  <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-6xl">
+                  <h1 className="mt-5 [overflow-wrap:anywhere] font-display text-[clamp(1.7rem,8vw,2.25rem)] font-extrabold leading-[1.05] tracking-tight text-ink sm:text-6xl">
                     {project.title}
                   </h1>
                   <p className="mt-4 max-w-xl text-base font-semibold leading-relaxed text-muted sm:text-lg">
@@ -131,7 +130,7 @@ export default function ProjectDetail() {
               className="h-full rounded-3xl border-2 border-ink p-7 shadow-sticker-sm sm:p-9"
               style={{ background: `color-mix(in srgb, ${a.field} 18%, var(--surface))` }}
             >
-              <p className="font-mono text-[10px] font-extrabold uppercase tracking-[0.18em] text-ink/70">
+              <p className="font-mono text-[10px] font-extrabold uppercase tracking-[0.18em] text-ink/85">
                 Why it matters
               </p>
               <p className="mt-4 font-display text-lg font-bold leading-relaxed text-ink">
@@ -229,15 +228,20 @@ export default function ProjectDetail() {
             </span>
             Interface previews
           </h2>
-          <p className="mt-2 max-w-2xl text-sm font-medium text-muted">
-            The artwork above is an illustrated concept of the interface. Genuine product
-            screenshots haven&apos;t been supplied yet — those slots stay honestly labelled.
-          </p>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2">
-            {project.screenshots.slice(0, 2).map((shot) => (
-              <Placeholder key={shot.id} icon="Monitor" title={shot.caption} minHeight={150} />
-            ))}
-          </div>
+          {screenshots.length ? (
+            <div className="mt-5 grid gap-5 sm:grid-cols-2">
+              {screenshots.map(shot => (
+                <figure key={shot.id} className="card overflow-hidden">
+                  <img src={shot.src} alt={shot.alt || shot.caption} loading="lazy" className="h-auto w-full" />
+                  <figcaption className="p-4 text-sm text-muted">{shot.caption}</figcaption>
+                </figure>
+              ))}
+            </div>
+          ) : (
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
+              The cover illustrates the interface concept. Product screenshots have yet to be published.
+            </p>
+          )}
         </Reveal>
 
         {/* ------------------------------------------------------ related */}

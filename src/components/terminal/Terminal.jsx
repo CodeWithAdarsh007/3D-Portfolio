@@ -171,7 +171,7 @@ export default function Terminal() {
           break;
         case "achievements":
           out = [
-            { kind: "dim", text: "Achievements wall is placeholder-labelled until genuine credentials are added." },
+            { kind: "dim", text: "Community contributions and verified credentials on the trophy shelf." },
             ...go("/achievements", "Achievements"),
           ];
           break;
@@ -196,7 +196,7 @@ export default function Terminal() {
         }
         case "ls":
           out = [
-            { kind: "out", text: "desk/  monitor  laptop  ai-chip  notebook  folder  id-card  trophy  envelope" },
+            { kind: "out", text: "desk/  monitor  laptop  ai-chip  notebook  folder  id-card  trophy  envelope  lamp  keyboard" },
             { kind: "dim", text: "Every object is clickable on the home desk." },
           ];
           break;

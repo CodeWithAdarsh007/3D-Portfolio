@@ -8,10 +8,7 @@ import { getAccent } from "../lib/accents";
 export default function Journey() {
   return (
     <PageShell
-      accent="tangerine"
-      second="coral"
       eyebrow="Timeline · my journey"
-      eyebrowColor="var(--tangerine-ink)"
       title="The path so far"
       body="My path through engineering school, student communities, and the work of building NoteKart."
     >

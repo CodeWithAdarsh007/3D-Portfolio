@@ -14,6 +14,7 @@ for (const path of [...publicPaths, "/404"]) {
     const file = path === "/" ? "index.html" : path.slice(1) + ".html";
     const html = await readFile(`dist/${file}`, "utf8");
     const meta = pageMeta(path);
+    assert.equal(html.includes('class="room-loading"'), path === "/");
     assert.ok(html.includes(`<link rel="canonical" href="${meta.canonical}"`));
     assert.ok(html.includes(`<meta name="robots" content="${meta.robots}"`));
     assert.ok(html.includes(`<title>${meta.title.replaceAll("&", "&amp;")}</title>`));

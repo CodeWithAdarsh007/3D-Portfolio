@@ -1,336 +1,175 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { deskObjects, links, nav } from "../../data/portfolioContent";
+import { useTheme } from "../../context/ThemeContext";
+import { useTerminal } from "../../context/TerminalContext";
 import { preloadDestination } from "../../lib/routes";
-import { deskObjects } from "../../data/portfolioContent";
-import { useDeskTransition } from "../../context/TransitionContext";
-import {
-  BooksProp, ChipObject, ClockProp, CoffeeProp, DeskObject, DeskSurface,
-  EnvelopeObject, FolderObject, GarlandProp, IdCardObject, KeyboardProp,
-  LaptopObject, MonitorObject, MouseProp, NeuralPosterProp, NotebookObject,
-  PencilCupProp, PinboardProp, PlantProp, PosterProp, RugProp, ShelfProp, StickyNoteProp,
-  TrophyObject, WindowProp,
-} from "./objects";
+import useMediaQuery from "../../hooks/useMediaQuery";
+import Icon from "../common/Icon";
+import { bounds, landscape, portrait } from "./sceneLayout";
+import LaptopScreen from "./LaptopScreen";
 
-const EASE = [0.22, 1, 0.36, 1];
-const OBJECT_META = Object.fromEntries(deskObjects.map((o) => [o.id, o]));
-
-const DESKTOP_ANCHORS = {
-  monitor: { x: 38.75, y: 20 },
-  laptop: { x: 64.4, y: 34.4 },
-  chip: { x: 15.9, y: 48.2 },
-  notebook: { x: 38.75, y: 62.4 },
-  folder: { x: 78.4, y: 57 },
-  idcard: { x: 23.4, y: 35.6 },
-  trophy: { x: 88.75, y: 40.2 },
-  envelope: { x: 55, y: 61.75 },
+const destinations = {
+  monitor: "Introduction", laptop: "Projects", chip: "AI & Agent Lab",
+  notebook: "Research", folder: "Project archive", idcard: "About Adarsh",
+  trophy: "Achievements", envelope: "Contact",
 };
 
-function Tooltip({ hovered }) {
-  const meta = hovered ? OBJECT_META[hovered] : null;
-  const anchor = hovered ? DESKTOP_ANCHORS[hovered] : null;
+function StudioClock({ box }) {
+  const [now, setNow] = useState(Date.now);
+  useEffect(() => {
+    let timer;
+    function tick() {
+      setNow(Date.now());
+      timer = setTimeout(tick, 60000 - Date.now() % 60000);
+    }
+    tick();
+    return () => clearTimeout(timer);
+  }, []);
+  const ist = new Date(now + 330 * 60000);
+  const minute = ist.getUTCMinutes();
+  const hour = ist.getUTCHours();
   return (
-    <AnimatePresence>
-      {meta && anchor && (
-        <motion.div
-          key={hovered}
-          initial={{ opacity: 0, y: 6, scale: 0.96 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 4, scale: 0.97 }}
-          transition={{ duration: 0.18, ease: EASE }}
-          className="pointer-events-none absolute z-10 w-max max-w-[230px] -translate-x-1/2 -translate-y-full rounded-xl border-2 border-ink bg-raised px-3.5 py-2.5 text-center shadow-sticker-sm"
-          style={{ left: `${anchor.x}%`, top: `${anchor.y}%` }}
-          role="status"
-        >
-          <p className="font-display text-sm font-extrabold text-ink">{meta.label}</p>
-          <p className="text-xs font-semibold text-muted">{meta.desc}</p>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <svg className="studio-clock" style={bounds(box)} viewBox="0 0 100 100" preserveAspectRatio="none"
+      role="img" aria-label={`India Standard Time, ${hour}:${String(minute).padStart(2, "0")}`}>
+      <defs><radialGradient id="dial"><stop stopColor="#efdbb7" /><stop offset=".83" stopColor="#dfc296" /><stop offset="1" stopColor="#bb9569" /></radialGradient></defs>
+      <circle cx="50" cy="50" r="50" fill="url(#dial)" />
+      {Array.from({ length: 60 }, (_, i) => (
+        <path key={i} d={i % 5 ? "M50 5v2" : "M50 5v6"} stroke="#554430" strokeWidth={i % 5 ? ".65" : "2.1"} transform={`rotate(${i * 6} 50 50)`} />
+      ))}
+      <text x="50" y="74" textAnchor="middle" fontSize="6" fill="#66513a" fontFamily="serif" letterSpacing="1">IST</text>
+      <g stroke="#392d23" strokeLinecap="round">
+        <path d="M50 52V24" strokeWidth="3.3" transform={`rotate(${(hour + minute / 60) * 30} 50 50)`} />
+        <path d="M50 54V13" strokeWidth="2" transform={`rotate(${minute * 6} 50 50)`} />
+      </g>
+      <circle cx="50" cy="50" r="2.8" fill="#8d4927" />
+    </svg>
   );
 }
 
-/**
- * Activation hands off to the cinematic overlay: the object lifts off the
- * desk, plays its own animation, and floods into the destination page.
- * Reduced motion navigates immediately.
- */
-function useActivation() {
+function StudioIndex({ dialog, replay, intro, skip }) {
+  const { theme, toggle } = useTheme();
+  const terminal = useTerminal();
+  const close = () => dialog.current?.close();
+  return (
+    <dialog ref={dialog} className="studio-index" aria-labelledby="index-title"
+      onClick={(e) => { if (e.target === e.currentTarget) close(); }}>
+      <div className="studio-index-sheet">
+        <header className="flex items-center justify-between gap-4">
+          <h2 id="index-title" className="font-display text-3xl font-bold">Studio index</h2>
+          <button className="index-close" onClick={close} aria-label="Close studio index" autoFocus><Icon name="X" /></button>
+        </header>
+        <nav aria-label="Studio sections" className="index-links">
+          {[...nav.filter(item => item.to !== "/"), { to: "/projects/archive", label: "Project archive" }].map(item => (
+            <Link key={item.to} to={item.to} onClick={close}>{item.label}<Icon name="ArrowUpRight" size={14} /></Link>
+          ))}
+          <a href={links.resume} download onClick={close}>{links.resumePlaceholder ? "Résumé sample" : "Résumé"}<Icon name="Download" size={14} /></a>
+        </nav>
+        <div className="index-tools">
+          <button onClick={toggle}><Icon name={theme === "dark" ? "Sun" : "Moon"} size={16} />{theme === "dark" ? "Daylight" : "Night light"}</button>
+          <button onClick={() => { close(); terminal.open(); }}><Icon name="SquareTerminal" size={16} />Terminal</button>
+          <button onClick={() => { close(); if (intro) skip(); else replay(); }}><Icon name={intro ? "SkipForward" : "RotateCcw"} size={16} />{intro ? "Skip intro" : "Replay intro"}</button>
+        </div>
+      </div>
+    </dialog>
+  );
+}
+
+function initialIntro() {
+  try { return !sessionStorage.getItem("tdw-intro-seen"); } catch { return true; }
+}
+
+export default function DeskScene() {
+  const narrow = useMediaQuery("(orientation: portrait)");
+  const reduce = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const { theme, toggle } = useTheme();
+  const terminal = useTerminal();
   const navigate = useNavigate();
-  const reduce = useReducedMotion();
-  const { begin, transition } = useDeskTransition();
-  const onActivate = (id, to, rect) => {
-    preloadDestination(to);
-    if (reduce) navigate(to);
-    else begin(id, to, rect);
-  };
-  return { activating: transition?.id ?? null, onActivate };
-}
+  const location = useLocation();
+  const dialog = useRef(null);
+  const surface = useRef(null);
+  const opening = useRef(null);
+  const [selection, setSelection] = useState(null);
+  const [intro, setIntro] = useState(initialIntro);
+  const layout = narrow ? portrait : landscape;
+  const light = theme === "dark" ? "night" : "day";
+  const src = `/studio/${narrow ? "portrait-" : ""}${light}.webp`;
 
-function Wall({ step, introDone }) {
-  return (
-    <motion.g
-      initial={introDone ? false : { opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.7, ease: EASE }}
-    >
-      <defs>
-        <linearGradient id="wall-grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" className="ws1" stopColor="var(--sunshine)" stopOpacity="0.28" />
-          <stop offset="0.55" className="ws2" stopColor="var(--coral)" stopOpacity="0.14" />
-          <stop offset="1" className="ws3" stopColor="var(--lavender)" stopOpacity="0.16" />
-        </linearGradient>
-      </defs>
-      <rect x="0" y="0" width="1600" height="478" fill="var(--bg)" />
-      <rect x="0" y="0" width="1600" height="478" fill="url(#wall-grad)" />
-      <rect x="0" y="404" width="1600" height="74" fill="var(--bg-desk)" />
-      <g stroke="var(--line)" strokeWidth="3" opacity="0.8">
-        {[120, 360, 600, 840, 1080, 1320, 1520].map((x) => (
-          <line key={x} x1={x} y1="410" x2={x} y2="472" />
-        ))}
-      </g>
-      <rect x="0" y="400" width="1600" height="8" fill="var(--wood)" />
+  function finishIntro() {
+    setIntro(false);
+    try { sessionStorage.setItem("tdw-intro-seen", "1"); } catch { /* private browsing */ }
+  }
 
-      <motion.g
-        initial={introDone ? false : { opacity: 0 }}
-        animate={{ opacity: step >= 1 ? 1 : 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        <polygon className="window-light" points="120,341 320,341 560,590 200,590" fill="var(--sunshine)" opacity="0.14" />
-        <g transform="translate(190 185) scale(1.22)">
-          <WindowProp />
-        </g>
-        <GarlandProp />
-      </motion.g>
+  // Leaving during a camera move cancels its pending destination.
+  useLayoutEffect(() => {
+    return () => {
+      opening.current?.cancel();
+      opening.current = null;
+    };
+  }, [location.key]);
 
-      <g transform="translate(375 105)">
-        <PosterProp />
-      </g>
-      <g transform="translate(560 86) scale(1.1)">
-        <PinboardProp />
-      </g>
-      <g transform="translate(980 118) scale(1.12)">
-        <NeuralPosterProp />
-      </g>
-      <g transform="translate(1180 112) scale(1.15)">
-        <ClockProp />
-      </g>
-      <g transform="translate(1400 165) scale(1.2)">
-        <ShelfProp />
-      </g>
-    </motion.g>
-  );
-}
+  function visit(event, item, box) {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+    event.preventDefault();
+    if (opening.current) return;
+    preloadDestination(item.to);
+    finishIntro();
+    if (reduce || !surface.current?.animate) {
+      navigate(item.to);
+      return;
+    }
+    setSelection({ key: location.key, id: item.id });
+    const [x, y, w, h] = box;
+    surface.current.style.transformOrigin = `${x + w / 2}% ${y + h / 2}%`;
+    const move = surface.current.animate([
+      { transform: "scale(1)" },
+      { transform: "scale(1.18)" },
+    ], { duration: 440, easing: "cubic-bezier(.22,.72,.27,1)", fill: "forwards" });
+    opening.current = move;
+    move.onfinish = () => {
+      if (opening.current !== move) return;
+      opening.current = null;
+      move.cancel();
+      setSelection(null);
+      navigate(item.to);
+    };
+  }
 
-export function DesktopDesk({ screenState, introDone, step }) {
-  const [hovered, setHovered] = useState(null);
-  const { activating, onActivate } = useActivation();
-  const obj = (id) => ({
-    id,
-    label: OBJECT_META[id].label,
-    desc: OBJECT_META[id].desc,
-    to: OBJECT_META[id].to,
-    introDone,
-    onHover: setHovered,
-    onActivate,
-  });
-  const assembled = introDone || step >= 2;
+  function hotspot(id, label, extra = {}) {
+    const [x, y, w, h, outline] = layout[id];
+    const style = {
+      ...bounds(layout[id]), "--cut": `polygon(${outline})`,
+      "--size": `${10000 / w}% ${10000 / h}%`,
+      "--pos": `${100 * x / (100 - w)}% ${100 * y / (100 - h)}%`,
+    };
+    const content = <>
+      <span className="prop-skin" aria-hidden="true" />
+      {id === "laptop" && <LaptopScreen portrait={narrow} />}
+      <span className="prop-dot" aria-hidden="true" />
+      <span className="prop-caption" aria-hidden="true">{label}</span>
+    </>;
+    const shared = { className: "room-prop", style, "data-prop": id, "aria-label": label };
+    return extra.to
+      ? <Link key={id} {...shared} to={extra.to} onClick={e => visit(e, extra, layout[id])}>{content}</Link>
+      : <button key={id} {...shared} type="button" onClick={extra.onClick}>{content}</button>;
+  }
 
   return (
-    <div className="relative">
-      <svg
-        viewBox="0 0 1600 800"
-        className="h-full w-full"
-        role="group"
-        aria-label="Adarsh's illustrated creative studio. Eight objects open portfolio sections; each object is keyboard accessible."
-      >
-        <Wall step={step} introDone={introDone} />
-
-        <motion.g
-          initial={introDone ? false : { opacity: 0, y: 24 }}
-          animate={assembled ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-          transition={{ duration: 0.65, ease: EASE }}
-        >
-          <g transform="translate(800 745) scale(1.3)">
-            <RugProp />
-          </g>
-          <g transform="translate(800 585)">
-            <DeskSurface width={1540} />
-          </g>
-        </motion.g>
-
-        <motion.g
-          initial={introDone ? false : { opacity: 0 }}
-          animate={{ opacity: assembled ? 1 : 0 }}
-          transition={{ delay: introDone ? 0 : 0.35, duration: 0.5 }}
-        >
-          <g transform="translate(400 468) scale(1.25)"><PlantProp /></g>
-          <g transform="translate(1215 468) scale(1.2)"><BooksProp /></g>
-          <g transform="translate(660 498) scale(1.3)"><KeyboardProp /></g>
-          <g transform="translate(905 512) scale(1.3)"><MouseProp /></g>
-          <g transform="translate(430 524) scale(1.3)"><CoffeeProp /></g>
-          <g transform="translate(1105 520) scale(1.3)"><PencilCupProp /></g>
-        </motion.g>
-
-        <g transform="translate(620 470) scale(1.3)">
-          <DeskObject {...obj("monitor")} delay={0.15} haloRx={92} haloRy={14} hitW={145} hitTop={-258}>
-            <MonitorObject screenState={screenState} introDone={introDone} active={activating === "monitor"} />
-          </DeskObject>
-        </g>
-        <g transform="translate(1030 465) scale(1.3)">
-          <DeskObject {...obj("laptop")} delay={0.3} haloRx={112} haloRy={12} hitW={118} hitTop={-146}>
-            <LaptopObject active={activating === "laptop"} />
-          </DeskObject>
-        </g>
-        <g transform="translate(1420 468) scale(1.3)">
-          <DeskObject {...obj("trophy")} delay={0.45} haloRx={40} haloRy={9} hitW={44} hitTop={-108}>
-            <TrophyObject active={activating === "trophy"} />
-          </DeskObject>
-        </g>
-        <g transform="translate(255 516) scale(1.3)">
-          <DeskObject {...obj("chip")} delay={0.55} haloRx={48} haloRy={10} hitW={52} hitTop={-100}>
-            <ChipObject active={activating === "chip"} />
-          </DeskObject>
-        </g>
-        <g transform="translate(620 585) scale(1.3)">
-          <DeskObject {...obj("notebook")} delay={0.65} haloRx={90} haloRy={11} hitW={90} hitTop={-66}>
-            <NotebookObject active={activating === "notebook"} />
-          </DeskObject>
-        </g>
-        <g transform="translate(880 572) scale(1.3)">
-          <DeskObject {...obj("envelope")} delay={0.75} haloRx={60} haloRy={10} hitW={62} hitTop={-60}>
-            <EnvelopeObject active={activating === "envelope"} />
-          </DeskObject>
-        </g>
-        <g transform="translate(1255 568) scale(1.3)">
-          <DeskObject {...obj("folder")} delay={0.85} haloRx={74} haloRy={11} hitW={76} hitTop={-86}>
-            <FolderObject active={activating === "folder"} />
-          </DeskObject>
-        </g>
-        <g transform="translate(375 182) scale(1.05)">
-          <DeskObject {...obj("idcard")} delay={0.95} haloRx={40} haloRy={12} haloY={100} hitW={36} hitTop={-16} hitBottom={146}>
-            <IdCardObject active={activating === "idcard"} />
-          </DeskObject>
-        </g>
-
-        <motion.g
-          initial={introDone ? false : { opacity: 0 }}
-          animate={{ opacity: assembled ? 1 : 0 }}
-          transition={{ delay: introDone ? 0 : 1, duration: 0.4 }}
-        >
-          <g transform="translate(812 436) scale(1.2)"><StickyNoteProp /></g>
-          <g transform="translate(480 452) scale(1.2)"><StickyNoteProp fill="var(--coral)" text="welcome!" /></g>
-        </motion.g>
-      </svg>
-      <Tooltip hovered={activating ? null : hovered} />
-    </div>
-  );
-}
-
-/** Compact colourful composition for small screens — not a shrunk desktop. */
-export function MobileDesk({ screenState, introDone, step }) {
-
-  const { activating, onActivate } = useActivation();
-  const obj = (id) => ({
-    id,
-    label: OBJECT_META[id].label,
-    desc: OBJECT_META[id].desc,
-    to: OBJECT_META[id].to,
-    introDone,
-
-    onActivate,
-  });
-
-  const assembled = introDone || step >= 2;
-
-  return (
-    <div>
-      <svg
-        viewBox="0 0 640 620"
-        className="h-full w-full"
-        role="group"
-        aria-label="Adarsh's compact illustrated studio. Tap an object to open its section."
-      >
-        <defs>
-          <linearGradient id="wall-grad-m" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" className="ws1" stopColor="var(--sunshine)" stopOpacity="0.3" />
-            <stop offset="1" className="ws2" stopColor="var(--coral)" stopOpacity="0.16" />
-          </linearGradient>
-        </defs>
-        <motion.g initial={introDone ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
-          <rect x="0" y="0" width="640" height="304" fill="var(--bg)" />
-          <rect x="0" y="0" width="640" height="304" fill="url(#wall-grad-m)" />
-          <rect x="0" y="298" width="640" height="6" fill="var(--wood)" />
-          <g transform="translate(95 105) scale(0.55)"><WindowProp /></g>
-          <g transform="translate(520 90) scale(0.7)"><NeuralPosterProp /></g>
-          <g transform="translate(300 84) scale(0.62)"><PinboardProp /></g>
-        </motion.g>
-
-        <motion.g
-          initial={introDone ? false : { opacity: 0, y: 18 }}
-          animate={assembled ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
-          transition={{ duration: 0.55 }}
-        >
-          <g transform="translate(320 560) scale(0.72)"><RugProp /></g>
-          <g transform="translate(320 430)"><DeskSurface width={600} /></g>
-        </motion.g>
-
-        <motion.g initial={introDone ? false : { opacity: 0 }} animate={{ opacity: assembled ? 1 : 0 }} transition={{ delay: introDone ? 0 : 0.25, duration: 0.45 }}>
-          <g transform="translate(60 310) scale(0.62)"><PlantProp /></g>
-          <g transform="translate(320 352) scale(0.62)"><KeyboardProp /></g>
-          <g transform="translate(215 368) scale(0.7)"><CoffeeProp /></g>
-          <g transform="translate(425 360) scale(0.7)"><MouseProp /></g>
-        </motion.g>
-
-        <g transform="translate(320 308) scale(0.72)">
-          <DeskObject {...obj("monitor")} delay={0.1} haloRx={92} haloRy={14} hitW={145} hitTop={-258}>
-            <MonitorObject screenState={screenState} introDone={introDone} active={activating === "monitor"} />
-          </DeskObject>
-        </g>
-        <g transform="translate(505 315) scale(0.6)">
-          <DeskObject {...obj("laptop")} delay={0.2} haloRx={112} haloRy={12} hitW={118} hitTop={-146}>
-            <LaptopObject active={activating === "laptop"} />
-          </DeskObject>
-        </g>
-        <g transform="translate(598 320) scale(0.55)">
-          <DeskObject {...obj("trophy")} delay={0.3} haloRx={42} haloRy={10} hitW={44} hitTop={-108}>
-            <TrophyObject active={activating === "trophy"} />
-          </DeskObject>
-        </g>
-        <g transform="translate(140 360) scale(0.75)">
-          <DeskObject {...obj("chip")} delay={0.35} haloRx={50} haloRy={11} hitW={52} hitTop={-100}>
-            <ChipObject active={activating === "chip"} />
-          </DeskObject>
-        </g>
-        <g transform="translate(255 425) scale(0.72)">
-          <DeskObject {...obj("notebook")} delay={0.4} haloRx={92} haloRy={12} hitW={90} hitTop={-66}>
-            <NotebookObject active={activating === "notebook"} />
-          </DeskObject>
-        </g>
-        <g transform="translate(400 428) scale(0.75)">
-          <DeskObject {...obj("envelope")} delay={0.45} haloRx={62} haloRy={11} hitW={62} hitTop={-60}>
-            <EnvelopeObject active={activating === "envelope"} />
-          </DeskObject>
-        </g>
-        <g transform="translate(545 420) scale(0.68)">
-          <DeskObject {...obj("folder")} delay={0.5} haloRx={76} haloRy={12} hitW={76} hitTop={-86}>
-            <FolderObject active={activating === "folder"} />
-          </DeskObject>
-        </g>
-        <g transform="translate(180 150) scale(0.6)">
-          <DeskObject {...obj("idcard")} delay={0.55} haloRx={42} haloRy={12} haloY={100} hitW={36} hitTop={-16} hitBottom={146}>
-            <IdCardObject active={activating === "idcard"} />
-          </DeskObject>
-        </g>
-      </svg>
-
-      <nav aria-label="Workspace shortcuts" className="grid grid-cols-3 border-t border-line bg-raised">
-        {[["Projects", "/projects"], ["AI Lab", "/ai-lab"], ["About", "/about"]].map(([label, to]) => (
-          <Link key={to} to={to} className="flex min-h-11 items-center justify-center gap-1 border-r border-line text-sm font-bold text-ink last:border-0 hover:bg-desk">
-            {label}<span aria-hidden="true" className="text-blue-ink">↗</span>
-          </Link>
-        ))}
-      </nav>
-    </div>
+    <section className="room-hero" aria-label="Adarsh’s interactive developer studio">
+      <div className="studio-stage">
+        <div ref={surface} className="studio-surface" data-opening={selection?.key === location.key ? selection.id : undefined} style={{ "--scene": `url("${src}")` }}>
+          <img className="studio-art" src={src} alt="" fetchPriority="high" draggable="false" />
+          <StudioClock box={layout.clock} />
+          {deskObjects.map(item => hotspot(item.id, destinations[item.id], item))}
+          {hotspot("lamp", theme === "dark" ? "Switch to daylight" : "Switch to night light", { onClick: toggle })}
+          {hotspot("keyboard", "Open terminal", { onClick: terminal.open })}
+          {intro && !reduce && <div aria-hidden="true" className="studio-intro" onAnimationEnd={finishIntro} />}
+        </div>
+      </div>
+      <button className="drawer-pull" aria-haspopup="dialog" onClick={() => dialog.current.showModal()}>
+        <Icon name="Menu" size={15} />Studio index
+      </button>
+      <StudioIndex dialog={dialog} intro={intro && !reduce} skip={finishIntro} replay={() => setIntro(true)} />
+    </section>
   );
 }

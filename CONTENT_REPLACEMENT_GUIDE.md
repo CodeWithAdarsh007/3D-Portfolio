@@ -22,8 +22,8 @@ All copy, links and project data live in two editable files:
 | LinkedIn | `links.linkedin` | `null` (labelled pending) | Set your profile URL. |
 | Resume file | `public/resume-adarsh-placeholder.pdf` | Generated placeholder PDF | Replace with your real PDF (keep the filename or update `links.resume`). |
 | Institution name | `identity.education.institution` | `null` (UI shows "institution name pending") | Add your college name. |
-| Profile photograph | `src/pages/About.jsx` photo block | Labelled placeholder | Add the image to `src/assets/images/`, import it in `About.jsx`, replace the `<Placeholder …>` with an `<img>` and meaningful `alt`. |
-| Illustrated avatar | `src/components/profile/AvatarIllustration.jsx` | Original placeholder art | Keep as stylized art or replace. It is intentionally **not** a photograph. |
+| Profile photograph | About page studio ID | Currently uses the studio mascot | Supply a genuine portrait if you want it displayed with the ID. |
+| Studio mascot | `public/studio/mascot.webp` | Illustrated CRT mascot | This is artwork, separate from a personal photograph. |
 
 ## 2. Projects (`src/data/projects.js`)
 
@@ -34,7 +34,7 @@ Online College Election System, AI Agent Reliability Lab):
 | --- | --- | --- |
 | GitHub link | `github` | Set the real repository URL (`null` → labelled non-clickable chip). |
 | Live demo | `demo` | Set the real demo URL if one exists. |
-| Genuine screenshots | `screenshots[]` | Add images to `src/assets/images/projects/` and render them in `ProjectDetail.jsx` ("Interface previews") in place of the `<Placeholder>` blocks. |
+| Genuine screenshots | `screenshots[]` | Put real captures in `public/projects/`, then set `src` (e.g. `/projects/screen.webp`), `alt`, and `caption` on the corresponding entries. The case study renders them automatically. |
 | Concept artwork | `src/components/art/ProjectArt.jsx` | Original illustrated UI concepts per project. Replace with real screenshots when available; until then keep the `Concept Visual` label. |
 | Timeline | `year` | Add real dates if you want them displayed. |
 | Feature statuses | `features[].status` | Confirm each: `Built`, `Worked on`, `Planned`, `Exploring`. Election-system features are currently `Planned`. |
@@ -50,7 +50,7 @@ Online College Election System, AI Agent Reliability Lab):
 
 ## 4. Achievements (`portfolioContent.js → achievements`)
 
-All three certificate frames are placeholders. For each genuine credential set real
+The shelf lists verified entries and shows a short availability note while it is empty. For each genuine credential set real
 `title`, `issuer`, `date`, set `placeholder: false`, and optionally attach a certificate
 image rendered in `src/pages/Achievements.jsx`. Never add awards that did not happen.
 

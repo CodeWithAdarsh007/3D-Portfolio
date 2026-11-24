@@ -4,10 +4,8 @@ import SectionHeading from "../components/common/SectionHeading";
 import Reveal from "../components/common/Reveal";
 import Icon from "../components/common/Icon";
 import { ButtonAnchor, ButtonLink } from "../components/common/Buttons";
-import { DesktopDesk, MobileDesk } from "../components/desk/DeskScene";
+import DeskScene from "../components/desk/DeskScene";
 import ProjectCard from "../components/projects/ProjectCard";
-import useIntro from "../hooks/useIntro";
-import useMediaQuery from "../hooks/useMediaQuery";
 import { currentFocus, identity, links } from "../data/portfolioContent";
 import { projects } from "../data/projects";
 import { getAccent } from "../lib/accents";
@@ -15,39 +13,14 @@ import { getAccent } from "../lib/accents";
 const FEATURED = ["notekart", "ai-agent-reliability-lab", "paper-format-translator"];
 
 export default function Home() {
-  const { step, introDone, skip, replay, screenState } = useIntro();
-  const isMobile = useMediaQuery("(max-width: 767px)");
   const featured = FEATURED.map((slug) => projects.find((p) => p.slug === slug));
 
   return (
-    <PageTransition className="page-top">
-      {/* ---------------------------------------------------- the room hero */}
-      <section className="room-hero shell relative pb-4" aria-label="The illustrated developer room">
-        <div className="absolute bottom-[4.35rem] right-3 z-20 md:bottom-7 md:right-4">
-          {introDone ? (
-            <button type="button" onClick={replay} className="sticker bg-raised text-ink !px-3 !py-1.5 !text-[10.5px]">
-              <Icon name="RotateCcw" size={12} />
-              Replay intro
-            </button>
-          ) : (
-            <button type="button" onClick={skip} className="sticker bg-sunshine !px-3 !py-1.5 !text-[10.5px]">
-              <Icon name="SkipForward" size={12} />
-              Skip animation
-            </button>
-          )}
-        </div>
-
-        <div className="room-frame relative overflow-hidden rounded-3xl border-2 border-ink bg-surface shadow-desk">
-          {isMobile ? (
-            <MobileDesk screenState={screenState} introDone={introDone} step={step} />
-          ) : (
-            <DesktopDesk screenState={screenState} introDone={introDone} step={step} />
-          )}
-        </div>
-      </section>
+    <PageTransition>
+      <DeskScene />
 
       {/* ------------------------------------------- personal introduction */}
-      <section id="introduction" tabIndex={-1} className="shell pt-6" aria-label="Introduction">
+      <section id="introduction" tabIndex={-1} className="shell pt-10" aria-label="Introduction">
         <Reveal>
           <div className="card flex flex-col items-start justify-between gap-6 border-2 border-ink p-6 sm:p-8 md:flex-row md:items-center">
             <div>
@@ -136,7 +109,7 @@ export default function Home() {
             className="relative overflow-hidden rounded-3xl border-2 border-ink p-8 shadow-desk sm:p-12"
             style={{
               background:
-                "linear-gradient(115deg, var(--screen) 20%, #49385f 75%, #62466c)",
+                "linear-gradient(115deg, #17352c 20%, #315548 75%, #3b6357)",
             }}
           >
             <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full bg-sunshine opacity-30" aria-hidden="true" />

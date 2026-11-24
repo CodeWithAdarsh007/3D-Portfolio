@@ -1,37 +1,43 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext";
 import PageTransition from "./PageTransition";
-import Reveal from "./Reveal";
 import Icon from "./Icon";
-import { wash } from "../../lib/accents";
+import LaptopScreen from "../desk/LaptopScreen";
+import { landscape } from "../desk/sceneLayout";
 
-/** Sub-page layout with its own colour atmosphere and a back-to-desk link. */
-export default function PageShell({ eyebrow, eyebrowColor, title, body, children, accent = "blue", second = "sunshine" }) {
+// Each page opens on a detail from its own part of the workbench.
+const views = {
+  "/about": "316 60 430 280", "/projects": "908 249 525 344",
+  "/projects/archive": "990 473 520 340", "/ai-lab": "250 300 435 284",
+  "/research": "148 478 540 352", "/skills": "585 398 564 368",
+  "/journey": "426 0 505 330", "/achievements": "1185 354 344 225",
+  "/contact": "622 507 430 280",
+};
+
+export default function PageShell({ eyebrow, title, body, children }) {
+  const { pathname } = useLocation();
+  const { theme } = useTheme();
+  const detail = views[pathname.toLowerCase().replace(/\/$/, "")];
   return (
-    <PageTransition className="page-top pb-20">
-      <div style={wash(accent, second)}>
-        <div className="shell">
-          <header className="mb-8">
-            <Reveal>
-              <Link
-                to="/"
-                className="mb-3 inline-flex items-center gap-1.5 font-mono text-[11.5px] font-bold tracking-wide text-muted transition-colors hover:text-blue-ink"
-              >
-                <Icon name="ArrowLeft" size={13} />
-                back to the desk
-              </Link>
-              {eyebrow && (
-                <p className="eyebrow mb-2" style={{ "--eyebrow-color": eyebrowColor || "var(--blue-ink)" }}>
-                  {eyebrow}
-                </p>
-              )}
-              <h1 className="font-display text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">
-                {title}
-              </h1>
-              {body && <p className="mt-4 max-w-2xl text-base font-medium leading-relaxed text-muted">{body}</p>}
-            </Reveal>
-          </header>
-          {children}
-        </div>
+    <PageTransition className="page-top studio-page pb-20">
+      <div className="shell">
+        <header className="chapter-cover">
+          <div className="chapter-copy">
+            <Link to="/" className="chapter-back"><Icon name="ArrowLeft" size={15} />Back to the desk</Link>
+            {eyebrow && <p className="chapter-label">{eyebrow}</p>}
+            <h1>{title}</h1>
+            {body && <p className="chapter-summary">{body}</p>}
+          </div>
+          <svg className="chapter-photo" aria-hidden="true" viewBox={detail} preserveAspectRatio="xMidYMid slice">
+            <image href={`/studio/${theme === "dark" ? "night" : "day"}.webp`} width="1672" height="941" />
+            {pathname.toLowerCase().replace(/\/$/, "") === "/projects" && (
+              <svg x={landscape.laptop[0] * 16.72} y={landscape.laptop[1] * 9.41} width={landscape.laptop[2] * 16.72} height={landscape.laptop[3] * 9.41}>
+                <LaptopScreen />
+              </svg>
+            )}
+          </svg>
+        </header>
+        {children}
       </div>
     </PageTransition>
   );

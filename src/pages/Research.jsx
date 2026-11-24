@@ -8,10 +8,7 @@ import { getAccent } from "../lib/accents";
 export default function Research() {
   return (
     <PageShell
-      accent="leaf"
-      second="turquoise"
       eyebrow="Notebook · research & learning"
-      eyebrowColor="var(--leaf-ink)"
       title="Questions I'm working through"
       body="My working notebook on document conversion, agent reliability, and applied machine learning. These entries follow experiments in progress."
     >

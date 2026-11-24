@@ -11,11 +11,7 @@ const ROW_TINT = ["bg-sunshine/20", "bg-turquoise/15", "bg-coral/15", "bg-lavend
 export default function ProjectArchive() {
   return (
     <PageShell
-      wide
-      accent="sunshine"
-      second="tangerine"
       eyebrow="Project folder · complete archive"
-      eyebrowColor="var(--sunshine-ink)"
       title="The full archive"
       body="Every project in the studio, indexed like a well-kept folder. Open a row to read the complete case study."
     >

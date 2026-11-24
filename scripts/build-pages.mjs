@@ -29,6 +29,9 @@ for (const path of [...publicPaths, "/404"]) {
   const values = { description, robots, "og:title": title, "twitter:title": title,
     "og:description": description, "twitter:description": description, "og:url": canonical };
   const html = template
+    .replace('<div id="root"></div>', path === "/"
+      ? '<div id="root"><div class="room-loading" role="status" aria-label="Opening the studio"></div></div>'
+      : '<div id="root"></div>')
     .replace("</head>", () => `    ${routePreloads(path)}\n  </head>`)
     .replace(/<title>.*?<\/title>/, () => `<title>${escape(title)}</title>`)
     .replace(/<meta\s+(?:name|property)="([^"]+)"\s+content="[^"]*"\s*\/?>/g, (tag, key) =>

@@ -3,8 +3,6 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { MotionConfig } from "motion/react";
 import { ThemeProvider } from "./context/ThemeContext";
 import { TerminalProvider, useTerminal } from "./context/TerminalContext";
-import { TransitionProvider } from "./context/TransitionContext";
-import ObjectTransition from "./components/desk/ObjectTransition";
 import Navbar from "./components/navigation/Navbar";
 import Footer from "./components/navigation/Footer";
 import { routes } from "./lib/routes";
@@ -12,6 +10,8 @@ import { routes } from "./lib/routes";
 const Terminal = lazy(() => import("./components/terminal/Terminal"));
 
 function RouteFallback() {
+  const { pathname } = useLocation();
+  if (pathname === "/") return <div className="room-loading" role="status" aria-label="Opening the studio" />;
   return (
     <div className="flex min-h-svh flex-1 items-center justify-center pt-28 pb-20" role="status" aria-label="Loading page">
       <span className="h-8 w-8 animate-spin rounded-full border-2 border-line border-t-blue" />
@@ -63,17 +63,14 @@ export default function App() {
     <ThemeProvider>
       <TerminalProvider>
         <BrowserRouter>
-          <TransitionProvider>
-            <MotionConfig reducedMotion="user">
-              <div className="grain flex min-h-screen flex-col">
-                <Navbar />
-                <AnimatedRoutes />
-                <Footer />
-                <TerminalPanel />
-                <ObjectTransition />
-              </div>
-            </MotionConfig>
-          </TransitionProvider>
+          <MotionConfig reducedMotion="user">
+            <div className="grain flex min-h-screen flex-col">
+              <Navbar />
+              <AnimatedRoutes />
+              <Footer />
+              <TerminalPanel />
+            </div>
+          </MotionConfig>
         </BrowserRouter>
       </TerminalProvider>
     </ThemeProvider>

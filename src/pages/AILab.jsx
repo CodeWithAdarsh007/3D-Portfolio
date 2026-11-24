@@ -18,28 +18,6 @@ const STATUS_BG = {
   Planned: "bg-desk",
 };
 
-function Constellation() {
-  const nodes = [
-    [60, 40, "var(--sunshine)"], [180, 90, "var(--coral)"], [320, 30, "var(--turquoise)"],
-    [460, 80, "var(--lavender)"], [600, 40, "var(--leaf)"], [720, 90, "var(--tangerine)"],
-  ];
-  return (
-    <svg viewBox="0 0 780 130" className="h-24 w-full sm:h-28" aria-hidden="true">
-      <g stroke="var(--lavender)" strokeWidth="2.5" fill="none" className="flow-dash" opacity="0.8">
-        {nodes.slice(0, -1).map((n, i) => (
-          <path key={i} d={`M${n[0]} ${n[1]} Q ${(n[0] + nodes[i + 1][0]) / 2} ${Math.min(n[1], nodes[i + 1][1]) - 26} ${nodes[i + 1][0]} ${nodes[i + 1][1]}`} />
-        ))}
-      </g>
-      {nodes.map(([x, y, c], i) => (
-        <g key={i}>
-          <circle cx={x} cy={y} r="16" fill={c} stroke="var(--ink)" strokeWidth="2.5" />
-          <circle cx={x} cy={y} r="24" fill="none" stroke={c} strokeWidth="2" opacity="0.5" className="neural-node" />
-        </g>
-      ))}
-    </svg>
-  );
-}
-
 export default function AILab() {
   const [active, setActive] = useState("ai-agents");
   const category = labCategories.find((c) => c.id === active);
@@ -48,18 +26,10 @@ export default function AILab() {
 
   return (
     <PageShell
-      wide
-      accent="lavender"
-      second="turquoise"
       eyebrow="AI chip · the laboratory"
-      eyebrowColor="var(--lavender-ink)"
       title="AI & Agent Lab"
       body="Step through a scripted agent run, explore a formula-based calculator, and follow the projects behind the experiments."
     >
-      <Reveal className="mb-8">
-        <Constellation />
-      </Reveal>
-
       <div className="grid gap-8 lg:grid-cols-[270px_1fr]">
         <Reveal>
           <div className="lg:sticky lg:top-24">

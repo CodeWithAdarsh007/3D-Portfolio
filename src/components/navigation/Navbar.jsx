@@ -47,15 +47,19 @@ export default function Navbar() {
     return () => window.removeEventListener("keydown", dismiss);
   }, [menuOpen]);
 
-  return (
-    <>
-      <a
+  const skipLink = (
+    <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-blue focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-white dark:focus:text-plum"
       >
         Skip to content
       </a>
+  );
+  if (location.pathname === "/") return skipLink;
 
+  return (
+    <>
+      {skipLink}
       <motion.div
         className="fixed inset-x-0 top-0 z-[70] h-[4px] origin-left"
         style={{

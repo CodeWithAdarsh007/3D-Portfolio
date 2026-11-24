@@ -15,7 +15,7 @@ export function ThemeProvider({ children }) {
       /* private mode — theme still applies for this session */
     }
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", theme === "dark" ? "#201d2b" : "#fff5e6");
+    if (meta) meta.setAttribute("content", theme === "dark" ? "#13231f" : "#f4f1e7");
   }, [theme]);
 
   const toggle = useCallback(() => {

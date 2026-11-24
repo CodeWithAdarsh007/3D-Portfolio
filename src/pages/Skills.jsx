@@ -14,10 +14,7 @@ export default function Skills() {
 
   return (
     <PageShell
-      accent="turquoise"
-      second="sunshine"
       eyebrow="Toolbox · technical skills"
-      eyebrowColor="var(--turquoise-ink)"
       title="The studio bookshelf"
       body="Follow a book spine to see how a language, framework, or database fits into a project."
     >

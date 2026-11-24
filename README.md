@@ -12,14 +12,9 @@ achievements, and contact.
 
 ## Experience
 
-- **Cinematic opening** (~1.8s): the workspace assembles, the monitor boots a terminal sequence,
-  and the greeting types in. Skippable, replayable on demand, never auto-replayed on navigation,
-  instant under `prefers-reduced-motion`, simplified on mobile.
-- **Interactive desk** — 8 clickable objects (monitor, laptop, AI chip, notebook, project folder,
-  ID card, trophy, envelope) with hover tooltips, keyboard access, and alternate navigation through the site menu. A separate compact composition serves mobile.
-- **Working terminal** (`Ctrl + `` ` or the navbar button): `help`, `about`, `projects`, `ai-lab`,
-  `skills`, `journey`, `contact`, `open <page>`, `theme`, `neofetch`, history recall, Tab completion.
-- **Dark / light theme** persisted locally, with the whole desk re-lighting via CSS variables.
+- **Full-screen studio** with separate landscape and portrait scenes, each illustrated in daylight and lamplight. The first viewport belongs to the room. The live wall clock shows India Standard Time.
+- **Eight object links** open portfolio sections. The desk lamp switches lighting, the keyboard opens the terminal, and the brass drawer pull opens the studio index. Keyboard focus reveals each destination; reduced-motion navigation is immediate.
+- **Working terminal** with command history, Tab completion, theme switching and project navigation. Open it from the keyboard on the desk, the studio index, the navbar, or the Ctrl + backtick shortcut.
 - **AI & Agent Lab** — honest interactives: a live BMI/BMR/TDEE calculator (real formulas, labelled
   sample meal data) and a scripted agent-workflow walkthrough. Nothing fakes a trained model.
 - **Project case studies** with search, category filters, sorting, a dense archive table, and
@@ -39,7 +34,7 @@ Skills · Journey · Achievements · Contact · 404
 - **Tailwind CSS 4** with a token-based warm-cream / deep-ink design system
 - **Motion** (Framer Motion) for choreography and page transitions
 - **Lucide** icons · **React Router 7** (SPA, Vercel rewrites)
-- Original hand-built SVG illustration — **no Three.js, no heavy 3D**
+- ImageGen studio artwork served as WebP, with HTML controls and original SVG case-study illustrations
 - Deployed on **Vercel** from this repository (`vercel.json` pins the Vite build and clean URLs)
 
 ## Run locally
@@ -67,21 +62,21 @@ Placeholder replacement checklist: [CONTENT_REPLACEMENT_GUIDE.md](./CONTENT_REPL
 ```
 src/
   components/
-    animations/   Typewriter, (intro choreography lives in hooks/useIntro)
+    animations/   Typewriter
     common/       Buttons, Icon, PageShell, PageTransition, Placeholder, Reveal, SectionHeading
-    desk/         DeskScene (desktop + mobile), objects.jsx (SVG illustration library)
+    desk/         DeskScene and sceneLayout (composition-specific object coordinates)
     lab/          AgentWorkflow, DietDemo
     navigation/   Navbar, Footer
-    profile/      AvatarIllustration
     projects/     ProjectCard, CaseStudy, GitHubPanel
     terminal/     Terminal
   context/        ThemeContext, TerminalContext
   data/           portfolioContent.js, projects.js
-  hooks/          useIntro, useMediaQuery, usePageMeta
+  hooks/          useMediaQuery, usePageMeta
   lib/            accents.js
   pages/          Home, About, Projects, ProjectArchive, ProjectDetail, AILab,
                   Research, Skills, Journey, Achievements, Contact, NotFound
-  styles/         index.css (design tokens, themes, scrollbars, motion)
+  styles/         index.css (tokens and layout), studio.css (room and chapters)
+public/studio/    furnished room scenes and illustrated studio mascot
 public/           favicon.svg, og-image.jpg, robots.txt, sitemap.xml, resume placeholder
 scripts/          generate-resume-placeholder.mjs
 ```

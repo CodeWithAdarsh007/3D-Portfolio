@@ -1,9 +1,7 @@
 import PageShell from "../components/common/PageShell";
 import Reveal from "../components/common/Reveal";
 import Icon from "../components/common/Icon";
-import Placeholder from "../components/common/Placeholder";
 import { ButtonAnchor } from "../components/common/Buttons";
-import AvatarIllustration from "../components/profile/AvatarIllustration";
 import { bio, identity, links } from "../data/portfolioContent";
 
 const INTEREST_COLORS = ["bg-sunshine", "bg-turquoise", "bg-lavender", "bg-coral", "bg-leaf", "bg-tangerine", "bg-blue", "bg-sunshine"];
@@ -11,10 +9,7 @@ const INTEREST_COLORS = ["bg-sunshine", "bg-turquoise", "bg-lavender", "bg-coral
 export default function About() {
   return (
     <PageShell
-      accent="coral"
-      second="sunshine"
       eyebrow="ID card · about me"
-      eyebrowColor="var(--coral-ink)"
       title="The person behind the desk"
       body="I study Computer Science Engineering with a focus on AI and ML. My projects bring together software, research questions, and the practical work of building a product."
     >
@@ -22,13 +17,13 @@ export default function About() {
         {/* --------------------------------------------- identity column */}
         <div className="space-y-8">
           <Reveal>
-            <div className="tape card relative rotate-[-1.5deg] border-2 border-ink p-6 shadow-desk">
+            <div className="studio-id relative p-6">
               <div className="flex items-center justify-between">
                 <span className="sticker bg-coral !text-[10px]">workspace ID</span>
                 <Icon name="Sparkles" size={18} className="text-tangerine" />
               </div>
               <div className="mt-5 flex justify-center">
-                <AvatarIllustration size={180} />
+                <img src="/studio/mascot.webp" width="164" height="164" className="studio-mascot" alt="Studio mascot, a smiling cream computer with a pencil tucked behind its screen" />
               </div>
               <p className="mt-4 text-center font-display text-2xl font-extrabold text-ink">Adarsh</p>
               <p className="mt-1 text-center font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-muted">
@@ -42,18 +37,9 @@ export default function About() {
                 ))}
               </div>
               <p className="mt-4 text-center font-mono text-[9.5px] font-semibold text-muted">
-                illustrated avatar · placeholder identity art
+                Studio mascot · illustrated avatar
               </p>
             </div>
-          </Reveal>
-
-          <Reveal delay={0.08}>
-            <Placeholder
-              icon="User"
-              title="Profile photograph"
-              minHeight={110}
-              note="A profile photograph has yet to be added."
-            />
           </Reveal>
 
           <Reveal delay={0.12}>
@@ -89,7 +75,7 @@ export default function About() {
           <div className="grid gap-4 sm:grid-cols-2">
             <Reveal delay={0.05}>
               <div className="h-full rounded-2xl border-2 border-ink panel-sunshine p-6 shadow-sticker-sm">
-                <p className="flex items-center gap-2 font-mono text-[10px] font-extrabold uppercase tracking-[0.16em] text-ink/70">
+                <p className="flex items-center gap-2 font-mono text-[10px] font-extrabold uppercase tracking-[0.16em] text-ink/85">
                   <Icon name="GraduationCap" size={14} /> Education
                 </p>
                 <p className="mt-3 font-display text-base font-extrabold leading-snug text-ink">
@@ -103,7 +89,7 @@ export default function About() {
             </Reveal>
             <Reveal delay={0.1}>
               <div className="h-full rounded-2xl border-2 border-ink panel-turquoise p-6 shadow-sticker-sm">
-                <p className="flex items-center gap-2 font-mono text-[10px] font-extrabold uppercase tracking-[0.16em] text-ink/70">
+                <p className="flex items-center gap-2 font-mono text-[10px] font-extrabold uppercase tracking-[0.16em] text-ink/85">
                   <Icon name="Target" size={14} /> Career interests
                 </p>
                 <ul className="mt-3 space-y-1.5">
@@ -133,7 +119,7 @@ export default function About() {
 
           <Reveal delay={0.1}>
             <div className="rounded-3xl border-2 border-ink panel-lavender p-7 shadow-sticker-sm">
-              <p className="flex items-center gap-2 font-mono text-[10px] font-extrabold uppercase tracking-[0.16em] text-ink/70">
+              <p className="flex items-center gap-2 font-mono text-[10px] font-extrabold uppercase tracking-[0.16em] text-ink/85">
                 <Icon name="Compass" size={14} /> Currently exploring
               </p>
               <ul className="mt-4 grid gap-3 sm:grid-cols-2">

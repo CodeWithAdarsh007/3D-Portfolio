@@ -42,11 +42,7 @@ export default function Projects() {
 
   return (
     <PageShell
-      wide
-      accent="tangerine"
-      second="lavender"
       eyebrow="Laptop · the project gallery"
-      eyebrowColor="var(--tangerine-ink)"
       title="Projects from my workspace"
       body="Explore five case studies across AI, software, and student products. Each covers my role, the implementation status, and what I learned."
     >

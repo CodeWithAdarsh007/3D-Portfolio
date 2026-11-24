@@ -9,9 +9,9 @@
       content="Explore Adarsh's personal developer workspace, featuring AI/ML experiments, AI agent development, software projects, research, and product-building experiences."
     />
     <meta name="robots" content="index, follow" />
-    <meta property="og:image:alt" content="The Dev Workspace by Adarsh" />
+    <meta property="og:image:alt" content="Adarsh’s furnished studio with a cream CRT, teal walls and a walnut workbench" />
     <meta name="author" content="Adarsh" />
-    <meta name="theme-color" content="#FFF5E6" />
+    <meta name="theme-color" content="#f4f1e7" />
     <link rel="canonical" href="https://3-d-portfolio-xi-tan.vercel.app/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
@@ -45,6 +45,17 @@
           document.documentElement.setAttribute("data-theme", "light");
         }
       })();
+      if (location.pathname === "/") {
+        const portrait = matchMedia("(orientation: portrait)").matches;
+        const night = document.documentElement.dataset.theme === "dark";
+        const image = "/studio/" + (portrait ? "portrait-" : "") + (night ? "night" : "day") + ".webp";
+        const preload = document.createElement("link");
+        preload.rel = "preload";
+        preload.as = "image";
+        preload.href = image;
+        preload.fetchPriority = "high";
+        document.head.append(preload);
+      }
     </script>
   </head>
   <body>
