@@ -2,18 +2,18 @@
 @import "./studio.css";
 
 @font-face {
-  font-family: "Bricolage Grotesque";
-  src: url("/fonts/bricolage-grotesque.woff2") format("woff2");
+  font-family: "Zalando Sans Expanded";
+  src: url("/fonts/zalando-expanded.woff2") format("woff2");
   font-style: normal;
-  font-weight: 200 800;
+  font-weight: 200 900;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Manrope";
-  src: url("/fonts/manrope.woff2") format("woff2");
+  font-family: "Instrument Sans";
+  src: url("/fonts/instrument-sans.woff2") format("woff2");
   font-style: normal;
-  font-weight: 200 800;
+  font-weight: 400 700;
   font-display: swap;
 }
 
@@ -28,119 +28,46 @@
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-/* ---------------------------------------------------------------------------
-   THE DEV WORKSPACE — vibrant studio design system
-   A colourful illustrated creative studio: warm cream daylight by default,
-   deep-plum studio at night. Colour carries the composition, not just icons.
---------------------------------------------------------------------------- */
-
+/* The room, editorial pages and controls share the same daylight and night finishes. */
 :root {
-  --sky-top: #63b7e7;
-  --sky-horizon: #b2ebd7;
-  --hardware: #332c40;
+  color-scheme: light;
   --nav-h: 4rem;
-  --bg: #f4f1e7;
-  --bg-desk: #e6e4d6;
-  --surface: #fbfaf3;
-  --raised: #ffffff;
-  --ink: #23382e;
-  --muted: #535f58;
-  --line: #d8d8c7;
-  --plum: #23382e;
-
-  --blue: #325e64;
-  --blue-ink: #28595a;
-  --tangerine: #e6986c;
-  --tangerine-ink: #a8430a;
-  --sunshine: #e4c57d;
-  --sunshine-ink: #745900;
-  --leaf: #89b99e;
-  --leaf-ink: #196946;
-  --lavender: #ababcf;
-  --lavender-ink: #6043b2;
-  --coral: #e89d90;
-  --coral-ink: #b8264c;
-  --turquoise: #79c5b6;
-  --turquoise-ink: #106d70;
-
-  --danger: #d13b60;
-  --success: #196946;
-  --warning: #745900;
-  --info: #28595a;
-
-  --screen: #241d33;
-  --wood: #e0a370;
-  --wood-deep: #c97f45;
-  --desk-edge: #e8c79e;
-  --desk-leg: #d9a86c;
-  --paper: #fffdf7;
-
-  --shadow-lift-v: 0 12px 32px -14px rgb(48 39 68 / 0.25);
-  --shadow-desk-v: 0 30px 70px -30px rgb(48 39 68 / 0.4);
-  --shadow-sticker-v: 0 4px 0 -1px #a39e87, 0 10px 22px -14px #504c37;
-  --shadow-sticker-sm-v: 0 2px 0 #aaa68f;
-
-  /* Illustration tokens: artwork surfaces stay paper-light in both themes,
-     so their inks must not flip with the UI theme. */
-  --art-ink: #302744;
-  --art-muted: #535f58;
-  --art-blue: #28595a;
-  --art-coral: #d13b60;
-  --art-paper: #fffdf8;
-  --on-accent: #302744;
-  --on-blue: #ffffff;
-  --panel-mix: 30%;
-  --rule-alpha: 16%;
+  --bg: #f4f6fc; --bg-desk: #e8edf8; --surface: #fff; --raised: #f9faff;
+  --ink: #131c33; --muted: #4c5973; --line: #cdd6e7; --plum: #111b38;
+  --blue: #304bd5; --blue-ink: #2840b7;
+  --lavender: #c0baff; --lavender-ink: #5843a1;
+  --turquoise: #a6d5f1; --turquoise-ink: #195776;
+  --tangerine: #ffae85; --tangerine-ink: #8b3c15;
+  --sunshine: #f3ce9d; --sunshine-ink: #754703;
+  --leaf: #a7d2cb; --leaf-ink: #275c53;
+  --coral: #d4c1eb; --coral-ink: #71488a;
+  --danger: #ae2f4d; --success: var(--leaf-ink); --warning: var(--sunshine-ink); --info: var(--blue-ink);
+  --art-stage-start: #adbef4; --art-stage-end: #d4def7; --art-stage-light: #f3f6ff;
+  --screen: #0c142a; --paper: #f5f7ff; --art-paper: #fff;
+  --art-ink: #1e2949; --art-muted: #52617a; --art-blue: #304bd5; --art-coral: #864e91;
+  --on-blue: white; --on-accent: #17203d; --panel-mix: 13%;
+  --shadow-lift-v: 0 8px 26px -17px #263b6833;
+  --shadow-desk-v: 0 20px 55px -32px #273a6960;
+  --shadow-sticker-v: 0 6px 16px -10px #22397050;
+  --shadow-sticker-sm-v: 0 1px 4px #2533590c;
 }
-
 [data-theme="dark"] {
   color-scheme: dark;
-  --sky-top: #252645;
-  --sky-horizon: #7372a6;
-  --hardware: #736880;
-  --bg: #13231f;
-  --bg-desk: #1c302a;
-  --surface: #1c302a;
-  --raised: #263d35;
-  --ink: #f6f1df;
-  --muted: #c3d3c6;
-  --line: #40594b;
-  --plum: #10201d;
-
-  --blue: #96c9c0;
-  --blue-ink: #a6e0d4;
-  --tangerine: #ffa06b;
-  --tangerine-ink: #ffbe93;
-  --sunshine: #e8c57e;
-  --sunshine-ink: #ffe18a;
-  --leaf: #70d6a7;
-  --leaf-ink: #9ce4c0;
-  --lavender: #b89aff;
-  --lavender-ink: #d0bcff;
-  --coral: #f3aba0;
-  --coral-ink: #ffb4c4;
-  --turquoise: #5bd1c6;
-  --turquoise-ink: #8fe3da;
-
-  --danger: #f3aba0;
-  --success: #70d6a7;
-  --warning: #e8c57e;
-  --info: #96c9c0;
-
-  --screen: #10201d;
-  --wood: #b97f4e;
-  --wood-deep: #9a6238;
-  --desk-edge: #6b5340;
-  --desk-leg: #57432f;
-  --paper: #f4ebdd;
-
-  --shadow-lift-v: 0 12px 32px -14px rgb(0 0 0 / 0.65);
-  --shadow-desk-v: 0 30px 70px -30px rgb(0 0 0 / 0.8);
-  --shadow-sticker-v: 0 3px 0 #0b1815, 0 12px 24px -16px #030d07;
-  --shadow-sticker-sm-v: 0 2px 0 #0a1713;
-  --on-blue: #13231f;
-  --panel-mix: 10%;
-  --rule-alpha: 20%;
+  --bg: #0c1020; --bg-desk: #192137; --surface: #151b2d; --raised: #1c243a;
+  --ink: #f0f3ff; --muted: #b5c0d8; --line: #35405a; --plum: #0d152e;
+  --blue: #a1b4ff; --blue-ink: #b5c4ff;
+  --lavender: #b3a1ee; --lavender-ink: #d5c7ff;
+  --turquoise: #9abfdf; --turquoise-ink: #b9dfff;
+  --tangerine: #e7a37c; --tangerine-ink: #ffc6a4;
+  --sunshine: #d8ba8f; --sunshine-ink: #f8d2a7;
+  --leaf: #92bdb4; --leaf-ink: #b8ded4;
+  --coral: #c3a8d5; --coral-ink: #ead2fa;
+  --art-stage-start: #1c2b5b; --art-stage-end: #111a36; --art-stage-light: #3d4c94;
+  --danger: #ffb2bc; --on-blue: #111a36; --panel-mix: 6%;
+  --shadow-lift-v: 0 9px 30px -18px #02040d80;
+  --shadow-desk-v: 0 22px 60px -30px #0008;
+  --shadow-sticker-v: 0 5px 18px -12px #0008;
+  --shadow-sticker-sm-v: 0 1px 4px #0002;
 }
 
 @theme inline {
@@ -172,9 +99,10 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-info: var(--info);
+  --color-screen: var(--screen);
 
-  --font-display: "Bricolage Grotesque", "Manrope", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Zalando Sans Expanded", "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   --shadow-lift: var(--shadow-lift-v);
@@ -217,7 +145,7 @@ body {
 /* Scrollbars drawn in the studio palette */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--tangerine) var(--bg-desk);
+  scrollbar-color: var(--line) var(--bg);
 }
 ::-webkit-scrollbar {
   width: 12px;
@@ -241,26 +169,12 @@ body {
   border-radius: 6px;
 }
 
-/* Paper grain over the whole studio */
-.grain::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
-}
-[data-theme="dark"] .grain::after {
-  opacity: 0.08;
-}
-
 /* ------------------------------------------------------------- utilities */
 
 /* Shared responsive page shell: ~94vw on desktop (max 1440), 92vw tablet,
    viewport minus 32px on mobile. Inner blocks keep their own text measure. */
 .shell {
-  width: min(94vw, 1500px);
+  width: min(92vw, 1360px);
   margin-inline: auto;
 }
 @media (max-width: 1023px) {
@@ -307,7 +221,7 @@ main[tabindex="-1"]:focus, #introduction:focus { outline: none; }
 
 .card {
   background: var(--surface);
-  border: 2px solid var(--line);
+  border: 1px solid var(--line);
   border-radius: 1.25rem;
   box-shadow: var(--shadow-lift-v);
 }
@@ -317,7 +231,7 @@ main[tabindex="-1"]:focus, #introduction:focus { outline: none; }
   align-items: center;
   gap: 0.4rem;
   border-radius: 999px;
-  border: 2px solid var(--line);
+  border: 1px solid var(--line);
   background: var(--raised);
   padding: 0.3rem 0.8rem;
   font-size: 0.78rem;
@@ -325,96 +239,17 @@ main[tabindex="-1"]:focus, #introduction:focus { outline: none; }
   color: var(--muted);
 }
 
-/* Playful sticker: hard plum offset shadow, thick border */
 .sticker {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  border: 2px solid var(--ink);
-  border-radius: 999px;
-  padding: 0.4rem 0.95rem;
-  font-weight: 800;
-  font-size: 0.8rem;
-  color: #302744;
-  box-shadow: var(--shadow-sticker-sm-v);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  display: inline-flex; align-items: center; gap: .45rem;
+  border: 1px solid color-mix(in srgb,var(--line) 70%,transparent); border-radius: .65rem;
+  padding: .4rem .85rem; font: 600 .82rem/1.4 var(--font-sans); color: var(--on-accent);
+  transition: transform .18s ease, box-shadow .18s ease;
 }
-:is(a, button).sticker:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0 0 var(--plum);
-}
-[data-theme="dark"] .sticker {
-  color: #241d33;
-}
-[data-theme="dark"] .sticker.bg-raised,
-[data-theme="dark"] .sticker.bg-surface {
-  color: var(--ink);
-}
-/* electric blue is the darkest solid accent: needs light text in daylight */
-.sticker.bg-blue {
-  color: #ffffff;
-}
-[data-theme="dark"] .sticker.bg-blue {
-  color: #241d33;
-}
-
-.btn-primary {
-  background: var(--blue);
-  color: #ffffff;
-  border: 2px solid var(--ink);
-  box-shadow: var(--shadow-sticker-sm-v);
-}
-.btn-primary:hover {
-  background: var(--blue-ink);
-  transform: translate(-1px, -1px);
-  box-shadow: 4px 4px 0 0 var(--plum);
-}
-[data-theme="dark"] .btn-primary {
-  color: #241d33;
-  border-color: #14101f;
-}
-[data-theme="dark"] .btn-primary:hover {
-  background: var(--blue-ink);
-  color: #241d33;
-}
-
-/* Washi tape strip for postcard panels */
-.tape {
-  position: relative;
-}
-.tape::before {
-  content: "";
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  width: 92px;
-  height: 24px;
-  transform: translateX(-50%) rotate(-3deg);
-  background: color-mix(in srgb, var(--sunshine) 75%, transparent);
-  border-left: 2px dashed color-mix(in srgb, var(--sunshine-ink) 40%, transparent);
-  border-right: 2px dashed color-mix(in srgb, var(--sunshine-ink) 40%, transparent);
-  opacity: 0.9;
-  pointer-events: none;
-}
-
-/* Ruled notebook paper */
-.paper-lines {
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent 0 27px,
-    color-mix(in srgb, var(--turquoise) var(--rule-alpha), transparent) 27px 28px
-  );
-}
-
-/* Squiggle underline for display headings */
-.squiggle {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='8' viewBox='0 0 80 8'%3E%3Cpath d='M0 5 Q 10 0 20 5 T 40 5 T 60 5 T 80 5' fill='none' stroke='%23FF7895' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: repeat-x;
-  background-position: 0 100%;
-  background-size: 80px 8px;
-  padding-bottom: 10px;
-}
-
+.sticker.bg-raised, .sticker.bg-surface { color: var(--ink); }
+.sticker.bg-blue, .bg-blue.text-plum { color: var(--on-blue); }
+:is(a,button).sticker:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift-v); }
+.btn-primary { background: var(--blue); color: var(--on-blue); border: 1px solid transparent; }
+.btn-primary:hover { background: var(--blue-ink); transform: translateY(-1px); }
 .placeholder-block {
   position: relative;
   display: flex;
@@ -443,25 +278,15 @@ main[tabindex="-1"]:focus, #introduction:focus { outline: none; }
   text-transform: uppercase;
   color: #302744;
   background: var(--sunshine);
-  border: 2px solid #302744;
+  border: 1px solid transparent;
   border-radius: 999px;
   padding: 0.3rem 0.75rem;
-  box-shadow: 2px 2px 0 0 rgb(48 39 68 / 0.55);
+
 }
 
 .concept-label {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #302744;
-  background: color-mix(in srgb, var(--sunshine) 92%, white);
-  border: 1.5px solid #302744;
-  border-radius: 6px;
-  padding: 0.22rem 0.5rem;
-  transform: rotate(-1.2deg);
-  box-shadow: 2px 2px 0 0 rgb(48 39 68 / 0.4);
+  font: 600 .66rem/1.3 var(--font-sans); color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 5px; padding: .3rem .55rem;
 }
 
 /* ------------------------------------------------------------ animations */

@@ -1,3 +1,6 @@
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import StudioPoster from "../src/components/desk/StudioPoster.js";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import { pageMeta, publicPaths } from "../src/data/pageMeta.js";
@@ -30,7 +33,7 @@ for (const path of [...publicPaths, "/404"]) {
     "og:description": description, "twitter:description": description, "og:url": canonical };
   const html = template
     .replace('<div id="root"></div>', path === "/"
-      ? '<div id="root"><div class="room-loading" role="status" aria-label="Opening the studio"></div></div>'
+      ? `<div id="root">${renderToStaticMarkup(createElement(StudioPoster))}</div>`
       : '<div id="root"></div>')
     .replace("</head>", () => `    ${routePreloads(path)}\n  </head>`)
     .replace(/<title>.*?<\/title>/, () => `<title>${escape(title)}</title>`)

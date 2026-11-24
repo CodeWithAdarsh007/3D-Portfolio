@@ -1,11 +1,12 @@
 /**
  * Original concept artwork for each project — illustrated UI concepts,
  * NOT product screenshots. Every usage is labelled
- * "Concept Visual — Not Actual Product Screenshot".
+ * "Interface concept".
  * Palettes come from CSS variables so the art re-lights with the theme.
  */
 
 const P = {
+  screen: "var(--screen)",
   tangerine: "var(--tangerine)",
   sunshine: "var(--sunshine)",
   blue: "var(--blue)",
@@ -25,13 +26,16 @@ function Frame({ id, from, to, children }) {
     <>
       <defs>
         <linearGradient id={`${id}-bg`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor={from} />
-          <stop offset="1" stopColor={to} />
+          <stop offset="0" stopColor={`color-mix(in srgb,var(--art-stage-start) 93%,${from})`} />
+          <stop offset="1" stopColor={`color-mix(in srgb,var(--art-stage-end) 95%,${to})`} />
         </linearGradient>
+        <radialGradient id={`${id}-light`} cx="70%" cy="8%" r="88%">
+          <stop stopColor="var(--art-stage-light)" stopOpacity=".75" />
+          <stop offset="1" stopColor="var(--art-stage-light)" stopOpacity="0" />
+        </radialGradient>
       </defs>
       <rect width="800" height="500" fill={`url(#${id}-bg)`} />
-      <circle cx="720" cy="60" r="90" fill="#ffffff" opacity="0.14" />
-      <circle cx="60" cy="450" r="120" fill="#ffffff" opacity="0.1" />
+      <rect width="800" height="500" fill={`url(#${id}-light)`} />
       {children}
     </>
   );
@@ -399,5 +403,5 @@ export default function ProjectArt({ slug, className = "" }) {
 }
 
 export function ConceptTag({ className = "" }) {
-  return <span className={`concept-label ${className}`}>Concept Visual — Not Actual Product Screenshot</span>;
+  return <span className={`concept-label ${className}`}>Interface concept</span>;
 }

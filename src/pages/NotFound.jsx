@@ -2,20 +2,14 @@ import { Link } from "react-router-dom";
 import PageTransition from "../components/common/PageTransition";
 import Icon from "../components/common/Icon";
 import { ButtonLink } from "../components/common/Buttons";
-import { wash } from "../lib/accents";
 
 export default function NotFound() {
   return (
     <PageTransition className="page-top flex flex-1 items-center justify-center px-5 pb-20">
-      <div className="w-full max-w-lg text-center" style={wash("coral", "sunshine")}>
-        <div className="mx-auto w-fit rotate-[-2deg] rounded-2xl border-4 border-ink bg-screen px-10 py-8 shadow-sticker">
-          <p className="font-mono text-5xl font-bold text-coral">404</p>
-          <p className="mt-2 font-mono text-[11px] text-[#dcd2e4]">
-            segment not found on this desk
-            <span className="cursor-blink ml-1 inline-block h-3 w-[7px] translate-y-[2px] bg-leaf" />
-          </p>
-        </div>
-        <h1 className="mt-8 font-display text-3xl font-extrabold tracking-tight text-ink">
+      <div className="w-full max-w-lg text-center">
+        <img src="/studio/mascot.webp" width="152" height="152" alt="" className="mx-auto rounded-3xl" />
+        <p className="mt-5 font-mono text-sm text-blue-ink">404</p>
+        <h1 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink">
           This object isn&apos;t in the studio.
         </h1>
         <p className="mx-auto mt-2 max-w-sm text-sm font-semibold leading-relaxed text-muted">

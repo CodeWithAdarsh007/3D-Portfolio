@@ -26,16 +26,13 @@ export default function AILab() {
 
   return (
     <PageShell
-      eyebrow="AI chip · the laboratory"
       title="AI & Agent Lab"
       body="Step through a scripted agent run, explore a formula-based calculator, and follow the projects behind the experiments."
     >
-      <div className="grid gap-8 lg:grid-cols-[270px_1fr]">
+      <div className="space-y-8">
         <Reveal>
-          <div className="lg:sticky lg:top-24">
-            <div className="grid grid-cols-2 gap-3 lg:grid-cols-1" role="tablist" aria-label="Lab categories">
+          <div className="lab-selector" role="tablist" aria-label="Lab categories">
               {labCategories.map((c, index) => {
-                const ca = getAccent(c.accent);
                 const selected = c.id === active;
                 return (
                   <button
@@ -59,30 +56,20 @@ export default function AILab() {
                     }}
                     aria-selected={selected}
                     onClick={() => setActive(c.id)}
-                    className={`rounded-2xl border-2 p-4 text-left transition-all duration-200 ${
-                      selected
-                        ? "border-ink bg-raised shadow-sticker"
-                        : "border-ink/20 bg-surface hover:-translate-y-0.5 hover:border-ink"
-                    }`}
+                    className="lab-tab"
                   >
-                    <span className={`flex h-10 w-10 items-center justify-center rounded-xl border-2 border-ink ${ca.solid} text-plum shadow-sticker-sm`}>
-                      <Icon name={c.icon} size={18} />
-                    </span>
-                    <span className="mt-2.5 block font-display text-sm font-extrabold text-ink">{c.label}</span>
-                    <span className="mt-1 hidden text-[11px] font-semibold leading-relaxed text-muted lg:block">
-                      {c.blurb}
-                    </span>
+                    <Icon name={c.icon} size={18} />
+                    {c.label}
                   </button>
                 );
               })}
-            </div>
           </div>
         </Reveal>
 
         <div id="lab-panel" role="tabpanel" aria-labelledby={`lab-tab-${active}`} tabIndex={0}>
           <Reveal key={active}>
             <div className="mb-6 flex items-center gap-3">
-              <span className={`flex h-12 w-12 items-center justify-center rounded-2xl border-2 border-ink ${a.solid} text-plum shadow-sticker-sm`}>
+              <span className={`flex h-12 w-12 items-center justify-center rounded-2xl border border-line ${a.solid} text-plum shadow-sticker-sm`}>
                 <Icon name={category.icon} size={22} />
               </span>
               <div>
@@ -93,10 +80,10 @@ export default function AILab() {
 
             <div className="space-y-6">
               {experiments.map((exp) => (
-                <div key={exp.id} className="card overflow-hidden border-2 border-ink">
-                  <div className={`flex flex-wrap items-center justify-between gap-3 border-b-2 border-ink px-6 py-4 ${a.tile}`}>
-                    <h3 className="font-display text-base font-extrabold text-ink">{exp.title}</h3>
-                    <span className={`rounded-full border-2 border-ink px-3 py-1 font-mono text-[9.5px] font-bold uppercase tracking-wide text-plum shadow-sticker-sm ${STATUS_BG[exp.status] || "bg-desk"}`}>
+                <div key={exp.id} className="card overflow-hidden border border-line">
+                  <div className={`flex flex-wrap items-center justify-between gap-3 border-b border-line px-6 py-4 ${a.tile}`}>
+                    <h3 className="font-display text-base font-semibold text-ink">{exp.title}</h3>
+                    <span className={`rounded-full border border-line px-3 py-1 font-mono text-[9.5px] font-bold uppercase tracking-wide text-plum shadow-sticker-sm ${STATUS_BG[exp.status] || "bg-desk"}`}>
                       {exp.status}
                     </span>
                   </div>
@@ -116,7 +103,7 @@ export default function AILab() {
                       </div>
                     )}
                     {exp.to && (
-                      <Link to={exp.to} className={`mt-4 inline-flex items-center gap-1.5 text-sm font-extrabold ${a.text} hover:underline`}>
+                      <Link to={exp.to} className={`mt-4 inline-flex items-center gap-1.5 text-sm font-semibold ${a.text} hover:underline`}>
                         Open the related case study
                         <Icon name="ArrowRight" size={14} />
                       </Link>

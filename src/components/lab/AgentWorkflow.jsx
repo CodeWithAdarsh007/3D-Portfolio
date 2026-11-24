@@ -143,30 +143,30 @@ export default function AgentWorkflow() {
             >
               <div className="flex items-center justify-between">
                 <span
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border-2 border-ink text-plum shadow-sticker-sm"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-line text-plum shadow-sticker-sm"
                   style={{ background: isDone ? "var(--leaf)" : field }}
                 >
                   <Icon name={isDone ? "Check" : step.icon} size={16} />
                 </span>
                 <span className="font-mono text-[10px] font-bold text-muted">0{i + 1}</span>
               </div>
-              <p className="mt-3 font-display text-sm font-extrabold text-ink">{step.title}</p>
+              <p className="mt-3 font-display text-sm font-semibold text-ink">{step.title}</p>
               <p className="mt-1 text-xs font-medium leading-relaxed text-muted">{step.desc}</p>
             </motion.li>
           );
         })}
       </ol>
 
-      <div className="mt-5 rounded-xl bg-[#241d33] p-4 font-mono text-[11px] leading-relaxed">
-        <p className="mb-2 text-[9.5px] uppercase tracking-[0.18em] text-[#8d81ab]">
+      <div className="mt-5 rounded-xl bg-[#10182b] p-4 font-mono text-[11px] leading-relaxed">
+        <p className="mb-2 text-[9.5px] uppercase tracking-[0.18em] text-[#b4bdd6]">
           scripted run log
         </p>
         {active < 0 ? (
-          <p className="text-[#bfb3d6]">press “Run walkthrough” to step through the loop…</p>
+          <p className="text-[#cbd3e5]">press “Run walkthrough” to step through the loop…</p>
         ) : (
           visibleLogs.map((step) => (
             <p key={step.id} className="text-[#63d3a2]">
-              <span className="text-[#8d81ab]">[{step.id}]</span> {step.log}
+              <span className="text-[#b4bdd6]">[{step.id}]</span> {step.log}
             </p>
           ))
         )}

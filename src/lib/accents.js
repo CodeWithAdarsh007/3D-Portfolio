@@ -76,17 +76,3 @@ export const accents = {
 };
 
 export const getAccent = (name) => accents[name] || accents.blue;
-
-/** Layered multi-hue section wash — each section gets its own atmosphere. */
-export function wash(accent, second = "sunshine") {
-  const a = getAccent(accent).field;
-  const b = getAccent(second).field;
-  return {
-    background: [
-      `radial-gradient(55rem 26rem at 108% -6%, color-mix(in srgb, ${a} 20%, transparent), transparent 62%)`,
-      `radial-gradient(46rem 24rem at -8% 22%, color-mix(in srgb, ${b} 18%, transparent), transparent 60%)`,
-      `radial-gradient(38rem 22rem at 55% 108%, color-mix(in srgb, ${a} 12%, transparent), transparent 65%)`,
-      `linear-gradient(180deg, color-mix(in srgb, ${a} 7%, var(--bg)) 0%, var(--bg) 70%)`,
-    ].join(", "),
-  };
-}

@@ -4,7 +4,7 @@ This portfolio ships with **clearly labelled placeholders** so the site is compl
 deployable before every genuine asset exists. Two label families are used in the UI:
 
 - `DEMO PLACEHOLDER — NOT GENUINE` — missing genuine assets (photo, resume, links, certificates, screenshots).
-- `Concept Visual — Not Actual Product Screenshot` — original illustrated UI concepts
+- `Interface concept` — original illustrated UI concepts
   (project artwork, workflow diagrams). These are design illustrations, never product evidence.
 
 All copy, links and project data live in two editable files:
@@ -22,8 +22,8 @@ All copy, links and project data live in two editable files:
 | LinkedIn | `links.linkedin` | `null` (labelled pending) | Set your profile URL. |
 | Resume file | `public/resume-adarsh-placeholder.pdf` | Generated placeholder PDF | Replace with your real PDF (keep the filename or update `links.resume`). |
 | Institution name | `identity.education.institution` | `null` (UI shows "institution name pending") | Add your college name. |
-| Profile photograph | About page studio ID | Currently uses the studio mascot | Supply a genuine portrait if you want it displayed with the ID. |
-| Studio mascot | `public/studio/mascot.webp` | Illustrated CRT mascot | This is artwork, separate from a personal photograph. |
+| Profile photograph | About page studio profile | Currently uses an illustrated chapter cover | Supply a genuine portrait if you want it displayed with the profile. |
+| Studio mascot | `public/studio/mascot.webp` | Cobalt studio robot | This is artwork, separate from a personal photograph. |
 
 ## 2. Projects (`src/data/projects.js`)
 
@@ -35,7 +35,7 @@ Online College Election System, AI Agent Reliability Lab):
 | GitHub link | `github` | Set the real repository URL. A brief availability note covers pending project links. |
 | Live demo | `demo` | Set the real demo URL if one exists. |
 | Genuine screenshots | `screenshots[]` | Put real captures in `public/projects/`, then set `src` (e.g. `/projects/screen.webp`), `alt`, and `caption` on the corresponding entries. The case study renders them automatically. |
-| Concept artwork | `src/components/art/ProjectArt.jsx` | Original illustrated UI concepts per project. Replace with real screenshots when available; until then keep the `Concept Visual` label. |
+| Concept artwork | `src/components/art/ProjectArt.jsx` | Original illustrated UI concepts per project. Replace with real screenshots when available; until then keep the `Interface concept` label. |
 | Timeline | `year` | Add real dates if you want them displayed. |
 | Feature statuses | `features[].status` | Confirm each: `Built`, `Worked on`, `Planned`, `Exploring`. Election-system features are currently `Planned`. |
 | Results | `results` | Add metrics (users, revenue, accuracy…) **only once verified**. Never estimate. |
@@ -84,7 +84,7 @@ Update the `API` constant if the account changes. No token is required or stored
 - Palette tokens: `src/styles/index.css` (`:root` light / `[data-theme="dark"]`).
   Illustration-only inks that must not flip with the theme: `--art-ink`, `--art-muted`,
   `--art-blue`, `--art-coral`, `--art-paper`, `--on-accent`, `--on-blue`.
-- Fonts: Bricolage Grotesque (display), Manrope (body), JetBrains Mono (technical) in `index.html`.
+- Fonts: Zalando Sans Expanded (display), Instrument Sans (body) and JetBrains Mono (technical) are self-hosted in `public/fonts/` and declared in `src/styles/index.css`.
 - Canonical/OG URLs point at `https://3-d-portfolio-xi-tan.vercel.app`. If you attach a custom
   domain later, update `index.html`, `src/hooks/usePageMeta.js`, `public/robots.txt`, `public/sitemap.xml`.
 - Share image `public/og-image.jpg`, favicon `public/favicon.svg` — replace if desired.
@@ -92,7 +92,7 @@ Update the `API` constant if the account changes. No token is required or stored
 ## 9. Final authenticity sweep
 
 - [ ] Search the repo for `DEMO PLACEHOLDER` — every remaining hit must be intentional.
-- [ ] Search for `Concept Visual` — replace with genuine screenshots where available.
+- [ ] Search for `Interface concept` — replace with genuine screenshots where available.
 - [ ] Confirm no invented metrics, employers, institutions, publications, or awards remain.
 - [ ] Replace the resume PDF and confirm the download serves the real file.
 - [ ] Test the contact form end-to-end with the real provider.

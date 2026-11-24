@@ -13,7 +13,7 @@ const pages = {
   },
   "/achievements": {
     "title": "Achievements",
-    "description": "Adarsh's achievements wall. Community work includes an NSS voter-registration camp. Awards and certificates are pending."
+    "description": "Explore Adarsh’s community contributions, including an NSS voter-registration camp, and the milestones in his engineering journey."
   },
   "/ai-lab": {
     "title": "AI & Agent Lab",
@@ -41,7 +41,7 @@ const pages = {
   },
   "/skills": {
     "title": "Technical Skills",
-    "description": "Adarsh's technical skills as a studio bookshelf — Python, Java, PHP, Django, Streamlit, MySQL — each linked to the projects where it was used."
+    "description": "Explore the projects where Adarsh used Python, Java, PHP, Django, Streamlit and MySQL."
   }
 };
 

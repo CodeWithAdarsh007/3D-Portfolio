@@ -8,16 +8,15 @@ export default function Achievements() {
   const credentials = achievements.filter(item => !item.placeholder);
   return (
     <PageShell
-      eyebrow="Trophy shelf · achievements"
-      title="The trophy shelf"
+      title="Contributions & milestones"
       body="Community work and milestones from my engineering journey."
     >
       <Reveal>
         <div
-          className="mb-10 flex flex-col items-start gap-5 rounded-3xl border-2 border-ink p-7 shadow-sticker sm:flex-row sm:items-center"
+          className="mb-10 flex flex-col items-start gap-5 rounded-3xl border border-line p-7 shadow-sticker sm:flex-row sm:items-center"
           style={{ background: "linear-gradient(120deg, color-mix(in srgb, var(--leaf) 30%, var(--surface)), color-mix(in srgb, var(--turquoise) 24%, var(--surface)))" }}
         >
-          <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border-2 border-ink bg-leaf text-plum shadow-sticker-sm">
+          <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-line bg-leaf text-plum shadow-sticker-sm">
             <Icon name="HeartHandshake" size={28} />
           </span>
           <div className="flex-1">

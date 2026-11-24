@@ -12,8 +12,8 @@ achievements, and contact.
 
 ## Experience
 
-- **Full-screen studio** with separate landscape and portrait scenes, each illustrated in daylight and lamplight. The first viewport belongs to the room. The live wall clock shows India Standard Time.
-- **Eight object links** open portfolio sections. The desk lamp switches lighting, the keyboard opens the terminal, and the brass drawer pull opens the studio index. Keyboard focus reveals each destination; reduced-motion navigation is immediate.
+- **Full-screen studio** with separate landscape and portrait scenes, each illustrated in daylight and lamplight. The first viewport belongs to the room. The complete workbench stays inside the viewport. The digital wall clock shows India Standard Time.
+- **Eight object links** open portfolio sections. The desk lamp switches lighting, the keyboard opens the terminal, and the cobalt cabinet control opens the studio index. Keyboard focus reveals each destination; reduced-motion navigation is immediate.
 - **Working terminal** with command history, Tab completion, theme switching and project navigation. Open it from the keyboard on the desk, the studio index, the navbar, or the Ctrl + backtick shortcut.
 - **AI & Agent Lab** — honest interactives: a live BMI/BMR/TDEE calculator (real formulas, labelled
   sample meal data) and a scripted agent-workflow walkthrough. Nothing fakes a trained model.
@@ -30,10 +30,10 @@ Skills · Journey · Achievements · Contact · 404
 ## Tech stack
 
 - **React 19 + Vite 7** (JavaScript)
-- **Tailwind CSS 4** with a token-based warm-cream / deep-ink design system
+- **Tailwind CSS 4** with a token-based cool porcelain / midnight indigo design system
 - **Motion** (Framer Motion) for choreography and page transitions
 - **Lucide** icons · **React Router 7** (SPA, Vercel rewrites)
-- ImageGen studio artwork served as WebP, with HTML controls and original SVG case-study illustrations
+- ImageGen room artwork and chapter still lifes served as WebP, with HTML controls and original SVG case-study illustrations
 - Deployed on **Vercel** from this repository (`vercel.json` pins the Vite build and clean URLs)
 
 ## Run locally
@@ -45,6 +45,7 @@ npm run build      # production build → dist/
 npm run preview    # serve the production build
 npm run lint       # eslint
 npm test           # release checks against the production build
+npm run test:studio # check framing and reachable objects in installed Chrome
 ```
 
 ## Editing content

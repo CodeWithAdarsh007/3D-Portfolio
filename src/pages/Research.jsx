@@ -8,8 +8,7 @@ import { getAccent } from "../lib/accents";
 export default function Research() {
   return (
     <PageShell
-      eyebrow="Notebook · research & learning"
-      title="Questions I'm working through"
+      title="Research notebook"
       body="My working notebook on document conversion, agent reliability, and applied machine learning. These entries follow experiments in progress."
     >
       <div className="grid gap-6 lg:grid-cols-3">
@@ -18,14 +17,13 @@ export default function Research() {
           return (
             <Reveal key={item.id} delay={i * 0.08}>
               <article
-                className={`tape card paper-lines relative flex h-full flex-col border-2 border-ink p-6 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-desk`}
-                style={{ transform: `rotate(${[-0.8, 0.6, -0.5][i]}deg)` }}
+                className={`card relative flex h-full flex-col border border-line p-6 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-desk`}
               >
                 <div className="flex items-center justify-between gap-2">
                   <span className={`sticker ${a.solid} !px-2.5 !py-1 !text-[9px]`}>{item.type}</span>
                   <span className="font-mono text-[10px] font-bold text-muted">{item.status}</span>
                 </div>
-                <h2 className="mt-4 font-display text-lg font-extrabold leading-snug tracking-tight text-ink">
+                <h2 className="mt-4 font-display text-lg font-semibold leading-snug tracking-tight text-ink">
                   {item.title}
                 </h2>
                 <p className="mt-2.5 flex-1 text-sm font-medium leading-[26px] text-muted">{item.body}</p>
@@ -49,9 +47,9 @@ export default function Research() {
 
       <div className="mt-12 grid gap-6 md:grid-cols-2">
         <Reveal>
-          <div className="card h-full border-2 border-ink p-7">
-            <h2 className="flex items-center gap-2.5 font-display text-lg font-extrabold text-ink">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl border-2 border-ink bg-leaf text-plum shadow-sticker-sm">
+          <div className="card h-full border border-line p-7">
+            <h2 className="flex items-center gap-2.5 font-display text-lg font-semibold text-ink">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-line bg-leaf text-plum shadow-sticker-sm">
                 <Icon name="BookOpen" size={16} />
               </span>
               Learning log
@@ -59,7 +57,7 @@ export default function Research() {
             <p className="mt-2 text-xs font-bold text-muted">What currently has my attention.</p>
             <ul className="mt-5 space-y-3">
               {learningNotes.map((note) => (
-                <li key={note} className="flex items-start gap-3 rounded-xl border-2 border-line bg-raised p-3.5 text-sm font-semibold leading-relaxed text-muted">
+                <li key={note} className="flex items-start gap-3 rounded-xl border border-line bg-raised p-3.5 text-sm font-semibold leading-relaxed text-muted">
                   <Icon name="CircleDot" size={15} className="mt-0.5 shrink-0 text-leaf-ink" />
                   {note}
                 </li>
@@ -68,9 +66,9 @@ export default function Research() {
           </div>
         </Reveal>
         <Reveal delay={0.08}>
-          <div className="h-full rounded-3xl border-2 border-ink panel-turquoise p-7 shadow-sticker-sm">
-            <h2 className="flex items-center gap-2.5 font-display text-lg font-extrabold text-ink">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl border-2 border-ink bg-raised text-plum shadow-sticker-sm">
+          <div className="h-full rounded-3xl border border-line panel-turquoise p-7 shadow-sticker-sm">
+            <h2 className="flex items-center gap-2.5 font-display text-lg font-semibold text-ink">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-line bg-raised text-ink shadow-sticker-sm">
                 <Icon name="Compass" size={16} />
               </span>
               Future research interests

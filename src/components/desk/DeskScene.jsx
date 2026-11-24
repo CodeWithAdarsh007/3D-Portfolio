@@ -6,8 +6,8 @@ import { useTerminal } from "../../context/TerminalContext";
 import { preloadDestination } from "../../lib/routes";
 import useMediaQuery from "../../hooks/useMediaQuery";
 import Icon from "../common/Icon";
+import { MonitorSignature } from "./StudioPoster";
 import { bounds, landscape, portrait } from "./sceneLayout";
-import LaptopScreen from "./LaptopScreen";
 
 const destinations = {
   monitor: "Introduction", laptop: "Projects", chip: "AI & Agent Lab",
@@ -26,23 +26,11 @@ function StudioClock({ box }) {
     tick();
     return () => clearTimeout(timer);
   }, []);
-  const ist = new Date(now + 330 * 60000);
-  const minute = ist.getUTCMinutes();
-  const hour = ist.getUTCHours();
+  const time = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" }).format(now);
   return (
-    <svg className="studio-clock" style={bounds(box)} viewBox="0 0 100 100" preserveAspectRatio="none"
-      role="img" aria-label={`India Standard Time, ${hour}:${String(minute).padStart(2, "0")}`}>
-      <defs><radialGradient id="dial"><stop stopColor="#efdbb7" /><stop offset=".83" stopColor="#dfc296" /><stop offset="1" stopColor="#bb9569" /></radialGradient></defs>
-      <circle cx="50" cy="50" r="50" fill="url(#dial)" />
-      {Array.from({ length: 60 }, (_, i) => (
-        <path key={i} d={i % 5 ? "M50 5v2" : "M50 5v6"} stroke="#554430" strokeWidth={i % 5 ? ".65" : "2.1"} transform={`rotate(${i * 6} 50 50)`} />
-      ))}
-      <text x="50" y="74" textAnchor="middle" fontSize="6" fill="#66513a" fontFamily="serif" letterSpacing="1">IST</text>
-      <g stroke="#392d23" strokeLinecap="round">
-        <path d="M50 52V24" strokeWidth="3.3" transform={`rotate(${(hour + minute / 60) * 30} 50 50)`} />
-        <path d="M50 54V13" strokeWidth="2" transform={`rotate(${minute * 6} 50 50)`} />
-      </g>
-      <circle cx="50" cy="50" r="2.8" fill="#8d4927" />
+    <svg className="studio-clock" style={bounds(box)} viewBox="0 0 120 42"
+      role="img" aria-label={`India Standard Time, ${time}`}>
+      <text x="60" y="29" textAnchor="middle" fill="#202437" fontFamily="var(--font-mono)" fontSize="30" fontWeight="600">{time}</text>
     </svg>
   );
 }
@@ -108,7 +96,7 @@ export default function DeskScene() {
     };
   }, [location.key]);
 
-  function visit(event, item, box) {
+  function visit(event, item) {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
     event.preventDefault();
     if (opening.current) return;
@@ -119,8 +107,9 @@ export default function DeskScene() {
       return;
     }
     setSelection({ key: location.key, id: item.id });
-    const [x, y, w, h] = box;
-    surface.current.style.transformOrigin = `${x + w / 2}% ${y + h / 2}%`;
+    const target = event.currentTarget.getBoundingClientRect();
+    const stage = surface.current.getBoundingClientRect();
+    surface.current.style.transformOrigin = `${target.left + target.width / 2 - stage.left}px ${target.top + target.height / 2 - stage.top}px`;
     const move = surface.current.animate([
       { transform: "scale(1)" },
       { transform: "scale(1.18)" },
@@ -144,31 +133,31 @@ export default function DeskScene() {
     };
     const content = <>
       <span className="prop-skin" aria-hidden="true" />
-      {id === "laptop" && <LaptopScreen portrait={narrow} />}
+      {id === "monitor" && <MonitorSignature />}
       <span className="prop-dot" aria-hidden="true" />
       <span className="prop-caption" aria-hidden="true">{label}</span>
     </>;
     const shared = { className: "room-prop", style, "data-prop": id, "aria-label": label };
     return extra.to
-      ? <Link key={id} {...shared} to={extra.to} onClick={e => visit(e, extra, layout[id])}>{content}</Link>
+      ? <Link key={id} {...shared} to={extra.to} onClick={e => visit(e, extra)}>{content}</Link>
       : <button key={id} {...shared} type="button" onClick={extra.onClick}>{content}</button>;
   }
 
   return (
     <section className="room-hero" aria-label="Adarsh’s interactive developer studio">
-      <div className="studio-stage">
-        <div ref={surface} className="studio-surface" data-opening={selection?.key === location.key ? selection.id : undefined} style={{ "--scene": `url("${src}")` }}>
+      <div ref={surface} className="studio-surface" data-opening={selection?.key === location.key ? selection.id : undefined} style={{ "--scene": `url("${src}")` }}>
+        <div className="studio-stage">
           <img className="studio-art" src={src} alt="" fetchPriority="high" draggable="false" />
           <StudioClock box={layout.clock} />
           {deskObjects.map(item => hotspot(item.id, destinations[item.id], item))}
           {hotspot("lamp", theme === "dark" ? "Switch to daylight" : "Switch to night light", { onClick: toggle })}
           {hotspot("keyboard", "Open terminal", { onClick: terminal.open })}
-          {intro && !reduce && <div aria-hidden="true" className="studio-intro" onAnimationEnd={finishIntro} />}
+          <button className="drawer-pull" aria-haspopup="dialog" onClick={() => dialog.current.showModal()}>
+            <Icon name="Menu" size={15} />Studio index
+          </button>
         </div>
+        {intro && !reduce && <div aria-hidden="true" className="studio-intro" onAnimationEnd={finishIntro} />}
       </div>
-      <button className="drawer-pull" aria-haspopup="dialog" onClick={() => dialog.current.showModal()}>
-        <Icon name="Menu" size={15} />Studio index
-      </button>
       <StudioIndex dialog={dialog} intro={intro && !reduce} skip={finishIntro} replay={() => setIntro(true)} />
     </section>
   );

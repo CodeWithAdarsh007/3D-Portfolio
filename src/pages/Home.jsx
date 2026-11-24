@@ -22,13 +22,13 @@ export default function Home() {
       {/* ------------------------------------------- personal introduction */}
       <section id="introduction" tabIndex={-1} className="shell pt-10" aria-label="Introduction">
         <Reveal>
-          <div className="card flex flex-col items-start justify-between gap-6 border-2 border-ink p-6 sm:p-8 md:flex-row md:items-center">
+          <div className="card flex flex-col items-start justify-between gap-6 border border-line p-6 sm:p-8 md:flex-row md:items-center">
             <div>
               <p className="eyebrow mb-2" style={{ "--eyebrow-color": "var(--tangerine-ink)" }}>
                 Computer Science · AI & ML
               </p>
               <h1 className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
-                Hello, I&apos;m <span className="text-blue-ink">Adarsh.</span>
+                Hello, I&apos;m <span className="text-ink">Adarsh.</span>
               </h1>
               <p className="mt-2 max-w-xl text-sm font-semibold leading-relaxed text-muted sm:text-base">
                 {identity.education.year} building student products and exploring how reliably AI agents complete tasks.
@@ -61,13 +61,12 @@ export default function Home() {
               <Reveal key={item.title} delay={i * 0.1}>
                 <Link
                   to={item.to}
-                  className={`tape card group block h-full p-6 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-desk ${a.border}`}
-                  style={{ transform: `rotate(${[-1.2, 0.8, -0.6][i]}deg)` }}
+                  className={`card group block h-full p-6 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-desk ${a.border}`}
                 >
-                  <span className={`flex h-12 w-12 items-center justify-center rounded-2xl border-2 border-ink ${a.solid} text-plum shadow-sticker-sm`}>
+                  <span className={`flex h-12 w-12 items-center justify-center rounded-2xl border border-line ${a.solid} text-plum shadow-sticker-sm`}>
                     <Icon name={item.icon} size={22} />
                   </span>
-                  <h3 className="mt-4 font-display text-lg font-extrabold text-ink">{item.title}</h3>
+                  <h3 className="mt-4 font-display text-lg font-semibold text-ink">{item.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted">{item.body}</p>
                   <span className={`mt-4 inline-flex items-center gap-1 text-xs font-extrabold ${a.text}`}>
                     Follow this thread
@@ -106,10 +105,10 @@ export default function Home() {
       <section className="shell py-20">
         <Reveal>
           <div
-            className="relative overflow-hidden rounded-3xl border-2 border-ink p-8 shadow-desk sm:p-12"
+            className="relative overflow-hidden rounded-3xl border border-line p-8 shadow-desk sm:p-12"
             style={{
               background:
-                "linear-gradient(115deg, #17352c 20%, #315548 75%, #3b6357)",
+                "linear-gradient(112deg, #172050, #273a96 65%, #3745a8)",
             }}
           >
             <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full bg-sunshine opacity-30" aria-hidden="true" />

@@ -6,63 +6,32 @@ import { exploringSkills, skills } from "../data/portfolioContent";
 import { getProject } from "../data/projects";
 import { getAccent } from "../lib/accents";
 
-const SPINE_COLORS = ["var(--blue)", "var(--coral)", "var(--sunshine)", "var(--leaf)", "var(--lavender)", "var(--turquoise)", "var(--tangerine)"];
-
-/** Skills as a studio bookshelf: each technology is a spine linked to real work. */
 export default function Skills() {
-  let spineIdx = 0;
 
   return (
     <PageShell
-      eyebrow="Toolbox · technical skills"
-      title="The studio bookshelf"
-      body="Follow a book spine to see how a language, framework, or database fits into a project."
+      title="Engineering toolkit"
+      body="The languages, frameworks and databases I use, with links to the projects where I applied them."
     >
       <div className="grid gap-8 lg:grid-cols-3">
         {skills.map((group, gi) => {
           const a = getAccent(group.accent);
           return (
             <Reveal key={group.category} delay={gi * 0.08}>
-              <div className="card h-full border-2 border-ink p-6">
+              <div className="card h-full border border-line p-6">
                 <div className="flex items-center gap-3">
-                  <span className={`flex h-11 w-11 items-center justify-center rounded-2xl border-2 border-ink ${a.solid} text-plum shadow-sticker-sm`}>
+                  <span className={`flex h-11 w-11 items-center justify-center rounded-2xl border border-line ${a.solid} text-plum shadow-sticker-sm`}>
                     <Icon name={group.icon} size={20} />
                   </span>
-                  <h2 className="font-display text-lg font-extrabold tracking-tight text-ink">{group.category}</h2>
+                  <h2 className="font-display text-lg font-semibold tracking-tight text-ink">{group.category}</h2>
                 </div>
 
-                {/* shelf */}
-                <div className="mt-6 flex items-end gap-2 border-b-4 border-ink px-2 pb-0">
-                  {group.items.map((item) => {
-                    const color = SPINE_COLORS[spineIdx++ % SPINE_COLORS.length];
-                    const related = item.projects.map(getProject).filter(Boolean);
-                    return (
-                      <Link
-                        key={item.name}
-                        to={related[0] ? `/projects/${related[0].slug}` : "/projects"}
-                        title={related.map((p) => p.title).join(", ")}
-                        className="group relative flex w-14 flex-col items-center justify-end rounded-t-lg border-2 border-b-0 border-ink pb-2 pt-3 transition-transform duration-200 hover:-translate-y-2"
-                        style={{ background: color, color: color === "var(--blue)" ? "var(--on-blue)" : "var(--plum)", height: 120 + (spineIdx % 3) * 14 }}
-                      >
-                        <span className="font-mono text-[10px] font-extrabold [writing-mode:vertical-rl]">
-                          {item.name}
-                        </span>
-                        <span className="mt-2 h-1.5 w-6 rounded-full bg-plum/25" />
-                      </Link>
-                    );
-                  })}
-                </div>
-
-                <p className="mt-3 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-muted">
-                  {group.items.length} tools · linked to{" "}
-                  {new Set(group.items.flatMap((it) => it.projects)).size} projects
-                </p>
                 <ul className="mt-4 space-y-3">
                   {group.items.map((item) => {
                     const related = item.projects.map(getProject).filter(Boolean);
                     return (
-                      <li key={item.name} className="rounded-xl border-2 border-line bg-raised p-3.5">
-                        <p className="font-mono text-sm font-extrabold text-ink">{item.name}</p>
+                      <li key={item.name} className="border-t border-line pt-3.5">
+                        <p className="font-mono text-sm font-semibold text-ink">{item.name}</p>
                         {related.length > 0 && (
                           <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1">
                             {related.map((p) => (
@@ -88,15 +57,15 @@ export default function Skills() {
       </div>
 
       <Reveal className="mt-10">
-        <div className="rounded-3xl border-2 border-ink panel-sunshine p-7 shadow-sticker-sm">
-          <h2 className="flex items-center gap-2.5 font-display text-lg font-extrabold text-ink">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl border-2 border-ink bg-raised text-plum shadow-sticker-sm">
+        <div className="rounded-3xl border border-line panel-sunshine p-7 shadow-sticker-sm">
+          <h2 className="flex items-center gap-2.5 font-display text-lg font-semibold text-ink">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-line bg-raised text-ink shadow-sticker-sm">
               <Icon name="Compass" size={16} />
             </span>
             Currently exploring
           </h2>
           <p className="mt-2 text-sm font-semibold text-muted">
-            Areas I&apos;m actively learning — listed as interests, not claimed expertise.
+            Topics I’m studying through small experiments.
           </p>
           <div className="mt-5 flex flex-wrap gap-2">
             {exploringSkills.map((skill, i) => (

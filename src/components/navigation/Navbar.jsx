@@ -9,18 +9,9 @@ import Icon from "../common/Icon";
 
 export function LogoMark({ size = 30 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" aria-hidden="true">
-      <rect x="3" y="6" width="34" height="23" rx="5" fill="var(--ink)" />
-      <rect x="6" y="9" width="28" height="17" rx="3" fill="var(--blue)" />
-      <path d="M12 15l4 3-4 3" stroke="#FFF5E6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M19 21h7" stroke="#FFD34E" strokeWidth="2" strokeLinecap="round" />
-      <rect x="15" y="29" width="10" height="3" rx="1.5" fill="var(--tangerine)" />
-      <rect x="11" y="32" width="18" height="3" rx="1.5" fill="var(--ink)" />
-    </svg>
+    <img width={size} height={size} src="/favicon.svg" alt="" />
   );
 }
-
-const ACTIVE_BG = ["bg-sunshine", "bg-turquoise", "bg-coral", "bg-lavender", "bg-leaf", "bg-tangerine", "bg-turquoise", "bg-sunshine", "bg-coral"];
 
 export default function Navbar() {
   const { theme, toggle } = useTheme();
@@ -61,20 +52,20 @@ export default function Navbar() {
     <>
       {skipLink}
       <motion.div
-        className="fixed inset-x-0 top-0 z-[70] h-[4px] origin-left"
+        className="fixed inset-x-0 top-0 z-[70] h-[2px] origin-left"
         style={{
           scaleX: scrollYProgress,
-          background: "linear-gradient(90deg, var(--tangerine), var(--sunshine), var(--leaf), var(--turquoise), var(--blue), var(--lavender), var(--coral))",
+          background: "linear-gradient(90deg, var(--blue), var(--lavender))",
         }}
         aria-hidden="true"
       />
 
-      <header className="fixed inset-x-0 top-0 z-50 border-b-2 border-ink/10 bg-bg/90 backdrop-blur-md">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-bg/90 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-1 px-2 min-[375px]:gap-3 min-[375px]:px-4 sm:px-6">
           <Link to="/" className="flex shrink-0 items-center gap-1.5 sm:gap-2.5" aria-label="The Dev Workspace — home">
             <LogoMark />
             <span className="leading-none">
-              <span className="block font-display text-[15px] font-extrabold tracking-tight text-ink">
+              <span className="block font-display text-[11px] min-[375px]:text-[13px] sm:text-[15px] font-bold tracking-tight text-ink">
                 The Dev Workspace
               </span>
               <span className="mt-0.5 block font-mono text-[10px] tracking-[0.22em] text-muted uppercase">
@@ -84,15 +75,15 @@ export default function Navbar() {
           </Link>
 
           <nav className="hidden items-center gap-0.5 xl:flex" aria-label="Primary">
-            {nav.map((item, i) => (
+            {nav.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 end={item.to === "/"}
                 className={({ isActive }) =>
-                  `rounded-full border-2 px-2.5 py-1.5 text-[13px] font-extrabold transition-all duration-200 ${
+                  `rounded-full border-2 px-2.5 py-1.5 text-[13px] font-semibold transition-colors duration-200 ${
                     isActive
-                      ? `border-ink ${ACTIVE_BG[i % ACTIVE_BG.length]} text-plum shadow-sticker-sm`
+                      ? "border-transparent bg-blue/10 text-blue-ink"
                       : "border-transparent text-muted hover:bg-desk hover:text-ink"
                   }`
                 }
@@ -140,7 +131,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setMenuOpen((v) => !v)}
-              className="rounded-full border-2 border-ink bg-sunshine p-2 text-plum shadow-sticker-sm xl:hidden"
+              className="rounded-full border border-line bg-raised p-2 text-ink shadow-sticker-sm xl:hidden"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               ref={menuButton}
               aria-controls={menuOpen ? "mobile-navigation" : undefined}
@@ -167,7 +158,7 @@ export default function Navbar() {
               aria-label="Mobile"
             >
               <div className="grid grid-cols-2 gap-2 px-5 py-4">
-                {nav.map((item, i) => (
+                {nav.map((item) => (
                   <NavLink
                     key={item.to}
                     to={item.to}
@@ -175,7 +166,7 @@ export default function Navbar() {
                     className={({ isActive }) =>
                       `rounded-xl border-2 px-4 py-3 text-sm font-extrabold ${
                         isActive
-                          ? `border-ink ${ACTIVE_BG[i % ACTIVE_BG.length]} text-plum shadow-sticker-sm`
+                          ? "border-transparent bg-blue/10 text-blue-ink"
                           : "border-ink/15 bg-surface text-ink"
                       }`
                     }

@@ -11,19 +11,18 @@ const ROW_TINT = ["bg-sunshine/20", "bg-turquoise/15", "bg-coral/15", "bg-lavend
 export default function ProjectArchive() {
   return (
     <PageShell
-      eyebrow="Project folder · complete archive"
-      title="The full archive"
-      body="Every project in the studio, indexed like a well-kept folder. Open a row to read the complete case study."
+      title="Project archive"
+      body="Browse all five projects by focus, stack and implementation status."
     >
       <Reveal>
         <p className="mb-5 font-mono text-[11px] font-bold tracking-wide text-muted">
           {projects.length} records · curated order · external links pending
         </p>
 
-        <div className="card hidden overflow-hidden border-2 border-ink md:block">
+        <div className="card hidden overflow-hidden border border-line md:block">
           <table className="w-full text-left text-sm">
             <thead>
-              <tr className="border-b-2 border-ink bg-sunshine font-mono text-[10.5px] uppercase tracking-[0.14em] text-plum">
+              <tr className="border-b border-line bg-sunshine font-mono text-[10.5px] uppercase tracking-[0.14em] text-plum">
                 <th className="px-5 py-3.5 font-extrabold">Project</th>
                 <th className="px-5 py-3.5 font-extrabold">Categories</th>
                 <th className="px-5 py-3.5 font-extrabold">Stack</th>
@@ -40,7 +39,7 @@ export default function ProjectArchive() {
                   <tr key={p.slug} className={`group border-b-2 border-line last:border-0 ${ROW_TINT[i % ROW_TINT.length]} hover:bg-desk`}>
                     <td className="px-5 py-4">
                       <Link to={`/projects/${p.slug}`} className="flex items-center gap-3">
-                        <span className={`flex h-10 w-10 items-center justify-center rounded-xl border-2 border-ink ${a.solid} text-plum shadow-sticker-sm`}>
+                        <span className={`flex h-10 w-10 items-center justify-center rounded-xl border border-line ${a.solid} text-plum shadow-sticker-sm`}>
                           <Icon name={p.icon} size={17} />
                         </span>
                         <span>
@@ -79,9 +78,9 @@ export default function ProjectArchive() {
           {projects.map((p, i) => {
             const a = getAccent(p.accent);
             return (
-              <Link key={p.slug} to={`/projects/${p.slug}`} className={`card block border-2 border-ink p-5 ${ROW_TINT[i % ROW_TINT.length]}`}>
+              <Link key={p.slug} to={`/projects/${p.slug}`} className={`card block border border-line p-5 ${ROW_TINT[i % ROW_TINT.length]}`}>
                 <div className="flex items-center gap-3">
-                  <span className={`flex h-10 w-10 items-center justify-center rounded-xl border-2 border-ink ${a.solid} text-plum shadow-sticker-sm`}>
+                  <span className={`flex h-10 w-10 items-center justify-center rounded-xl border border-line ${a.solid} text-plum shadow-sticker-sm`}>
                     <Icon name={p.icon} size={18} />
                   </span>
                   <div>

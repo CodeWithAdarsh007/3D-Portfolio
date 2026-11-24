@@ -75,7 +75,7 @@ export default function GitHubPanel() {
             <Icon name="Github" size={19} />
           </span>
           <div>
-            <h2 className="font-display text-base font-extrabold text-ink">Live from GitHub</h2>
+            <h2 className="font-display text-base font-semibold text-ink">Live from GitHub</h2>
             <p className="font-mono text-[10.5px] tracking-wide text-muted">
               api.github.com · public repos · no credentials
             </p>

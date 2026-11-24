@@ -7,16 +7,11 @@ import ProjectArt, { ConceptTag } from "../components/art/ProjectArt";
 import ProjectCard from "../components/projects/ProjectCard";
 import { CaseSection, FeatureStatus, WorkflowDiagram } from "../components/projects/CaseStudy";
 import { getProject, getRelated, projects } from "../data/projects";
-import { getAccent, wash } from "../lib/accents";
+import { getAccent } from "../lib/accents";
 import NotFound from "./NotFound";
 
-function MetaSticker({ label, value, bg }) {
-  return (
-    <div className={`rounded-2xl border-2 border-ink px-4 py-3 shadow-sticker-sm ${bg}`}>
-      <p className="font-mono text-[9px] font-extrabold uppercase tracking-[0.16em] text-plum">{label}</p>
-      <p className="mt-1 text-sm font-extrabold text-plum">{value}</p>
-    </div>
-  );
+function CaseFact({ label, value }) {
+  return <div><dt>{label}</dt><dd>{value}</dd></div>;
 }
 
 export default function ProjectDetail() {
@@ -35,7 +30,7 @@ export default function ProjectDetail() {
   return (
     <PageTransition className="page-top pb-20">
       {/* ------------------------------------------------------ hero panel */}
-      <div style={wash(project.accent, "sunshine")}>
+      <div className="case-cover">
         <div className="shell">
           <Reveal>
             <Link
@@ -46,12 +41,7 @@ export default function ProjectDetail() {
               back to the gallery
             </Link>
 
-            <div
-              className="relative overflow-hidden rounded-3xl border-2 border-ink p-6 shadow-desk sm:p-10"
-              style={{
-                background: `linear-gradient(135deg, color-mix(in srgb, ${a.field} 26%, var(--surface)) 0%, var(--surface) 55%, color-mix(in srgb, var(--sunshine) 22%, var(--surface)) 100%)`,
-              }}
-            >
+            <div className="case-intro">
               <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
                 <div>
                   <div className="flex flex-wrap gap-2">
@@ -88,23 +78,23 @@ export default function ProjectDetail() {
                 </div>
 
                 <motion.div
-                  initial={{ opacity: 0, rotate: 3, y: 20 }}
-                  animate={{ opacity: 1, rotate: 1, y: 0 }}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                   className="relative"
                 >
-                  <div className="overflow-hidden rounded-2xl border-4 border-ink shadow-sticker">
+                  <div className="overflow-hidden rounded-2xl border border-line">
                     <ProjectArt slug={project.slug} className="h-auto w-full" />
                   </div>
                   <ConceptTag className="absolute -bottom-3 left-6" />
                 </motion.div>
               </div>
 
-              <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                <MetaSticker label="Status" value={project.status} bg="bg-sunshine" />
-                <MetaSticker label="My role" value={project.role} bg="bg-turquoise" />
-                <MetaSticker label="Stack" value={project.stack.slice(0, 3).join(" · ")} bg="bg-coral" />
-              </div>
+              <dl className="case-facts">
+                <CaseFact label="Status" value={project.status} />
+                <CaseFact label="My role" value={project.role} />
+                <CaseFact label="Stack" value={project.stack.slice(0, 3).join(" · ")} />
+              </dl>
             </div>
           </Reveal>
         </div>
@@ -114,7 +104,7 @@ export default function ProjectDetail() {
         {/* ------------------------------------------------ overview + why */}
         <div className="mt-12 grid gap-6 lg:grid-cols-[1.25fr_1fr]">
           <Reveal>
-            <section className="card h-full border-2 border-ink p-7 sm:p-9">
+            <section className="card h-full border border-line p-7 sm:p-9">
               <p className="eyebrow mb-4" style={{ "--eyebrow-color": a.ink }}>Overview</p>
               <p className="font-display text-xl font-semibold leading-relaxed text-ink sm:text-2xl">
                 {project.description}
@@ -129,7 +119,7 @@ export default function ProjectDetail() {
           </Reveal>
           <Reveal delay={0.08}>
             <section
-              className="h-full rounded-3xl border-2 border-ink p-7 shadow-sticker-sm sm:p-9"
+              className="h-full rounded-3xl border border-line p-7 shadow-sticker-sm sm:p-9"
               style={{ background: `color-mix(in srgb, ${a.field} 18%, var(--surface))` }}
             >
               <p className="font-mono text-[10px] font-extrabold uppercase tracking-[0.18em] text-ink/85">
@@ -155,7 +145,7 @@ export default function ProjectDetail() {
         {/* ------------------------------------------------------- workflow */}
         <Reveal className="mt-10">
           <h2 className="mb-5 flex items-center gap-2.5 font-display text-xl font-extrabold tracking-tight text-ink">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl border-2 border-ink bg-lavender text-plum shadow-sticker-sm">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-line bg-lavender text-plum shadow-sticker-sm">
               <Icon name="GitBranch" size={16} />
             </span>
             How it flows
@@ -165,9 +155,9 @@ export default function ProjectDetail() {
 
         {/* ------------------------------------------------------- features */}
         <Reveal className="mt-10">
-          <section className="card border-2 border-ink p-7 sm:p-9">
+          <section className="card border border-line p-7 sm:p-9">
             <h2 className="flex items-center gap-2.5 font-display text-xl font-extrabold tracking-tight text-ink">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl border-2 border-ink bg-leaf text-plum shadow-sticker-sm">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-line bg-leaf text-plum shadow-sticker-sm">
                 <Icon name="ListChecks" size={16} />
               </span>
               Features & areas of work
@@ -176,7 +166,7 @@ export default function ProjectDetail() {
               {project.features.map((f) => (
                 <li
                   key={f.name}
-                  className="flex items-center justify-between gap-3 rounded-xl border-2 border-line bg-raised px-4 py-3"
+                  className="flex items-center justify-between gap-3 rounded-xl border border-line bg-raised px-4 py-3"
                 >
                   <span className="flex items-center gap-2 text-[13.5px] font-bold text-ink">
                     <Icon name="Check" size={14} className={a.text} />
@@ -205,17 +195,17 @@ export default function ProjectDetail() {
 
         <Reveal className="mt-6">
           <section
-            className="rounded-3xl border-2 border-ink p-7 shadow-sticker-sm sm:p-9"
+            className="rounded-3xl border border-line p-7 shadow-sticker-sm sm:p-9"
             style={{ background: "linear-gradient(120deg, color-mix(in srgb, var(--leaf) 20%, var(--surface)), color-mix(in srgb, var(--turquoise) 16%, var(--surface)))" }}
           >
             <h2 className="flex items-center gap-2.5 font-display text-xl font-extrabold tracking-tight text-ink">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl border-2 border-ink bg-raised text-plum shadow-sticker-sm">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-line bg-raised text-ink shadow-sticker-sm">
                 <Icon name="Sparkles" size={16} />
               </span>
               What I learned
             </h2>
             <p className="mt-4 max-w-3xl text-base font-semibold leading-relaxed text-ink">{project.learnings}</p>
-            <p className="mt-4 flex items-start gap-2 rounded-xl border-2 border-ink/20 bg-raised/70 p-4 text-xs font-bold leading-relaxed text-muted">
+            <p className="mt-4 flex items-start gap-2 rounded-xl border border-ink/20 bg-raised/70 p-4 text-xs font-bold leading-relaxed text-muted">
               <Icon name="Info" size={14} className="mt-0.5 shrink-0 text-blue-ink" />
               {project.results}
             </p>
@@ -225,7 +215,7 @@ export default function ProjectDetail() {
         {/* ---------------------------------------------------- screenshots */}
         <Reveal className="mt-10">
           <h2 className="flex items-center gap-2.5 font-display text-xl font-extrabold tracking-tight text-ink">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl border-2 border-ink bg-tangerine text-plum shadow-sticker-sm">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-line bg-tangerine text-plum shadow-sticker-sm">
               <Icon name="Eye" size={16} />
             </span>
             Interface previews
@@ -262,7 +252,7 @@ export default function ProjectDetail() {
           <div className="flex items-center justify-between gap-4 border-t-2 border-line pt-6">
             <Link
               to={`/projects/${prev.slug}`}
-              className="group inline-flex items-center gap-2 text-sm font-extrabold text-muted transition-colors hover:text-blue-ink"
+              className="group inline-flex items-center gap-2 text-sm font-semibold text-muted transition-colors hover:text-blue-ink"
             >
               <Icon name="ArrowLeft" size={15} className="transition-transform group-hover:-translate-x-1" />
               <span className="hidden sm:inline">{prev.title}</span>
@@ -274,7 +264,7 @@ export default function ProjectDetail() {
             </Link>
             <Link
               to={`/projects/${next.slug}`}
-              className="group inline-flex items-center gap-2 text-sm font-extrabold text-muted transition-colors hover:text-blue-ink"
+              className="group inline-flex items-center gap-2 text-sm font-semibold text-muted transition-colors hover:text-blue-ink"
             >
               <span className="hidden sm:inline">{next.title}</span>
               <span className="sm:hidden">Next</span>

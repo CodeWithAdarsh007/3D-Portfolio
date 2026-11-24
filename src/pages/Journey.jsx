@@ -8,8 +8,7 @@ import { getAccent } from "../lib/accents";
 export default function Journey() {
   return (
     <PageShell
-      eyebrow="Timeline · my journey"
-      title="The path so far"
+      title="My path so far"
       body="My path through engineering school, student communities, and the work of building NoteKart."
     >
       <ol className="relative mx-auto max-w-5xl space-y-12 border-l-4 border-dashed border-tangerine pl-10 sm:pl-14">
@@ -18,15 +17,14 @@ export default function Journey() {
           return (
             <Reveal as="li" key={entry.id} delay={i * 0.1} className="relative">
                 <span
-                  className={`absolute -left-[54px] top-2 flex h-9 w-9 items-center justify-center rounded-full border-2 border-ink ${a.solid} text-plum shadow-sticker-sm sm:-left-[70px]`}
+                  className={`absolute -left-[54px] top-2 flex h-9 w-9 items-center justify-center rounded-full border border-line ${a.solid} text-plum shadow-sticker-sm sm:-left-[70px]`}
                   aria-hidden="true"
                 >
                   <Icon name={entry.icon} size={16} />
                 </span>
 
                 <article
-                  className={`card border-2 border-ink p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-desk sm:p-8`}
-                  style={{ transform: `rotate(${i % 2 ? 0.5 : -0.5}deg)` }}
+                  className={`card border border-line p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-desk sm:p-8`}
                 >
                   <div className="flex flex-wrap items-center gap-2.5">
                     <span className={`sticker ${a.solid} !px-3 !py-1 !text-[9.5px]`}>{entry.kind}</span>
@@ -36,7 +34,7 @@ export default function Journey() {
                   </div>
 
                   <h2 className="mt-4 font-display text-2xl font-extrabold tracking-tight text-ink">{entry.title}</h2>
-                  <p className="mt-1 text-sm font-extrabold text-muted">
+                  <p className="mt-1 text-sm font-semibold text-muted">
                     {entry.org || "institution name pending"}
                   </p>
                   <p className="mt-3 text-sm font-medium leading-relaxed text-muted">{entry.body}</p>

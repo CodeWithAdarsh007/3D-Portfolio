@@ -66,7 +66,7 @@ export default function ProjectCard({ project, index = 0, featured = false }) {
     >
       <Link
         to={`/projects/${project.slug}`}
-        className={`card group flex h-full overflow-hidden border-2 border-ink transition-all duration-300 hover:-translate-y-1 hover:shadow-desk ${
+        className={`card group flex h-full overflow-hidden border border-line transition-all duration-300 hover:-translate-y-1 hover:shadow-desk ${
           featured ? "flex-col sm:flex-row" : "flex-col"
         }`}
       >

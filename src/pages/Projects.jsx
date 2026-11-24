@@ -42,9 +42,8 @@ export default function Projects() {
 
   return (
     <PageShell
-      eyebrow="Laptop · the project gallery"
-      title="Projects from my workspace"
-      body="Explore five case studies across AI, software, and student products. Each covers my role, the implementation status, and what I learned."
+      title="Selected projects"
+      body="Five case studies in software, AI and student products, with the decisions, implementation status and lessons behind each one."
     >
       {/* --------------------------------------------------------- controls */}
       <Reveal className="mb-10 space-y-4">
@@ -57,7 +56,7 @@ export default function Projects() {
               value={query}
               onChange={(e) => update({ q: e.target.value })}
               placeholder="Search by name, stack, or category…"
-              className="w-full rounded-full border-2 border-ink bg-raised py-2.5 pl-11 pr-4 text-sm font-semibold text-ink shadow-sticker-sm placeholder:text-muted/70 focus:border-blue"
+              className="w-full rounded-full border border-line bg-raised py-2.5 pl-11 pr-4 text-sm font-semibold text-ink shadow-sticker-sm placeholder:text-muted/70 focus:border-blue"
             />
           </label>
           <div className="flex flex-wrap items-center gap-3">
@@ -66,7 +65,7 @@ export default function Projects() {
               <select
                 value={sort}
                 onChange={(e) => update({ sort: e.target.value === "default" ? "" : e.target.value })}
-                className="rounded-full border-2 border-ink bg-raised px-3 py-2 text-xs font-bold text-ink focus:border-blue"
+                className="rounded-full border border-line bg-raised px-3 py-2 text-xs font-bold text-ink focus:border-blue"
               >
                 <option value="default">Curated order</option>
                 <option value="name">Name A–Z</option>
@@ -113,11 +112,11 @@ export default function Projects() {
           ))}
         </div>
       ) : (
-        <div className="card flex flex-col items-center gap-4 border-2 border-ink p-14 text-center">
+        <div className="card flex flex-col items-center gap-4 border border-line p-14 text-center">
           <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-sunshine text-plum shadow-sticker-sm">
             <Icon name="FileSearch" size={26} />
           </span>
-          <p className="font-display text-lg font-extrabold text-ink">No projects match that search.</p>
+          <p className="font-display text-lg font-semibold text-ink">No projects match that search.</p>
           <p className="max-w-sm text-sm font-medium text-muted">
             Try a different keyword or category — the gallery covers AI/ML, agents, software, web,
             entrepreneurship, and research.

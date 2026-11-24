@@ -9,8 +9,7 @@ const INTEREST_COLORS = ["bg-sunshine", "bg-turquoise", "bg-lavender", "bg-coral
 export default function About() {
   return (
     <PageShell
-      eyebrow="ID card · about me"
-      title="The person behind the desk"
+      title="Meet Adarsh"
       body="I study Computer Science Engineering with a focus on AI and ML. My projects bring together software, research questions, and the practical work of building a product."
     >
       <div className="grid gap-10 lg:grid-cols-[360px_1fr]">
@@ -18,38 +17,17 @@ export default function About() {
         <div className="space-y-8">
           <Reveal>
             <div className="studio-id relative p-6">
-              <div className="flex items-center justify-between">
-                <span className="sticker bg-coral !text-[10px]">workspace ID</span>
-                <Icon name="Sparkles" size={18} className="text-tangerine" />
-              </div>
-              <div className="mt-5 flex justify-center">
-                <img src="/studio/mascot.webp" width="164" height="164" className="studio-mascot" alt="Studio mascot, a smiling cream computer with a pencil tucked behind its screen" />
-              </div>
-              <p className="mt-4 text-center font-display text-2xl font-extrabold text-ink">Adarsh</p>
-              <p className="mt-1 text-center font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-muted">
-                CSE (AI/ML) · third year
-              </p>
-              <div className="mt-5 flex flex-wrap justify-center gap-1.5">
-                {identity.careerInterests.map((c, i) => (
-                  <span key={c} className={`sticker ${INTEREST_COLORS[i]} !px-2.5 !py-1 !text-[9.5px]`}>
-                    {c}
-                  </span>
+              <p className="text-sm text-muted">Studio profile</p>
+              <h2 className="mt-2 font-display text-3xl font-semibold tracking-tight">Adarsh</h2>
+              <p className="mt-2 text-sm text-muted">{identity.education.year} · CSE (AI/ML)</p>
+              <ul className="my-6 space-y-2 border-y border-line py-4">
+                {identity.careerInterests.map(interest => (
+                  <li key={interest} className="text-sm font-medium text-ink">{interest}</li>
                 ))}
-              </div>
-              <p className="mt-4 text-center font-mono text-[9.5px] font-semibold text-muted">
-                Studio mascot · illustrated avatar
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.12}>
-            <div className="card border-2 border-ink p-6">
-              <ButtonAnchor href={links.resume} download icon="Download" className="w-full">
+              </ul>
+              <ButtonAnchor href={links.resume} download icon="Download">
                 {links.resumePlaceholder ? "Résumé sample (PDF)" : "Download résumé"}
               </ButtonAnchor>
-              <p className="mt-3 text-center font-mono text-[10px] font-semibold text-muted">
-                DEMO PLACEHOLDER — NOT GENUINE
-              </p>
             </div>
           </Reveal>
         </div>
@@ -57,14 +35,12 @@ export default function About() {
         {/* -------------------------------------------------- bio column */}
         <div className="space-y-8">
           <Reveal>
-            <div className="card paper-lines border-2 border-ink p-7 sm:p-9">
+            <div className="card border border-line p-7 sm:p-9">
               <p className="eyebrow mb-5" style={{ "--eyebrow-color": "var(--coral-ink)" }}>Introduction</p>
-              {bio.map((paragraph, i) => (
+              {bio.map((paragraph) => (
                 <p
                   key={paragraph.slice(0, 24)}
-                  className={`mb-4 text-[15px] font-medium leading-[28px] text-muted last:mb-0 ${
-                    i === 0 ? "first-letter:float-left first-letter:mr-2 first-letter:font-display first-letter:text-5xl first-letter:font-extrabold first-letter:leading-[0.9] first-letter:text-coral-ink" : ""
-                  }`}
+                  className="mb-4 max-w-prose text-base leading-relaxed text-muted last:mb-0"
                 >
                   {paragraph}
                 </p>
@@ -74,11 +50,11 @@ export default function About() {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <Reveal delay={0.05}>
-              <div className="h-full rounded-2xl border-2 border-ink panel-sunshine p-6 shadow-sticker-sm">
+              <div className="h-full rounded-2xl border border-line panel-sunshine p-6 shadow-sticker-sm">
                 <p className="flex items-center gap-2 font-mono text-[10px] font-extrabold uppercase tracking-[0.16em] text-ink/85">
                   <Icon name="GraduationCap" size={14} /> Education
                 </p>
-                <p className="mt-3 font-display text-base font-extrabold leading-snug text-ink">
+                <p className="mt-3 font-display text-base font-semibold leading-snug text-ink">
                   {identity.education.degree}
                 </p>
                 <p className="mt-1 text-xs font-bold text-muted">{identity.education.year}</p>
@@ -88,7 +64,7 @@ export default function About() {
               </div>
             </Reveal>
             <Reveal delay={0.1}>
-              <div className="h-full rounded-2xl border-2 border-ink panel-turquoise p-6 shadow-sticker-sm">
+              <div className="h-full rounded-2xl border border-line panel-turquoise p-6 shadow-sticker-sm">
                 <p className="flex items-center gap-2 font-mono text-[10px] font-extrabold uppercase tracking-[0.16em] text-ink/85">
                   <Icon name="Target" size={14} /> Career interests
                 </p>
@@ -105,7 +81,7 @@ export default function About() {
           </div>
 
           <Reveal delay={0.08}>
-            <div className="card border-2 border-ink p-7">
+            <div className="card border border-line p-7">
               <p className="eyebrow mb-4" style={{ "--eyebrow-color": "var(--leaf-ink)" }}>Technical interests</p>
               <div className="flex flex-wrap gap-2">
                 {identity.technicalInterests.map((interest, i) => (
@@ -118,13 +94,13 @@ export default function About() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="rounded-3xl border-2 border-ink panel-lavender p-7 shadow-sticker-sm">
+            <div className="rounded-3xl border border-line panel-lavender p-7 shadow-sticker-sm">
               <p className="flex items-center gap-2 font-mono text-[10px] font-extrabold uppercase tracking-[0.16em] text-ink/85">
                 <Icon name="Compass" size={14} /> Currently exploring
               </p>
               <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                 {identity.currentlyExploring.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 rounded-xl border-2 border-ink/15 bg-raised p-3.5 text-sm font-semibold leading-relaxed text-muted">
+                  <li key={item} className="flex items-start gap-2.5 rounded-xl border border-ink/15 bg-raised p-3.5 text-sm font-semibold leading-relaxed text-muted">
                     <Icon name="Sparkles" size={15} className="mt-0.5 shrink-0 text-lavender-ink" />
                     {item}
                   </li>

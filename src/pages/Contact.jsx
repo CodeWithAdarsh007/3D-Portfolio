@@ -9,11 +9,11 @@ const initialForm = { name: "", email: "", subject: "", message: "" };
 function ChannelCard({ icon, title, value, href, placeholder, note, bg }) {
   const inner = (
     <>
-      <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border-2 border-ink ${bg} text-plum shadow-sticker-sm`}>
+      <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-line ${bg} text-plum shadow-sticker-sm`}>
         <Icon name={icon} size={20} />
       </span>
       <span className="min-w-0">
-        <span className="block font-display text-sm font-extrabold text-ink">{title}</span>
+        <span className="block font-display text-sm font-semibold text-ink">{title}</span>
         <span className="block truncate text-xs font-semibold text-muted">{value}</span>
         {placeholder && (
           <span className="placeholder-label mt-1.5 inline-block !px-2 !py-0.5 !text-[8px]">
@@ -26,7 +26,7 @@ function ChannelCard({ icon, title, value, href, placeholder, note, bg }) {
   );
 
   const cls =
-    "card flex h-full items-start gap-3.5 border-2 border-ink p-5";
+    "card flex h-full items-start gap-3.5 border border-line p-5";
 
   return href && !placeholder ? (
     <a href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className={`${cls} transition-shadow hover:shadow-sticker`}>
@@ -79,7 +79,6 @@ export default function Contact() {
 
   return (
     <PageShell
-      eyebrow="Envelope · contact"
       title={contact.heading}
       body={contact.body}
     >
@@ -96,12 +95,12 @@ export default function Contact() {
         </div>
 
         <Reveal delay={0.05}>
-          <form onSubmit={onSubmit} noValidate className="card paper-lines border-2 border-ink p-6 shadow-desk sm:p-8">
-            <div className="mb-6 flex items-start gap-3 rounded-xl border-2 panel-sunshine p-4">
+          <form onSubmit={onSubmit} noValidate className="card border border-line p-6 shadow-desk sm:p-8">
+            <div className="mb-6 flex items-start gap-3 rounded-xl border panel-sunshine p-4">
               <Icon name="AlertTriangle" size={17} className="mt-0.5 shrink-0 text-sunshine-ink" />
               <p className="text-xs font-bold leading-relaxed text-muted">
-                <span className="font-extrabold text-sunshine-ink">Demo mode — messages are NOT sent.</span>{" "}
-                You can preview a message here. Your entries stay in this browser tab.
+                <span className="font-extrabold text-sunshine-ink">Message preview.</span>{" "}
+                Your draft stays in this tab. This form does not send email.
               </p>
             </div>
 
@@ -130,14 +129,14 @@ export default function Contact() {
               {errors.message && <span id="message-error" className="mt-1 block text-[11px] font-bold text-danger">{errors.message}</span>}
             </label>
 
-            <button type="submit" className="btn-primary mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-extrabold sm:w-auto">
+            <button type="submit" className="btn-primary mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold sm:w-auto">
               <Icon name="Send" size={15} />
               Preview message
             </button>
 
             {demoSubmitted && (
               <div className="mt-5 rounded-xl border-2 border-sunshine bg-sunshine/25 p-4" role="status" aria-live="polite">
-                <p className="flex items-center gap-2 text-sm font-extrabold text-sunshine-ink">
+                <p className="flex items-center gap-2 text-sm font-semibold text-sunshine-ink">
                   <Icon name="Info" size={15} />
                   Demo mode — this message was NOT sent.
                 </p>
