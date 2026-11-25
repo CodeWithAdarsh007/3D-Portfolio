@@ -42,6 +42,67 @@ try {
     await page.close();
     console.log(size, "full desk and reachable objects");
   }
+
+  const drop = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  const errors = [];
+  drop.on("pageerror", error => errors.push(error.message));
+  const routeChecks = {
+    monitor: "/#introduction", laptop: "/projects", chip: "/ai-lab", notebook: "/research",
+    folder: "/projects/archive", idcard: "/about", trophy: "/achievements", envelope: "/contact",
+  };
+  for (const [prop, path] of Object.entries(routeChecks)) {
+    await drop.goto(url);
+    await drop.locator(".studio-art").waitFor();
+    await drop.evaluate(() => {
+      const camera = document.querySelector(".studio-surface");
+      const animate = camera.animate.bind(camera);
+      const pushState = history.pushState.bind(history);
+      window.deskTiming = {};
+      camera.animate = (...args) => {
+        const motion = animate(...args);
+        motion.addEventListener("finish", () => { window.deskTiming.finish = performance.now(); });
+        return motion;
+      };
+      history.pushState = (...args) => {
+        window.deskTiming.push = performance.now();
+        return pushState(...args);
+      };
+    });
+    await drop.locator(`[data-prop=${prop}]`).click();
+    await drop.waitForURL(new URL(path, url).href);
+    const { finish, push } = await drop.evaluate(() => window.deskTiming);
+    assert.ok(push >= finish && push - finish < 100, `${prop}: navigation must follow camera completion`);
+    if (prop === "monitor") assert.equal(await drop.locator(":focus").getAttribute("id"), "introduction");
+    else await drop.locator("main[data-desk-arrival] .chapter-photo").waitFor();
+    console.log(prop, "opened on animation completion");
+  }
+  await drop.goBack();
+  await drop.locator(".studio-badge").waitFor();
+  await drop.goForward();
+  await drop.locator(".chapter-photo").waitFor();
+  assert.equal(await drop.locator("main[data-desk-arrival]").count(), 0);
+  await drop.goBack();
+  await drop.locator(".studio-badge").waitFor();
+  await drop.locator(".drawer-pull").click();
+  await drop.getByRole("button", { name: "Pause room motion" }).click();
+  const roomMotion = [".studio-badge", ".monitor-caret", ".chai-steam i"];
+  for (const selector of roomMotion) {
+    const playState = await drop.locator(selector).first().evaluate(element => getComputedStyle(element).animationPlayState);
+    assert.equal(playState, "paused", `${selector}: room motion must pause`);
+  }
+  await drop.getByRole("button", { name: "Resume room motion" }).click();
+  await drop.keyboard.press("Escape");
+  await drop.emulateMedia({ reducedMotion: "reduce" });
+  for (const selector of roomMotion) {
+    const animation = await drop.locator(selector).first().evaluate(element => getComputedStyle(element).animationName);
+    assert.equal(animation, "none", `${selector}: respect reduced motion`);
+  }
+  await drop.locator("[data-prop=idcard]").press("Enter");
+  await drop.waitForURL(new URL("about", url).href);
+  await drop.locator(".chapter-photo").waitFor();
+  assert.equal(await drop.locator("main[data-desk-arrival]").count(), 0);
+  assert.deepEqual(errors, []);
+  console.log("Browser Back and Forward, motion controls and reduced-motion keyboard navigation passed");
 } finally {
   await browser?.close();
   await server.close();

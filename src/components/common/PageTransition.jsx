@@ -1,10 +1,11 @@
 import { useLayoutEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigationType } from "react-router-dom";
 import { motion, useReducedMotion } from "motion/react";
 import usePageMeta from "../../hooks/usePageMeta";
 
 export default function PageTransition({ children, className = "" }) {
-  const { pathname, hash, key } = useLocation();
+  const { pathname, hash, key, state } = useLocation();
+  const fromDesk = useNavigationType() === "PUSH" && state?.fromDesk;
   const initialAddress = useRef(key === "default" ? pathname + hash : null);
   const main = useRef(null);
   const reduce = useReducedMotion();
@@ -27,6 +28,7 @@ export default function PageTransition({ children, className = "" }) {
       id="main-content"
       ref={main}
       tabIndex={-1}
+      data-desk-arrival={fromDesk && !reduce ? "true" : undefined}
       initial={reduce || pathname === "/" ? false : { opacity: 0.85, y: 5 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.18, ease: "easeOut" }}

@@ -14,21 +14,30 @@ function composition(width, height, objects) {
 export const landscape = composition(1672, 941, {
   monitor: [606,296,456,213], laptop: [1063,429,225,147,laptop],
   chip: [482,479,112,87], notebook: [372,581,216,49,notebook],
-  folder: [1027,583,281,48,folder], idcard: [481,394,54,55],
+  folder: [1027,583,281,48,folder], idcard: [470,381,77,92],
   trophy: [1163,244,77,79,ellipse], envelope: [733,595,182,37],
   lamp: [345,450,100,111,ellipse], keyboard: [679,564,306,22],
-  clock: [777,89,117,42],
+  clock: [777,89,117,42], chai: [1300,533,128,85],
+  badgeWall: [472,391,80,71], badgeSample: [549,391,56,71],
 });
 
 export const portrait = composition(941, 1672, {
   monitor: [236,730,432,190], laptop: [654,841,169,124,laptop],
   chip: [216,928,89,74], notebook: [164,1016,164,46,notebook],
-  folder: [600,1017,203,43,folder], idcard: [164,757,45,47],
+  folder: [600,1017,203,43,folder], idcard: [154,744,67,81],
   trophy: [652,599,71,77,ellipse], envelope: [401,1030,137,32],
   lamp: [106,897,88,102,ellipse], keyboard: [367,998,200,23],
-  clock: [412,434,119,40],
+  clock: [412,434,119,40], chai: [548,930,100,67],
+  badgeWall: [156,753,70,65], badgeSample: [118,753,39,65],
 });
 
 export function bounds([x, y, width, height]) {
   return { left: x + "%", top: y + "%", width: width + "%", height: height + "%" };
+}
+
+export function imageCrop([x, y, width, height]) {
+  return {
+    "--size": `${10000 / width}% ${10000 / height}%`,
+    "--pos": `${100 * x / (100 - width)}% ${100 * y / (100 - height)}%`,
+  };
 }

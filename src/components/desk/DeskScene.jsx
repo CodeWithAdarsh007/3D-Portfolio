@@ -6,13 +6,24 @@ import { useTerminal } from "../../context/TerminalContext";
 import { preloadDestination } from "../../lib/routes";
 import useMediaQuery from "../../hooks/useMediaQuery";
 import Icon from "../common/Icon";
-import { MonitorSignature } from "./StudioPoster";
-import { bounds, landscape, portrait } from "./sceneLayout";
+import { MonitorDisplay, StudioBadge, StudioDetails } from "./StudioDetails";
+import { bounds, imageCrop, landscape, portrait } from "./sceneLayout";
 
 const destinations = {
   monitor: "Introduction", laptop: "Projects", chip: "AI & Agent Lab",
   notebook: "Research", folder: "Project archive", idcard: "About Adarsh",
   trophy: "Achievements", envelope: "Contact",
+};
+
+const objectReveals = {
+  monitor: "scale(1.08)",
+  laptop: "translateY(-11%) perspective(450px) rotateX(9deg) scale(1.2)",
+  chip: "translateY(-15%) perspective(350px) rotateY(-12deg) scale(1.24)",
+  notebook: "translateY(-31%) perspective(340px) rotateX(20deg) rotateZ(-4deg) scale(1.24)",
+  folder: "translateY(-32%) perspective(340px) rotateX(15deg) rotateZ(4deg) scale(1.21)",
+  idcard: "translateY(5%) perspective(380px) rotateY(-14deg) rotateZ(-10deg) scale(1.29)",
+  trophy: "translateY(-12%) perspective(340px) rotateY(-17deg) scale(1.24)",
+  envelope: "translateY(-37%) perspective(340px) rotateX(17deg) rotateZ(-4deg) scale(1.29)",
 };
 
 function StudioClock({ box }) {
@@ -35,7 +46,7 @@ function StudioClock({ box }) {
   );
 }
 
-function StudioIndex({ dialog, replay, intro, skip }) {
+function StudioIndex({ dialog, replay, intro, skip, reduce, paused, toggleMotion }) {
   const { theme, toggle } = useTheme();
   const terminal = useTerminal();
   const close = () => dialog.current?.close();
@@ -56,7 +67,10 @@ function StudioIndex({ dialog, replay, intro, skip }) {
         <div className="index-tools">
           <button onClick={toggle}><Icon name={theme === "dark" ? "Sun" : "Moon"} size={16} />{theme === "dark" ? "Daylight" : "Night light"}</button>
           <button onClick={() => { close(); terminal.open(); }}><Icon name="SquareTerminal" size={16} />Terminal</button>
-          <button onClick={() => { close(); if (intro) skip(); else replay(); }}><Icon name={intro ? "SkipForward" : "RotateCcw"} size={16} />{intro ? "Skip intro" : "Replay intro"}</button>
+          {!reduce && <>
+            <button onClick={toggleMotion}><Icon name={paused ? "Play" : "Pause"} size={16} />{paused ? "Resume room motion" : "Pause room motion"}</button>
+            <button onClick={() => { close(); if (intro) skip(); else replay(); }}><Icon name={intro ? "SkipForward" : "RotateCcw"} size={16} />{intro ? "Skip intro" : "Replay intro"}</button>
+          </>}
         </div>
       </div>
     </dialog>
@@ -65,6 +79,10 @@ function StudioIndex({ dialog, replay, intro, skip }) {
 
 function initialIntro() {
   try { return !sessionStorage.getItem("tdw-intro-seen"); } catch { return true; }
+}
+
+function initialPause() {
+  try { return sessionStorage.getItem("tdw-room-paused") === "1"; } catch { return false; }
 }
 
 export default function DeskScene() {
@@ -79,6 +97,8 @@ export default function DeskScene() {
   const opening = useRef(null);
   const [selection, setSelection] = useState(null);
   const [intro, setIntro] = useState(initialIntro);
+  const [paused, setPaused] = useState(initialPause);
+  const [inView, setInView] = useState(true);
   const layout = narrow ? portrait : landscape;
   const light = theme === "dark" ? "night" : "day";
   const src = `/studio/${narrow ? "portrait-" : ""}${light}.webp`;
@@ -88,10 +108,22 @@ export default function DeskScene() {
     try { sessionStorage.setItem("tdw-intro-seen", "1"); } catch { /* private browsing */ }
   }
 
+  function toggleMotion() {
+    setPaused(!paused);
+    try { sessionStorage.setItem("tdw-room-paused", paused ? "0" : "1"); } catch { /* private browsing */ }
+  }
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting));
+    observer.observe(surface.current.parentElement);
+    return () => observer.disconnect();
+  }, []);
+
   // Leaving during a camera move cancels its pending destination.
   useLayoutEffect(() => {
     return () => {
-      opening.current?.cancel();
+      opening.current?.camera.cancel();
+      opening.current?.object.cancel();
       opening.current = null;
     };
   }, [location.key]);
@@ -109,35 +141,43 @@ export default function DeskScene() {
     setSelection({ key: location.key, id: item.id });
     const target = event.currentTarget.getBoundingClientRect();
     const stage = surface.current.getBoundingClientRect();
-    surface.current.style.transformOrigin = `${target.left + target.width / 2 - stage.left}px ${target.top + target.height / 2 - stage.top}px`;
-    const move = surface.current.animate([
+    const x = target.left + target.width / 2 - stage.left;
+    const y = target.top + target.height / 2 - stage.top;
+    surface.current.style.transformOrigin = `${x}px ${y}px`;
+    const panX = (stage.width / 2 - x) * 0.15;
+    const panY = (stage.height / 2 - y) * 0.15;
+    const camera = surface.current.animate([
       { transform: "scale(1)" },
-      { transform: "scale(1.18)" },
-    ], { duration: 440, easing: "cubic-bezier(.22,.72,.27,1)", fill: "forwards" });
+      { transform: `translate3d(${panX}px, ${panY}px, 0) scale(1.23)` },
+    ], { duration: 430, easing: "cubic-bezier(.22,.72,.27,1)", fill: "forwards" });
+    const object = event.currentTarget.querySelector(".prop-visual").animate([
+      { transform: "scale(1)" },
+      { transform: "scale(.975)", offset: 0.13 },
+      { transform: objectReveals[item.id] },
+    ], { duration: 380, easing: "cubic-bezier(.24,.62,.35,1)", fill: "forwards" });
+    const move = { camera, object };
     opening.current = move;
-    move.onfinish = () => {
+    camera.onfinish = () => {
       if (opening.current !== move) return;
-      opening.current = null;
-      move.cancel();
-      setSelection(null);
-      navigate(item.to);
+      navigate(item.to, { state: { fromDesk: true } });
     };
   }
 
   function hotspot(id, label, extra = {}) {
-    const [x, y, w, h, outline] = layout[id];
+    const box = layout[id];
     const style = {
-      ...bounds(layout[id]), "--cut": `polygon(${outline})`,
-      "--size": `${10000 / w}% ${10000 / h}%`,
-      "--pos": `${100 * x / (100 - w)}% ${100 * y / (100 - h)}%`,
+      ...bounds(box), ...imageCrop(box), "--cut": `polygon(${box[4]})`,
     };
     const content = <>
-      <span className="prop-skin" aria-hidden="true" />
-      {id === "monitor" && <MonitorSignature />}
+      <span className="prop-visual" aria-hidden="true">
+        {id === "idcard" ? <StudioBadge /> : <span className="prop-skin" />}
+        {id === "monitor" && <MonitorDisplay />}
+        {extra.to && <span className="prop-reveal"><i /></span>}
+      </span>
       <span className="prop-dot" aria-hidden="true" />
       <span className="prop-caption" aria-hidden="true">{label}</span>
     </>;
-    const shared = { className: "room-prop", style, "data-prop": id, "aria-label": label };
+    const shared = { className: "room-prop", style, "data-prop": id, "data-selected": extra.selected || undefined, "aria-label": label };
     return extra.to
       ? <Link key={id} {...shared} to={extra.to} onClick={e => visit(e, extra)}>{content}</Link>
       : <button key={id} {...shared} type="button" onClick={extra.onClick}>{content}</button>;
@@ -145,11 +185,15 @@ export default function DeskScene() {
 
   return (
     <section className="room-hero" aria-label="Adarsh’s interactive developer studio">
-      <div ref={surface} className="studio-surface" data-opening={selection?.key === location.key ? selection.id : undefined} style={{ "--scene": `url("${src}")` }}>
+      <div ref={surface} className="studio-surface" data-motion={paused || !inView ? "paused" : undefined}
+        data-opening={selection?.key === location.key ? selection.id : undefined} style={{ "--scene": `url("${src}")` }}>
         <div className="studio-stage">
           <img className="studio-art" src={src} alt="" fetchPriority="high" draggable="false" />
           <StudioClock box={layout.clock} />
-          {deskObjects.map(item => hotspot(item.id, destinations[item.id], item))}
+          <StudioDetails />
+          {deskObjects.map(item => hotspot(item.id, destinations[item.id], {
+            ...item, selected: selection?.key === location.key && selection.id === item.id,
+          }))}
           {hotspot("lamp", theme === "dark" ? "Switch to daylight" : "Switch to night light", { onClick: toggle })}
           {hotspot("keyboard", "Open terminal", { onClick: terminal.open })}
           <button className="drawer-pull" aria-haspopup="dialog" onClick={() => dialog.current.showModal()}>
@@ -158,7 +202,8 @@ export default function DeskScene() {
         </div>
         {intro && !reduce && <div aria-hidden="true" className="studio-intro" onAnimationEnd={finishIntro} />}
       </div>
-      <StudioIndex dialog={dialog} intro={intro && !reduce} skip={finishIntro} replay={() => setIntro(true)} />
+      <StudioIndex dialog={dialog} intro={intro} skip={finishIntro} replay={() => setIntro(true)}
+        reduce={reduce} paused={paused} toggleMotion={toggleMotion} />
     </section>
   );
 }

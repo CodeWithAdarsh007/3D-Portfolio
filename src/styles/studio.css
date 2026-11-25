@@ -26,30 +26,17 @@
 }
 .studio-art { width: 100%; height: 100%; position: absolute; inset: 0; clip-path: inset(4% 9%); pointer-events: none; user-select: none; }
 .studio-clock { position: absolute; pointer-events: none; }
-.poster-monitor {
-  position: absolute; left: var(--landscape-left); top: var(--landscape-top);
-  width: var(--landscape-width); height: var(--landscape-height);
-}
-@media (orientation: portrait) {
-  .poster-monitor { left: var(--portrait-left); top: var(--portrait-top); width: var(--portrait-width); height: var(--portrait-height); }
-}
-.monitor-signature {
-  position: absolute; inset: 2%; display: grid; align-content: center; justify-items: center;
-  container-type: inline-size; pointer-events: none; color: white;
-  text-shadow: 0 1px 8px #03104c70; background: linear-gradient(100deg,#101c6b40,#121d7033);
-}
-.monitor-signature b { font: 650 17cqw/.97 var(--font-display); letter-spacing: -.075em; }
-.monitor-signature small { margin-top: 3%; font: 550 4.3cqw/1.2 var(--font-sans); letter-spacing: .045em; }
 .room-prop {
   display: block; position: absolute; border: 0; background: transparent; padding: 0;
   color: #fbf2d8; cursor: pointer; touch-action: manipulation;
 }
 .room-prop:focus-visible { outline: 2px solid #d4eaff; outline-offset: 4px; border-radius: 8px; z-index: 3; }
+.prop-visual { position: absolute; inset: 0; pointer-events: none; }
 .prop-skin {
   position: absolute; inset: 0; clip-path: var(--cut);
   background: var(--scene) var(--pos) / var(--size) no-repeat;
-  opacity: 0; transform-origin: 50% 85%;
-  transition: transform .21s ease-out, filter .21s ease-out, opacity .12s;
+  opacity: 0;
+  transition: filter .21s ease-out, opacity .12s;
 }
 .prop-dot {
   position: absolute; right: 12%; bottom: 13%; width: clamp(4px, .46vw, 8px); height: clamp(4px, .46vw, 8px);
@@ -67,24 +54,10 @@
 @media (hover: hover) {
   .room-prop:hover { z-index: 2; }
   .room-prop:hover .prop-caption { opacity: 1; translate: -50% -5px; }
-  .room-prop:hover .prop-skin { opacity: 1; transform: translateY(-2px) scale(1.025); filter: brightness(1.1); }
+  .room-prop:hover .prop-skin { opacity: 1; filter: brightness(1.1); }
 }
 .studio-surface[data-opening] .prop-caption, .studio-surface[data-opening] .prop-dot { opacity: 0; }
 .room-prop:active .prop-skin { opacity: 1; filter: brightness(1.13); }
-.studio-surface[data-opening="notebook"] [data-prop="notebook"] .prop-skin,
-.studio-surface[data-opening="folder"] [data-prop="folder"] .prop-skin,
-.studio-surface[data-opening="envelope"] [data-prop="envelope"] .prop-skin {
-  opacity: 1; transform: perspective(420px) rotateX(14deg) scale(1.05); filter: brightness(1.1);
-}
-.studio-surface[data-opening="trophy"] [data-prop="trophy"] .prop-skin,
-.studio-surface[data-opening="idcard"] [data-prop="idcard"] .prop-skin {
-  opacity: 1; transform: rotate(-4deg) translateY(-3%) scale(1.06); filter: brightness(1.16);
-}
-.studio-surface[data-opening="monitor"] [data-prop="monitor"] .prop-skin,
-.studio-surface[data-opening="laptop"] [data-prop="laptop"] .prop-skin,
-.studio-surface[data-opening="chip"] [data-prop="chip"] .prop-skin {
-  opacity: 1; transform: scale(1.045); filter: brightness(1.22);
-}
 .studio-intro { position: absolute; inset: 0; background: #151b35; pointer-events: none; animation: studio-arrive .85s ease-out forwards; }
 @keyframes studio-arrive { from { opacity: .38; } to { opacity: 0; } }
 .drawer-pull {
@@ -106,7 +79,6 @@
 .index-links a:hover,.index-tools button:hover { color: var(--turquoise-ink); }
 .index-tools { display: flex; flex-wrap: wrap; gap: 6px; }
 .index-tools button { display: inline-flex; align-items: center; gap: .4em; min-height: 40px; padding: .3em .65em; border-radius: 6px; background: var(--bg-desk); font-size: .8rem; font-weight: 700; }
-@media (prefers-reduced-motion: reduce) { .room-prop .prop-skin { transform: none !important; } }
 
 .room-loading { --scene: url("/studio/day.webp"); }
 [data-theme="dark"] .room-loading { --scene: url("/studio/night.webp"); }
@@ -123,14 +95,6 @@
      and the paper towards the visitor so their touch targets stay distinct. */
   [data-prop="keyboard"]::before { top: auto; bottom: 0; translate: -50% 0; }
   :is([data-prop="envelope"],[data-prop="folder"],[data-prop="notebook"])::before { top: 0; translate: -50% 0; }
-}
-[data-prop="idcard"]::after {
-  content: ""; position: absolute; inset: 16% 27% 23%;
-  background: url("/favicon.svg") center / contain no-repeat; pointer-events: none;
-}
-@media (max-width: 560px) {
-  .monitor-signature small { display: none; }
-  .monitor-signature b { font-size: 20cqw; }
 }
 .studio-page { background: var(--bg); }
 .chapter-cover {

@@ -51,7 +51,7 @@ function AnimatedRoutes() {
   return (
     <RouteBoundary key={location.pathname}>
       <Suspense fallback={<RouteFallback />}>
-        <Routes location={location}>
+        <Routes>
           {routes.map(({ path, Page }) => <Route key={path} path={path} element={<Page />} />)}
         </Routes>
       </Suspense>
